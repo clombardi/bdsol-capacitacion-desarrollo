@@ -2,3 +2,5 @@ theme: jekyll-theme-cayman
 title: Banco del Sol - capacitación sobre desarrollo
 github:
   is_project_page: false
+site:
+  locale: es-AR
