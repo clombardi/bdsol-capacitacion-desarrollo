@@ -21,4 +21,4 @@ Indicamos en esta sección, algunas herramientas que vamos a usar durante la cap
 
 ### [Repl.it](https://repl.it/)
 Sitio que permite crear pequeños proyectos en distintos lenguajes y tecnologías, con una consola interactiva.  
-Lo vamos a uar para jugar con algunas características de JavaScript y Typescript, en forma ágil.
+Lo vamos a usar para jugar con algunas características de JavaScript y Typescript.
