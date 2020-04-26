@@ -34,7 +34,7 @@ Con la conjunción se da el mismo efecto:
 
 ------
 **Muy importante**{: style="color: SteelBlue"}:  
-el resultado _no_ es `true`, sino `"hola"`.
+notar que el resultado de `"hola" || "amigos"` **no** es `true`, sino `"hola"`.
 
 ------
 Esto habilita varios trucos, en los que el uso de `||` y `&&` permite acortar el código.
