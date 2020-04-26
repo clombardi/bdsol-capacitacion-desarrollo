@@ -6,3 +6,7 @@
 .main-content h2 {
     margin-top: 3rem;
 }
+
+.tableWithLinks td:first-child {
+    width: 250px;
+}
