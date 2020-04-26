@@ -30,8 +30,6 @@ Con la conjunción se da el mismo efecto:
 | `null && "amigos"` | `null` | porque "false `and` lo_que_sea da false" | 
 | `"hola" && "amigos"` | `"amigos"` | ¿por qué `"amigos"` y no `"hola"`? |
 
-<br/>
-
 ------
 **Muy importante**{: style="color: SteelBlue"}:  
 notar que el resultado de `"hola" || "amigos"` **no** es `true`, sino `"hola"`.
@@ -163,7 +161,7 @@ Tener en cuenta que se puede indicar el `porcIva`, si está, hay que usar ese en
 
 ## Expresión ternaria
 
-Es así: `<condición> ? valor si es _truthy_ : valor si es _falsy_`.
+Es así: `<condición> ? <valor si es _truthy_> : <valor si es _falsy_`>.
 
 P.ej. 
 
