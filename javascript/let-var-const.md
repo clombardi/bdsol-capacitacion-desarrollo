@@ -96,7 +96,7 @@ Lo toma!
 **Moraleja**{: style="color: SteelBlue"}:  
 Lo constante es la _referencia_ de `princesa` al objeto. El objeto no está sellado. Para sellar el objeto está `Object.freeze()`.
 
-Aclaración: `Object.seal()` es una variante más débil).
+Aclaración: `Object.seal()` es una variante más débil.
 
 ------
 
@@ -152,8 +152,8 @@ Más preguntas
 - ¿Qué pasa si se distribuye un objeto freezado?
 
 Desafíos
-- Lograr modificar el area de `spec1`, sin modificar ni la definición de `spec1` ni la de `WindowSpec`. Hint: se pueden agregar definiciones, pensar en dos referecias al mismo objeto con distinto tipo.
-- Si se define `let spec3: any = { height: 300, width: 500 }`, entonces se puede modificar tanto `height` como `width` sin problemas. ¿Qué _tipo_ podría ponerse en lugar de `any` para que sin tocar nada más en la definición, en `spec3` no se pueda modificar ninguno de los dos valores? Hint: usar interfaces.
+- Lograr modificar el area de `spec1`, sin modificar ni la definición de `spec1` ni la de `WindowSpec`. <br/> **Hint**: se pueden agregar definiciones, pensar en dos refenrecias al mismo objeto con distinto tipo.
+- Si se define `let spec3: any = { height: 300, width: 500 }`, entonces se puede modificar tanto `height` como `width` sin problemas. ¿Qué _tipo_ podría ponerse en lugar de `any` para que sin tocar nada más en la definición, en `spec3` no se pueda modificar ninguno de los dos valores? <br/> **Hint**: usar interfaces.
 
 
 
