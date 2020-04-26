@@ -1,4 +1,4 @@
-## `let` y `var` - parecidos pero (un poquito) distintos
+## Let y var - parecidos pero (un poquito) distintos
 
 Ya sabemos que sirven para lo mismo, veamos las diferencias, que son dos.
 
@@ -34,9 +34,9 @@ function letVar2() {
 la función devuelve `22`; hay **una sola** `b` en toda la función. 
 Si cambiamos el `return b`  por `return a`, devuelve `12`. **Hay dos** `a`, el "de afuera" y el "de adentro".
 
-### Para jugar
+### Para jugar 
 Algunas preguntas
-- ¿se podrá usar en bloque "más adentro" un `let` definido "más afuera"?
+- ¿se podrá usar en un bloque de "más adentro" un `let` definido "más afuera"?
 - ¿se puede definir dos veces _el mismo_ `var` en _el mismo_ scope? ¿Qué pasa con `let`?
 
 ### La otra diferencia - cuestión histórica de JS en los browsers
@@ -86,9 +86,7 @@ const princesa = { nombre: "Carolina", apellido: "Casiraghi" }
 ```
 
 no vale hacer 
-`
-princesa = { nombre: "Máxima", apellido: "Orange" }
-`
+`princesa = { nombre: "Máxima", apellido: "Orange" }` .
 
 Pero ¿qué pasa si hago `princesa.apellido = "Orange"`? ¡
 Lo toma!
@@ -102,5 +100,61 @@ Aclaración: `Object.seal()` es una variante más débil).
 
 ------
 
-### `readonly`: un primito en el mundo TypeScript
-Silly girl
+### Para jugar 
+Algunas preguntas
+- ¿Qué pasa si hago `let p2 = princesa`? ¿Y con `const` en lugar de `let`?
+- ¿Qué diferencia hay entre lo anterior y `let p2 = {...princesa}`?
+
+También se pueden probar combinaciones de definir y freezar.
+
+### Readonly: un primito en el mundo TypeScript
+En la definición de clases en JavaScript los atributos no se marcan con `var`, `let` ni `const`. 
+Sí tenemos `readonly`, que tiene el mismo sentido que `const`.
+
+```
+interface Area {
+  height: number
+  width: number
+}
+
+class WindowSpec {
+  readonly area: Area = { height: 300, width: 500 }
+}
+```
+
+Un detalle interesante es que los atributos `readonly` se pueden dejar sin darles un valor, y especificar que se asignan en el constructor.
+
+```
+class WindowSpec {
+  readonly area: Area
+  
+  constructor(heightValue: number, widthValue: number) {
+      this.area = { height: heightValue, width: widthValue }
+  }
+}
+```
+si en un método de `WindowSpec` quiero reasignar `height`, tira error.
+
+El `readonly` funciona igual que el `const`, sella la referencia pero no el objeto.
+
+**Además**, como _cualquier_ especificación del sistema de tipos de TypeScript, aplica solamente a la referencia, no al objeto referenciado. En el extremo, si definimos
+```
+let spec1: WindowSpec = new WindowSpec(120,80)
+let spec2: any = new WindowSpec(120,80)
+```
+sí puedo cambiar `spec2.area`.
+
+### Para jugar
+Más preguntas
+
+- ¿Puedo definir `spec2` de un tipo más específico que `any` y tal que pueda tocarle el `area`?
+- ¿Se podrá jugar con `Object.freeze` en TS?
+- ¿Qué pasa si se distribuye un objeto freezado?
+
+Desafíos
+- Lograr modificar el area de `spec1`, sin modificar ni la definición de `spec1` ni la de `WindowSpec`. Hint: se pueden agregar definiciones, pensar en dos referecias al mismo objeto con distinto tipo.
+- Si se define `let spec3: any = { height: 300, width: 500 }`, entonces se puede modificar tanto `height` como `width` sin problemas. ¿Qué _tipo_ podría ponerse en lugar de `any` para que sin tocar nada más en la definición, en `spec3` no se pueda modificar ninguno de los dos valores? Hint: usar interfaces.
+
+
+
+
