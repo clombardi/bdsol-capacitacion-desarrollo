@@ -5,6 +5,7 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 ### JavaScript
 [Truthy y falsy - expresiones booleanas - expresión ternaria](./javascript/js-booleanos.md)  
 
+[Let, var, const ... y un poquito de TypeScript](./javascript/let-var-const.md)  
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
