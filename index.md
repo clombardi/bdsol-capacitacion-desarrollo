@@ -7,6 +7,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Let, var, const ... y un poquito de TypeScript](./javascript/let-var-const.md)  
 
+[Object literals, identidad, clases](./javascript/object-identity-classes.md)  
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 

@@ -108,7 +108,7 @@ Algunas preguntas
 También se pueden probar combinaciones de definir y freezar.
 
 ### Readonly: un primito en el mundo TypeScript
-En la definición de clases en JavaScript los atributos no se marcan con `var`, `let` ni `const`. 
+En la definición de clases en TypeScript los atributos no se marcan con `var`, `let` ni `const`. 
 Sí tenemos `readonly`, que tiene el mismo sentido que `const`.
 
 ```
@@ -152,7 +152,7 @@ Más preguntas
 - ¿Qué pasa si se distribuye un objeto freezado?
 
 Desafíos
-- Lograr modificar el area de `spec1`, sin modificar ni la definición de `spec1` ni la de `WindowSpec`. <br/> **Hint**: se pueden agregar definiciones, pensar en dos refenrecias al mismo objeto con distinto tipo.
+- Lograr modificar el area de `spec1`, sin modificar ni la definición de `spec1` ni la de `WindowSpec`. <br/> **Hint**: se pueden agregar definiciones, pensar en dos referencias al mismo objeto con distinto tipo.
 - Si se define `let spec3: any = { height: 300, width: 500 }`, entonces se puede modificar tanto `height` como `width` sin problemas. ¿Qué _tipo_ podría ponerse en lugar de `any` para que sin tocar nada más en la definición, en `spec3` no se pueda modificar ninguno de los dos valores? <br/> **Hint**: usar interfaces.
 
 
