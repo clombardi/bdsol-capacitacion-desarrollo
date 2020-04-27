@@ -78,8 +78,10 @@ De hecho ... **los arrays son objetos**, probar `Object.keys(['a', 'b', 'c'])`, 
 
 ### Desafíos
 
+#### Testeando los límites del _shallow copy_
 Armar un objeto `x` tal que si defino `y = {...x}` y hago algún cambio "dentro" de `x` (o sea, hago `x.<cosas> = <nuevoValor>`), se modifica también algo en `y`.  
 
+#### Revolviendo un objeto en forma genérica
 Definir una función que dado un objeto, devuelva los keys cuyo value asociado es 0. P.ej.
 ``` javascript
 > keysForZero({x:4,y:0,z:1,w:9,f:0})
@@ -94,6 +96,7 @@ function keysForZero(obj) {
 usando `Object.entries` y métodos de array.  
 Un detalle: un array de dos posiciones se puede desarmar con un pattern de la forma `[a,b]`.
 
+#### Rearmando un objeto en forma genérica
 Definir una función que, dado un objeto cuyos valores son todos numéricos, devuelve un objeto con las mismas keys, y cada value el doble del value original. P.ej.
 ``` javascript
 > doubledObject({x:4,y:0,z:1,w:9,f:0})
