@@ -9,6 +9,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Object literals, identidad, clases](./javascript/object-identity-classes.md)  
 
+[Funciones, array functions, métodos "funcionales" de Array](./javascript/functions-map-filter-etc.md)  
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 

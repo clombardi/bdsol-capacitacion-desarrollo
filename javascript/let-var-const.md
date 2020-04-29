@@ -156,5 +156,3 @@ Desafíos
 - Si se define `let spec3: any = { height: 300, width: 500 }`, entonces se puede modificar tanto `height` como `width` sin problemas. ¿Qué _tipo_ podría ponerse en lugar de `any` para que sin tocar nada más en la definición, en `spec3` no se pueda modificar ninguno de los dos valores? <br/> **Hint**: usar interfaces.
 
 
-
-
