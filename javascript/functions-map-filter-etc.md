@@ -81,7 +81,7 @@ class WindowSpec {
 
 const spec1 = new WindowSpec(80,50)
 ```
-Con esta definición de clase, el resultado de `spec1.doubledMaxDimension()` es `160`: el `this` es el mismo que en el método `area`. Por otro lado, `spec1.doubledMaxDimension2()` se rompe porque "`Cannot read property 'height' of undefined`".
+Con esta definición de clase, el resultado de `spec1.doubledMaxDimension()` es `160`: el `this` es el mismo que en el método `area`. Por otro lado, `spec1.wrongDoubledMaxDimension()` se rompe porque "`Cannot read property 'height' of undefined`".
 
 ### Captura de valores
 
@@ -222,6 +222,8 @@ class DataCruncher {
   }
 }
 ```
+En este ejemplo aparecen: el armado de un objeto con nombres de atributos implícitos (en `addFunction`), el desarmado de objetos en parámetro de función (el `map` en `maximizerByFunction`), el `reduce`, y las expresiones ternarias.
+
 
 A un `DataCruncher` se le suministran funciones, junto con un nombre para cada una
 
@@ -258,8 +260,6 @@ se le puede pedir, para un dataset (en este ejemplo, un array de números)
   { dataValue: 8, name: 'squared', result: 64 }
 ]
 ```
-
-En este ejemplo aparecen: el armado de un objeto con nombres de atributos implícitos (en `addFunction`), el desarmado de objetos en parámetro de función (el `map` en `maximizerByFunction`), el `reduce`, y las expresiones ternarias.
 
 
 ## Desafíos
