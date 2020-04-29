@@ -141,7 +141,7 @@ Tratar de pensarlo antes de probar en VSCode.
 
 ¿y ahora?
 ``` typescript
-function sumaFnPrima(f1, f2) { return (s: string) => f1(s) * f2(s) }
+function sumaFnPrima(f1, f2) { return (s: string) => f1(s) + f2(s) }
 ```
 
 ------

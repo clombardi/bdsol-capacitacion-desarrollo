@@ -13,8 +13,9 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 
 ### TypeScript
-[Qué es TypeScript](./typescript/que-es-typescript.md)  
+[Qué es TypeScript - algo sobre tipado](./typescript/que-es-typescript.md)  
 
+[Tipos de los objetos, interfaces](./typescript/object-types.md)  
 
 
 ## Referencias
