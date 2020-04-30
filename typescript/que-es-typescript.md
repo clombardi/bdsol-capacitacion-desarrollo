@@ -64,11 +64,11 @@ Eso es el **error de tipo**, una de las principales contribuciones de TS.
 Obviamente, TS sólo genera errores de tipo sobre los identificadores cuyo tipo (explícito o inferido) no sea `any`.
 
 ``` typescript
-a = "hola"   \\ no compila
-b = "hola"   \\ sí compila, se definió como any
-triple("hola")     \\ sí compila, si no se dice nada del parámetro se asume any
-cuadruple("hola")     \\ no compila
-arriba(4)           \\ sí compila, análogo a triple("hola")
+a = "hola"           // no compila
+b = "hola"           // sí compila, se definió como any
+triple("hola")       // sí compila, si no se dice nada del parámetro se asume any
+cuadruple("hola")    // no compila
+arriba(4)           // sí compila, análogo a triple("hola")
 ```
 
 En el caso de `arriba(4)` salta un error de tipo al evaluar. En `triple("hola")` devuelve `NaN`, que casi siempre no es lo que queríamos.  
