@@ -17,6 +17,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Tipos de los objetos, interfaces](./typescript/object-types.md)  
 
+[Más sobre interfaces](./typescript/interfaces-in-depth.md)  
+
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.

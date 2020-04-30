@@ -24,7 +24,7 @@ Probemos poner
 ``` typescript
 anApplication.
 ```
-¡magia! me propone los atributos.
+¡magia! propone los atributos.
 
 
 ### ¿Qué es un tipo?
@@ -129,12 +129,18 @@ Esta definición es una variante del _casteo_, que en TS se expresa con `as`:
 hay otra sintaxis que es poner el tipo entre `<>` :  
 `(<any>firstApplication).requiredApprovals = "hola"` 
 
+------
+**Nota**{: style="color: SteelBlue"}:  
+El casteo en TS _no hace conversión_, está sólo para que el compilador "deje pasar". Ver [esta notita](https://techformist.com/type-casting-typescript/).
+
+------
+
 
 
 
 ### Para jugar
 
-Empecemos por algo ágil:  
+Empecemos por algo rápido:  
 ¿te acordás cómo hacer que `newApplication` sea un clon de `anAppplication`? Hacelo y fijate qué tipo infiere.
 
 Definamos ahora una variante un poco más compleja de `AccountApplication`
@@ -152,7 +158,7 @@ Armar una función que devuelva un "deep copy" de una `AccountApplicationVariant
 
 ------
 **Nota**{: style="color: SteelBlue"}:  
-Si el deep clone es una operación habitual, puedo usar una librería. Buscar `deep clone` en npm.
+Si el deep clone es una operación habitual en mi aplicación, puedo usar una librería. Buscar `deep clone` en npm.
 
 ------
 
