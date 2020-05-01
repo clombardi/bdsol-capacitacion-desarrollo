@@ -40,14 +40,15 @@ Pensemos, si un tipo fuera la especificación del formato en memoria ¿qué sent
 
 Un tipo es una especificación de _un conjunto de valores_. Dado un tipo, hay algunos valores que tienen el tipo (notar que no digo "_son_ del tipo", digo "_tienen_ el tipo") y otros que no.
 
-Cada lugar en el que se especifica un tipo puede verse como un filtro, algunos valores van a pasar, otros no.
+Muchos lugares en los que se especifican tipos pueden verse como un _filtro_: algunos valores van a pasar, otros no.
 
 ------
 **Nota**{: style="color: SteelBlue"}:  
-Una clasificación burdísima es la que nos da el `typeof`.  
-Pero ... el `typeof` podemos usarlo para saber cómo tratar a un valor, pero no si el lenguaje lo va a aceptar o no.  
-Para esto se necesita que el lenguaje haga _chequeo **estático** de tipos_. JS no lo hace, TS sí. Y los dos me permiten chequear el `typeof`.  
-Lo que hacemos con el `typeof` es _chequeo **dinámico** de tipos_. Groseramente: "estático" = antes de ejecutar, "dinámico" = durante la ejecución. Los linters también son estáticos.
+El `typeof` nos da una clasificación burdísima, p.ej. a todos los `object` les asigna el mismo tipo.  
+Por otra parte ... el `typeof` podemos usarlo para saber _cómo tratar_ a un valor, pero no si el lenguaje _lo va a aceptar o no_.  
+Para esto último (la aceptación) se necesita que el lenguaje haga _chequeo **estático** de tipos_. JS no lo hace, TS sí.  
+Lo que hacemos con el `typeof` es _chequeo **dinámico** de tipos_. Esto sí lo permiten hacer tanto JS como TS.  
+Groseramente: "estático" = antes de ejecutar, "dinámico" = durante la ejecución. Los linters también son estáticos.
 
 ------
 
