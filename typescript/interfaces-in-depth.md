@@ -153,7 +153,7 @@ const otherSite = {...externalSite, isApproximate: true}
 
 Y otra: ¿se podrá romper el `readonly` con una interfaz "melliza" sin `readonly`?.
 
-
+Una sobre opcionales: si un valor `x: ExtendedAddress` no define `city`, y se pide `x.city`, ¿qué se obtiene?
 
 ## Tipos función, clases e interfaces
 Veamos esta definición
