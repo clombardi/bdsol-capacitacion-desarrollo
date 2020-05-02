@@ -224,7 +224,7 @@ function createAddress(a: {street: string}) {
 Si les preguntaran si la función `createAddress` tiene el tipo `AddressChange`, ¿qué dirían?  
 La respuesta surge de la información. Esta función se puede invocar con un argumento `Address`, y lo que devuelve cumple con `Address`. O sea ... **oh sí**.
 
-O sea, que cualquier función que define un _parámetro_ de tipo `Address` **o más restringido**, y cuyo _valor de respuesta_ es de tipo `Address` **o más extendido**, se puede decir que tiene el tipo ` ChangeAddress`.
+O sea, que cualquier función que define un _parámetro_ de tipo `Address` **o más restringido**, y cuyo _valor de respuesta_ es de tipo `Address` **o más extendido**, se puede decir que tiene el tipo `ChangeAddress`.
 
 Dicho un poco más formal: si `P` extiende `Q`, y `S` extiende `R`, entonces, `Q => S` extiende `P => R`. Acá, pensar "extiende" como el `extends` entre clases.  
 En el ejemplo, `P` y `R` son `Address`, `Q` es `{street: string}`, y `S` es `ExtendedAddress`. 
