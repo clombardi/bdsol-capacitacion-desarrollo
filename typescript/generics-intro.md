@@ -110,7 +110,7 @@ const myMap: Map<number, AccountApplication> = new Map()
 
 ### Para mirar
 Las dos operaciones básicas de un `Map<K,V>` son `set(key,value)` (para agregar un par clave-valor), y `get(key)` (para obtener el valor relacionado con una clave).  
-Anotar los tipos para estos métodos, y después {: style="color: Crimson"} verificar en VSCode.
+Anotar los tipos para estos métodos, y _después_{: style="color: Crimson"} verificar en VSCode.
 
 La clase `Map` tiene un constructor en el que se le pueden pasar valores, ver [la doc MDN para JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map). Ver qué tipo infiere si se usa este constructor.
 
