@@ -78,9 +78,9 @@ Array<any>.filter: ( callbackfn: (value: any => boolean) ) => any[]
 ```
 **Hint**  
 poner `applications.filter((n: number) => n > 5)` y ver qué pasa.  
-Idem para `applications.filter(req => req.customer.startsWith("Fabi")).toUpperCase()`.
+Idem para `applications.filter(req => req.customer.startsWith("Fabi"))[0].toUpperCase()`.
 
-Escribir el tipo de la función `map`, y después{: style="color: Crimson"} verificar en VSCode.
+Escribir el tipo de la función `map`, y después {: style="color: Crimson"} verificar en VSCode.
 
 ¿Qué tipo tienen todos los arrays, pero solamente los arrays?
 
@@ -110,7 +110,7 @@ const myMap: Map<number, AccountApplication> = new Map()
 
 ### Para mirar
 Las dos operaciones básicas de un `Map<K,V>` son `set(key,value)` (para agregar un par clave-valor), y `get(key)` (para obtener el valor relacionado con una clave).  
-Anotar los tipos para estos métodos, y después{: style="color: Crimson"} verificar en VSCode.
+Anotar los tipos para estos métodos, y después {: style="color: Crimson"} verificar en VSCode.
 
 La clase `Map` tiene un constructor en el que se le pueden pasar valores, ver [la doc MDN para JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map). Ver qué tipo infiere si se usa este constructor.
 
@@ -125,7 +125,11 @@ interface Pair {
     snd: string
 }
 ```
-nos permite tener pares ... pero donde siempre el primer componente es un número y el segundo un string. P.ej.  si tengo
+nos permite tener pares ... pero donde siempre el primer componente es un número y el segundo un string. 
+
+(a partir de acá es para desarrollar ...)
+
+P.ej.  si tengo
 const unPar: Pair = { fst: 4, snd: "hola" }
 puedo ... unPar.fst + 4
 
