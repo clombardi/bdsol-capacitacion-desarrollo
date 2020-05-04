@@ -80,7 +80,7 @@ Array<any>.filter: ( callbackfn: (value: any => boolean) ) => any[]
 poner `applications.filter((n: number) => n > 5)` y ver qué pasa.  
 Idem para `applications.filter(req => req.customer.startsWith("Fabi"))[0].toUpperCase()`.
 
-Escribir el tipo de la función `map`, y después {: style="color: Crimson"} verificar en VSCode.
+Escribir el tipo de la función `map`, y _después_{: style="color: Crimson"} verificar en VSCode.
 
 ¿Qué tipo tienen todos los arrays, pero solamente los arrays?
 
@@ -127,7 +127,9 @@ interface Pair {
 ```
 nos permite tener pares ... pero donde siempre el primer componente es un número y el segundo un string. 
 
-(a partir de acá es para desarrollar ...)
+<div style="font-size: 150%; color: LimeGreen">
+(... a partir de acá es para desarrollar ...)
+</div>
 
 P.ej.  si tengo
 const unPar: Pair = { fst: 4, snd: "hola" }
