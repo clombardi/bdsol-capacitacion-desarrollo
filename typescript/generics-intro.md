@@ -120,26 +120,106 @@ Para hacer definiciones genéricas, lo **único** que tenemos que hacer es inclu
 
 Vamos con un ejemplo rápido: esta definición
 ``` typescript
-interface Pair {
-    fst: number,
-    snd: string
+interface RestrictedPair {
+    fst: string,
+    snd: number
 }
 ```
-nos permite tener pares ... pero donde siempre el primer componente es un número y el segundo un string. 
+describe pares  ... donde siempre el primer componente es un número y el segundo un string. 
+Puedo definir esta función
+``` typescript
+function withDoubledSndR(pair: Pair) { return { ...pair, snd: pair.snd * 2 } }
+```
+y va a detectar correctamente el tipo del resultado
+``` typescript
+withDoubledSndR({fst: 'Juana', snd: 28}).fst.toUpperCase()
+```
 
-<div style="font-size: 150%; color: LimeGreen">
-(... a partir de acá es para desarrollar ...)
-</div>
 
-P.ej.  si tengo
-const unPar: Pair = { fst: 4, snd: "hola" }
-puedo ... unPar.fst + 4
+Mediante esta **definición genérica**{: style="color: MediumSeaGreen"}
+``` typescript
+ interface Pair<T1,T2> {
+    fst: T1,
+    snd: T2
+}
+```
+podemos armar funciones que trabajen sobre valores más genéricos, **sin perder el tipado**
+``` typescript
+function withDoubledSnd<T>(pair: Pair<T, number>) { 
+    return { ...pair, snd: pair.snd * 2 } 
+}
+function withUppercaseFst<T>(pair: Pair<string, T>) { 
+    return { ...pair, fst: pair.fst.toUpperCase() } 
+}
+```
+Definida de esta forma, la función `withDoubledSnd` acepta solamente los pares cuyo segundo componente sea un número, y respeta el tipo del primer componente. No acepta ninguna de estas entradas
+``` typescript
+withDoubledSnd({a:5,b:8})    // esto no compila
+withDoubledSnd("pepe")       // esto no compila
+```
+acepta los usos correctos del `fst` a la salida
+``` typescript
+withDoubledSnd({fst: {a:3,b:8}, snd: 5}).fst.a                 // esto compila
+withDoubledSnd({ fst: "pepe", snd: 4 }).fst.toUpperCase()      // esto compila
+```
+y no acepta los incorrectos
+``` typescript
+withDoubledSnd({ fst: { a: 3, b: 8 }, snd: 5 }).fst.toUpperCase()   // esto no compila
+withDoubledSnd({ fst: "pepe", snd: 4 }).fst.a                       // esto no compila
+```
+con mensajes claros
+![Muestra bien el error](./images/generic-function-check-1.jpg)
 
-Acá va `Pair`.
+También ayuda a que el IntelliSense sea más preciso
+![Muestra bien las opciones](./images/generic-function-intellisense-1.jpg)
 
-Aclarar la diferencia con poner todo `any`.
 
-### Preguntas
+y permite encadenar invocaciones a funciones sin perder los tipos
+``` typescript
+withUppercaseFst(withDoubledSnd({ fst: "pepe", snd: 4 })).snd + 5  // esto compila
+withUppercaseFst(withDoubledSnd({ fst: "pepe", snd: 4 })).snd.a    // esto no compila
+```
 
-¿Qué pasaría si definimos `Pair` con una sola variable de tipo?
+
+Veamos la diferencia con usar `any`:
+``` typescript
+interface PairAny {
+    fst: any,
+    snd: any
+}
+
+function withDoubledSndAny(pair: PairAny) { 
+    return { ...pair, snd: pair.snd * 2 } 
+}
+function withUppercaseFstAny(pair: PairAny) { 
+    return { ...pair, fst: pair.fst.toUpperCase() } 
+}
+```
+como ya hablamos, al poner `any` deja pasar cualquier valor como `fst` y `snd` ... pero perdemos el tipado
+``` typescript
+withDoubledSndAny({ fst: { a: 3, b: 8 }, snd: 5 }).fst.a                 // esto compila
+withDoubledSndAny({ fst: { a: 3, b: 8 }, snd: 5 }).fst.toUpperCase()     // esto ¡también compila!
+```
+obviamente, el segundo se rompe con un miserable `TypeError` al ejecutarlo. También perdemos el chequeo a la entrada
+``` typescript
+withDoubledSndAny({ fst: { a: 3, b: 8 }, snd: "hola" })                 // esto compila
+```
+... como es operación numérica, no da `TypeError` sino que devuelve `{..., snd: NaN}` ... que creo que es peor. Esta sí da `TypeError`
+``` typescript
+withUppercaseFstAny({ fst: 4, snd: { a: 3, b: 8 } })                 // esto compila
+```
+
+
+
+
+### Preguntas y desafíos
+
+¿Qué pasaría si definimos `Pair` con una sola variable de tipo? O sea `interface Pair<T> { ... }`, con una sola `T`.
+
+Usando la idea de definiciones genéricas, podemos resolver el caso de las funciones
+``` typescript
+function sumaFn(f1, f2) { return (n: number) => f1(n) + f2(n) }
+function sumaFnPrima(f1, f2) { return (s: string) => f1(s) + f2(s) }
+```
+o sea, tener una sola función `sumaFn` que trabaje con funciones cualesquiera ... siempre que devuelvan números. ¿Se le animan?
 
