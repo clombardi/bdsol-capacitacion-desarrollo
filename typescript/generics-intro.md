@@ -210,10 +210,44 @@ withDoubledSndAny({ fst: { a: 3, b: 8 }, snd: "hola" })                 // esto 
 withUppercaseFstAny({ fst: 4, snd: { a: 3, b: 8 } })                   // esto compila
 ```
 
+## Un ejemplo de función genérica de _orden superior_
+Aunque no estoy seguro de que sea académicamente exacto, digamos que una función es de _orden superior_ si recibe funciones por parámetro y/o devuelve otra función. O sea, que opera con funciones.
 
-### Preguntas y desafíos
+Esta función
+``` typescript
+let selfCompose = function (fn: (arg0: any) => any) { return function (n: any) { return fn(fn(n)) } }
+```
+recibe una función por parámetro, y devuelve otra; implementa la _composición_ de una función consigo misma.
 
-¿Qué pasaría si definimos `Pair` con una sola variable de tipo? O sea `interface Pair<T> { ... }`, con una sola `T`.
+Como nos pasó antes, la función `selfCompose` no va a preservar los tipos.
+``` typescript
+function removeHeadToEach(reg: { a: string, b: string }) { 
+    return { a: reg.a.slice(1), b: reg.b.slice(1) } 
+}
+selfCompose(removeHeadToEach)(5)                                              // compila
+selfCompose(removeHeadToEach)({ a: "Alicia", b: "Gris" }).c.toUpperCase()     // compila
+```
+y los dos se rompen al ejecutar.
+
+Si cambiamos el `any` por una variable de tipo
+``` typescript
+let selfComposeT = function (fn: (arg0: <T>) => <T>) { return function (n: <T>) { return fn(fn(n)) } }
+```
+ahora sí respeta los tipos
+``` typescript
+selfComposeT(removeHeadToEach)(5)                                              // no compila
+selfComposeT(removeHeadToEach)({ a: "Alicia", b: "Gris" }).c.toUpperCase()     // no compila
+```
+
+
+### Para jugar
+Deducir el tipo de `selfComposeT(removeHeadToEach)`, después verificar con VSCode.
+
+Ver qué ofrece el intellisense con `selfComposeT(removeHeadToEach)({ a: "Alicia", b: "Gris" })`, relacionar con lo anterior.
+
+¿Por qué hay una sola `T` en la definición de `selfComposeT`?
+
+Relacionado, ¿qué pasaría si definimos `Pair` con una sola variable de tipo? O sea `interface Pair<T> { ... }`, con una sola `T`.
 
 Usando la idea de definiciones genéricas, podemos resolver el caso de las funciones
 ``` typescript
