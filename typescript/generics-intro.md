@@ -110,7 +110,7 @@ const myMap: Map<number, AccountApplication> = new Map()
 
 ### Para mirar
 Las dos operaciones básicas de un `Map<K,V>` son `set(key,value)` (para agregar un par clave-valor), y `get(key)` (para obtener el valor relacionado con una clave).  
-Anotar los tipos para estos métodos, y _después_{: style="color: Crimson"} verificar en VSCode.
+Pensar los tipos para estos métodos, y _después_{: style="color: Crimson"} verificar en VSCode.
 
 La clase `Map` tiene un constructor en el que se le pueden pasar valores, ver [la doc MDN para JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/Map). Ver qué tipo infiere si se usa este constructor.
 
@@ -128,7 +128,7 @@ interface RestrictedPair {
 describe pares  ... donde siempre el primer componente es un número y el segundo un string. 
 Puedo definir esta función
 ``` typescript
-function withDoubledSndR(pair: Pair) { return { ...pair, snd: pair.snd * 2 } }
+function withDoubledSndR(pair: RestrictedPair) { return { ...pair, snd: pair.snd * 2 } }
 ```
 y va a detectar correctamente el tipo del resultado
 ``` typescript
@@ -154,8 +154,9 @@ function withUppercaseFst<T>(pair: Pair<string, T>) {
 ```
 Definida de esta forma, la función `withDoubledSnd` acepta solamente los pares cuyo segundo componente sea un número, y respeta el tipo del primer componente. No acepta ninguna de estas entradas
 ``` typescript
-withDoubledSnd({a:5,b:8})    // esto no compila
-withDoubledSnd("pepe")       // esto no compila
+withDoubledSnd({a:5,b:8})                       // esto no compila
+withDoubledSnd("pepe")                          // esto no compila
+withDoubledSnd({fst:"hola", snd: "hola"})       // esto no compila
 ```
 acepta los usos correctos del `fst` a la salida
 ``` typescript
