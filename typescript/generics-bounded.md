@@ -18,7 +18,7 @@ interface House extends Priced {
     rooms: number
 }
 ``` 
-define la interface `Priced`, y otras dos interfaces la extienden.
+define la interface `Priced`, y otras dos interfaces que la extienden. En lo que sigue, `sugar` es un `StockItem` y `peterHouse` es una `House`.
 
 Para definir una función que **recibe** un `Priced`, no necesita ser genérica.
 
