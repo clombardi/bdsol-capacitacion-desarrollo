@@ -19,8 +19,11 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Más sobre interfaces](./typescript/interfaces-in-depth.md)  
 
-[Qué son los Generics](./typescript/generics-intro.md)  
+[Generics](./typescript/generics-intro.md)  
 
+[Generics acotados](./typescript/generics-bounded.md)  
+
+[Otro ejemplo de tipo genérico](./typescript/generics-application.md)
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
