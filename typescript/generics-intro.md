@@ -211,8 +211,6 @@ withUppercaseFstAny({ fst: 4, snd: { a: 3, b: 8 } })                   // esto c
 ```
 
 
-
-
 ### Preguntas y desafíos
 
 ¿Qué pasaría si definimos `Pair` con una sola variable de tipo? O sea `interface Pair<T> { ... }`, con una sola `T`.
@@ -223,4 +221,15 @@ function sumaFn(f1, f2) { return (n: number) => f1(n) + f2(n) }
 function sumaFnPrima(f1, f2) { return (s: string) => f1(s) + f2(s) }
 ```
 o sea, tener una sola función `sumaFn` que trabaje con funciones cualesquiera ... siempre que devuelvan números. ¿Se le animan?
+
+
+
+## Moraleja final
+
+En ningún caso, agregando o cambiando tipos se va a generar una diferencia en el comportamiento del código en ejecución. Lo que estamos buscando es: 
+
+- mejorar la eficiencia del chequeo de tipos, o sea, que las expresiones que van a dar `TypeError` directamente no compilen.
+- mejorar el Intellisense, o sea, que muestre solamente las opciones que corresponden al tipo del valor que estoy manejando en cada caso.
+
+Esta limitación es bastante natural, dado que el sistema de tipos de TS, lo único que hace es aceptar o no un programa; la info de tipos no pasa al JS que se genera, que es lo que se ejecuta.  
 
