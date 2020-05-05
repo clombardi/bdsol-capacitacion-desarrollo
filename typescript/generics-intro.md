@@ -207,7 +207,7 @@ withDoubledSndAny({ fst: { a: 3, b: 8 }, snd: "hola" })                 // esto 
 ```
 ... como es operación numérica, no da `TypeError` sino que devuelve `{..., snd: NaN}` ... que creo que es peor. Esta sí da `TypeError`
 ``` typescript
-withUppercaseFstAny({ fst: 4, snd: { a: 3, b: 8 } })                 // esto compila
+withUppercaseFstAny({ fst: 4, snd: { a: 3, b: 8 } })                   // esto compila
 ```
 
 
