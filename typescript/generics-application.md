@@ -13,7 +13,7 @@ interface Application<T> {
 ```
 
 define un tipo genérico `Application`, que modela un pedido que se hace de un determinado recurso.  
-El tipo `Application` define los datos propios del pedido, más un recurso del cual no maneja información.
+El tipo `Application` define los datos propios del pedido, más un recurso del cual no conoce nada.
 
 Se está usando la misma forma de tipo genérico que en `Pair`, para un modelo más cercano al negocio.
 
@@ -33,7 +33,7 @@ interface Card {
 }
 ```
 
-podemos cconstruir objetos y funciones
+podemos construir objetos y funciones relacionadas con pedidos, que preservan los tipos de recurso.
 ``` typescript
 const accountApplication: Application<GenericAccount> = { 
     resource: {customer: "Juana Molina", currency: Currency.ARS},
@@ -64,7 +64,7 @@ Dos detalles en este código
 
 
 ### Para explorar
-En rigor, no es necesario que `makeMoreStrict` sea una función genérica. Pero `Application` sí es genérico. ¿Qué se podría poner como parámetro en la definición del atributo?
+En rigor, no es necesario que `makeMoreStrict` sea una función genérica. Pero `Application` sí es genérico. ¿Qué se podría poner como parámetro en la definición del atributo? Relacionar con el tipo de retorno de la función.
 
 Definir una función `isWeak` que recibe un `AccountApplication`, y devuelve `true` si: el valor de `requiredApprovals`  es menor a 3 o no está definido, la moneda es dólares, y el nombre del cliente empieza con minúscula.
 
@@ -89,5 +89,8 @@ Algunas preguntas:
 - ¿Puede usarse la función `isWeak` para los pedidos de instancias de `BankAccount`?
 - Si se cambia `isLocal` como se indica en el desafío previo ¿serviría para instancias de `Credit`?
 
+... pedidos de un determinado año a partir de una lista, ver que si son homogéneos se preserva el tipo ...
+
 ... lista de pedidos con description(), función que da las descripciones de los pedidos pendientes, función que devuelve versiones inyectadas con description() a pedidos de `Card` ...
+
 ... y revisar el script ...
