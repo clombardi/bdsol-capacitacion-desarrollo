@@ -47,8 +47,8 @@ Hasta donde entiendo, los decorators sólo se pueden poner en clases y elementos
 Cada decorator se usa, al menos hasta donde vi, en un solo tipo de elemento, o sea es un decorator de clases, o de métodos, o de parámetros, etc..
 
 
-### Manejo de decorators - nos pasamos del lado de la librería
-El uso de decorators que hace un framework o librería no es magia china ni nada parecido, al menos en TS. Lo que viene es un _poquito_ que averigüé, justamente para que entendamos que es un concepto que podemos manejar.
+### Manejo de decorators - nos pasamos del lado de adentro de la librería
+El uso de decorators que hace un framework o librería no es magia china ni nada parecido, al menos en TS. Lo que viene es el _poquito_ que averigüé, justamente para que entendamos que es un concepto que podemos manejar.
 
 En principio es muy sencillo: se define una _función_ para cada decorator, que recibe como parámetro el elemento (clase, método, parámetro, etc) que se está decorando.  
 
@@ -87,15 +87,35 @@ Para probar, definir varias clases, algunas cool y otras no, y hacer un `console
 Ahora entendemos qué son los `import` de la primera línea: son las funciones que implementan cada decorator.
 
 ### Un chiche: parámetros en el decorator
+Un pasito más: definamos un decorator que lleva un parámetro, p.ej. 
+``` typescript
+@ShowClassTo('Penny Lane')
+class TrainStation {
+    constructor(public name: string) {}
+    description(): string {
+        return `Station ${this.name}`
+    }
+}
+```
+El decorator simplemente manda por consola un mensaje que incluye al nombre de la clase y al valor del parámetro, `Behold the class TrainStation, Penny Lane`.
 
-... tenemos dos niveles de parámetro: el valor que se le pasa al decorator, y el elemento decorado ...  
-TS lo resuelve así ...
+En este decorator tenemos que manejar datos de características distintas: por un lado está la clase que se está decorando, por otro el valor que se le pasa al decorator.
+
+Por lo (insisto, _poquito_) que vi, la estrategia de TS (al menos para los decorators de clase), es que la función que implementa el decorator devuelva _otra función_. Miren:
+``` typescript
+function ShowClassTo(whom: string) {
+    return function (constructor: Function) {
+        console.log(`Behold the class ${constructor.name}, ${whom}`)
+    }
+}
+```
+la función que implementa el decorator recibe los datos que se le pasan, y la función _que devuelve_ recibe la clase.
+
 
 ### Desafío
+Definir un decorator de método, que cuente cuántos métodos se decoran en cada clase. Esto para mirar la documentación.
 
-Definir un decorator de método, que cuente cuántos métodos se decoran en cada clase. 
 
 ### Conclusión
-
 Esto es sólo para tener una mínima idea de qué se tratan los decorators. 
 Creo que es sano sacarle un poco de la característica de magia negra a cada cosa que usamos. Con paciencia y sabiendo cómo leer y a quién preguntarle, todo pasa del lado de lo comprensible.
