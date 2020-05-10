@@ -204,5 +204,104 @@ WindowSpec.prototype.area = function() {
 
 
 
+## Clases - constructor y atributos
 
+Definamos una clase `WindowSpec` con un par de agregados.
+
+``` javascript
+const moment = require('moment')
+const { windowManager } = require('./ourWindowLibrary.js')
+
+class WindowSpec {
+  constructor(_height, _width) {
+    this.height = _height
+    this.width = _width
+  }
+
+  area() { return this.height * this.width }
+
+  open() {
+    // registro la primera vez que se abre esta ventana
+    if (!this.firstOpenTime) {
+      this.firstOpenTime = moment()
+    }
+    // la registro en el windowManager
+    windowManager.manageSpec(this)
+    // ... acciones para abrir la ventana ...
+  }
+}
+```
+
+(entre paréntesis, `moment` es **la** librería para manejar fechas, períodos, horas, etc. en el mundo JS/TS, volveremos sobre ella)
+
+Pregunta ¿cuántos _atributos_ define esta clase?  
+Para obtener la respuesta, hay que barrer **todo** el código. Para evitar esto, puede ser una buena idea definirlos todos en el constructor.  
+**Nota**: este problema no existe en TS, sólo en JS. TS obliga a definir todos los atributos, esto lo retomamos al hablar de clases en TS.
+
+Pasemos a otro asunto.  
+En este ejemplo, para que una ventana se pueda usar, hay que registrarla en el `windowManager`.  
+Hicimos esta implementación del manager, para testear:
+``` javascript
+const windowManager = {
+  managedSpecs: [],
+  manageSpec(spec) {
+      this.managedSpecs.push(spec)
+  }
+}
+```
+simplemente mantiene una lista con las ventanas que maneja.
+
+Si creo una ventana y la abro tres veces
+``` javascript
+> const spec1 = new WindowSpec(300,120)
+> spec1.open()
+> spec1.open()
+> spec1.open()
+```
+¿cuántos elementos tendrá `windowManager.managedSpecs`? **Tres** ...
+``` javascript
+> windowManager.managedSpecs
+[
+  WindowSpec {
+    height: 300,
+    width: 120,
+    firstOpenTime: Moment<2020-05-09T18:28:20+00:00>
+  },
+  WindowSpec {
+    height: 300,
+    width: 120,
+    firstOpenTime: Moment<2020-05-09T18:28:20+00:00>
+  },
+  WindowSpec {
+    height: 300,
+    width: 120,
+    firstOpenTime: Moment<2020-05-09T18:28:20+00:00>
+  }
+]
+```
+... que son tres referencias a la misma `WindowSpec`. Esto pasa porque el enganche el registro de la `WindowSpec` en el `windowManager` se hace en el `open`. Si movemos el registro al constructor
+
+``` javascript
+class WindowSpec {
+  constructor(_height, _width) {
+    this.height = _height
+    this.width = _width
+    // la registro en el windowManager
+    windowManager.manageSpec(this)
+  }
+
+  area() { return this.height * this.width }
+
+  open() {
+    // registro la primera vez que se abre esta ventana
+    if (!this.firstOpenTime) {
+      this.firstOpenTime = moment()
+    }
+    // ... acciones para abrir la ventana ...
+  }
+}
+```
+entonces se va a registrar una vez sola, cuando se cree. Si el registro es una operación costosa, ganamos en eficiencia.
+
+Esta idea puede servir para servicios o controllers, los registros que se tienen que hacer una sola vez, van en el constructor y no en los métodos operativos.
 
