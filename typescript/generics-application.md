@@ -73,7 +73,7 @@ Definir una función `isWeak` que recibe un `AccountApplication`, y devuelve `tr
 
 Cambiar la definición de `isLocal` para que sea válida para los pedidos de cualquier recurso que tenga una `currency`.
 
-### Incorporarmos clases
+### Incorporamos clases
 Consideremos estas clases 
 ``` typescript
 class BankAccount {
