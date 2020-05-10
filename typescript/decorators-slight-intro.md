@@ -1,6 +1,6 @@
 ## Decorators en TS - nano-introducción
 
-Miremos la definición de un controller NestJs
+Miremos la definición de un controller NestJS
 
 ``` typescript
 import { Controller, Get, Post, Body } from '@nestjs/common';
@@ -36,19 +36,19 @@ La otra es el agregado de **decorators**{: style="color:Crimson"}, las indicacio
 Para quienes vienen de Java, tienen una sintaxis similar (si no igual) y el mismo propósito que las annotation de Java.
 Piensen p.ej. en Spring, SpringBoot, Hibernate.
 
-Los decorators son usados por librerías y frameworks para agregar configuraciones a medida que se van procesando un archivo TS.  
+Los decorators son usados por librerías y frameworks para agregar configuraciones a medida que van procesando código TS.  
 P.ej. ¿qué hace Nest cuando se encuentra con las anotaciones de un controller? Imaginemos
-- `@Controller`: crea una instancia y la deja en algún registry donde la tenga a mano. Una instancia o un pool, lo que le venga más cómodo.  
-  También, le asocia el string que va como parámetro, para armar las URL de los endpoint.
-- `@Get` / `@Post`: agrega dos endpoints en el `express` sobre el que corre Nest. La URL la arma componiendo el string que tomó del @Controller con el que se pone en @Get o @Post. En cada endpoint, llama al método correspondiente en la instancia que se guardó en el registry.
-- `@Body`: en la configuración del post, agarra el body y lo pasa como parámetro cuando llama al método de la instancia del controller.
+- `@Controller`: crea una instancia (o un pool, lo que le venga más cómodo) y la deja en algún registry donde la tenga a mano. 
+  Además, asocia a esta instancia o pool con el string que va como parámetro, para armar las URL de los endpoints.
+- `@Get` / `@Post`: agrega dos endpoints en el `express` sobre el que corre Nest. La URL la arma componiendo el string que tomó del `@Controller` con el que se pone en `@Get` o `@Post`. En cada endpoint, llama al método correspondiente en la instancia que se guardó en el registry.
+- `@Body`: en la configuración del `post`, agarra el body y lo pasa como parámetro cuando llama al método de la instancia del controller.
 
 Hasta donde entiendo, los decorators sólo se pueden poner en clases y elementos de una clase (atributos / constructor / métodos). Por eso todas las cosas que se tengan que decorar (p.ej. todos los elementos significativos de NestJS) se tienen que manejar como clases.  
-Cada decorator se usa, al menos hasta donde vi, en un solo tipo de elemento, o sea es un decorator de clases, o de métodos, o de parámetros, etc..
+Cada decorator se usa, al menos hasta donde vi, en un solo tipo de elemento, o sea es un decorator de clases, **o** de métodos, **o** de parámetros, etc. .
 
 
 ### Manejo de decorators - nos pasamos del lado de adentro de la librería
-El uso de decorators que hace un framework o librería no es magia china ni nada parecido, al menos en TS. Lo que viene es el _poquito_ que averigüé, justamente para que entendamos que es un concepto que podemos manejar.
+El manejo de decorators que hace un framework o librería no es magia china ni nada parecido, al menos en TS. Lo que viene es el _poquito_ que averigüé, justamente para que entendamos que es un concepto que podemos manejar.
 
 En principio es muy sencillo: se define una _función_ para cada decorator, que recibe como parámetro el elemento (clase, método, parámetro, etc) que se está decorando.  
 
@@ -84,7 +84,12 @@ function MakeItCool(constructorFunction: Function) {
 ```
 Para probar, definir varias clases, algunas cool y otras no, y hacer un `console.log(coolClasses)` al final.
 
-Ahora entendemos qué son los `import` de la primera línea: son las funciones que implementan cada decorator.
+------
+**Nota**{: style="color: SteelBlue"}:  
+Ahora entendemos qué son los `import` de la primera línea en el ejemplo del controller NestJS: _son las funciones que implementan cada decorator_.
+
+------
+
 
 ### Un chiche: parámetros en el decorator
 Un pasito más: definamos un decorator que lleva un parámetro, p.ej. 
@@ -97,9 +102,9 @@ class TrainStation {
     }
 }
 ```
-El decorator simplemente manda por consola un mensaje que incluye al nombre de la clase y al valor del parámetro, `Behold the class TrainStation, Penny Lane`.
+El decorator simplemente manda por consola un mensaje que incluye al nombre de la clase y al valor del parámetro, en este caso `Behold the class TrainStation, Penny Lane`.
 
-En este decorator tenemos que manejar datos de características distintas: por un lado está la clase que se está decorando, por otro el valor que se le pasa al decorator.
+En este decorator tenemos que manejar datos de características distintas: por un lado está la clase que se está decorando (`TrainStation`), por otro el valor que se le pasa al decorator (`'Penny Lane'`).
 
 Por lo (insisto, _poquito_) que vi, la estrategia de TS (al menos para los decorators de clase), es que la función que implementa el decorator devuelva _otra función_. Miren:
 ``` typescript
@@ -113,7 +118,7 @@ la función que implementa el decorator recibe los datos que se le pasan, y la f
 
 
 ### Desafío
-Definir un decorator de método, que cuente cuántos métodos se decoran en cada clase. Esto para mirar la documentación.
+Definir un decorator de método, que cuente cuántos métodos se decoran en cada clase. Esto nos lleva a mirar y entender un poco de documentación sobre TS.
 
 
 ### Conclusión
