@@ -41,7 +41,7 @@ P.ej. ¿qué hace Nest cuando se encuentra con las anotaciones de un controller?
 - `@Controller`: crea una instancia (o un pool, lo que le venga más cómodo) y la deja en algún registry donde la tenga a mano. 
   Además, asocia a esta instancia o pool con el string que va como parámetro, para armar las URL de los endpoints.
 - `@Get` / `@Post`: agrega dos endpoints en el `express` sobre el que corre Nest. La URL la arma componiendo el string que tomó del `@Controller` con el que se pone en `@Get` o `@Post`. En cada endpoint, llama al método correspondiente en la instancia que se guardó en el registry.
-- `@Body`: en la configuración del `post`, agarra el body y lo pasa como parámetro cuando llama al método de la instancia del controller.
+- `@Body`: en la implementación del endpoint `post`, agarra el body y lo pasa como parámetro cuando llama al método de la instancia del controller.
 
 Hasta donde entiendo, los decorators sólo se pueden poner en clases y elementos de una clase (atributos / constructor / métodos). Por eso todas las cosas que se tengan que decorar (p.ej. todos los elementos significativos de NestJS) se tienen que manejar como clases.  
 Cada decorator se usa, al menos hasta donde vi, en un solo tipo de elemento, o sea es un decorator de clases, **o** de métodos, **o** de parámetros, etc. .
