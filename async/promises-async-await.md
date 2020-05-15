@@ -174,4 +174,7 @@ Creo que igual es útil entender el concepto de promesa, hasta donde vimos por d
 
 Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explícita. Keep in touch.
 
+<br/><br>
+
+-----
 [^1]: ¿por qué "continuación" y no "callback"?
