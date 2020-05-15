@@ -27,6 +27,10 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Decoratos - los miramos un poquito](./typescript/decorators-slight-intro.md)
 
+
+### Procesamiento asincrónico
+[Async-await y promises](./async/promises.md)
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 
