@@ -18,7 +18,7 @@ En lo que sigue, usamos una invocación HTTP como ejemplo de operación externa.
 La experiencia nos dice que este código
 ``` javascript
 function someBusinessCode() {
-    const response = axios.get(<url>)
+    const response = axios.get("<url>")
     return doSomething(response.data)
 }
 ```
@@ -32,7 +32,7 @@ Una promesa ... ¿de qué? De que _en algún momento_ va a llegar el valor.
 Volviendo a la experiencia, sabemos que a este código le faltan un `await` y un `async`.
 ``` javascript
 async function someBusinessData() {
-    const response = await axios.get(<url>)
+    const response = await axios.get("<url>")
     return doSomething(response.data)
 }
 ```
@@ -86,7 +86,7 @@ Estas `Promise` son _las mismas_ que las del `console.log` de arriba, cuando no 
 Volviendo al ejemplo de la sección anterior, podemos implementarlo usando `Promise` así
 ``` javascript
 function someBusinessData() {
-    return axios.get(<url>).then(response => doSomething(response.data))
+    return axios.get("<url>").then(response => doSomething(response.data))
 }
 ```
 notar que la función ya no necesita estar "marcada" con `async`.  
@@ -115,23 +115,54 @@ En rigor, el dúo `async/await` es (al menos hasta donde sé) un syntax sugar pa
 En JS, el uso `async/await` habilita a que las `Promise` no se mencionen para nada en el código. En TS las seguimos viendo, en el valor de retorno de las funciones asincrónicas.
 
 ### Secuencias de operaciones asincrónicas, errores
-<!-- Si tengo 
-lo que permite armar la cadena de `then`: -->
+Si una función realiza varias operaciones asincrónicas le tiene que poner `await` a cada una
 ``` javascript
 async function otheBusinessData() {
-    const response = await axios.get(<other url>)
+    const response = await axios.get("<other_url>")
     const second_response = await doSomethingAsync(response.data)
-    /* other stuff */
+    return /* other stuff */
 }
 ```
 
+Si lo implementamos usando `Promises`, aprovechamos que el `then` devuelve una promesa para hacer el encadenamiento de `then`s..
 ``` javascript
 function otheBusinessData() {
-    return axios.get(<other url>)
+    return axios.get("<other_url>")
         .then(response => doSomethingAsync(response.data))
         .then(second_response => /* other stuff */)
 }
 ```
+Acá es _muy_ importante no olvidarse del `return` de adelante, porque hay que devolver la promesa ... que genera el _último_ then. Y se empieza a ver cómo la sintaxis `async-await` nos simplifica la vida.
 
+Para manejar errores, usando `async-await` nos apoyamos en la vieja y querida estructura `try-catch`.
+``` javascript
+async function otheBusinessData() {
+    try {
+        const response = await axios.get("<other url>")
+        const second_response = await doSomethingAsync(response.data)
+        return /* other stuff */
+    } catch (err) {
+        /* error handling */
+    }
+}
+```
 
+Si usamos promesas, el `try-catch` **no funciona**. Hay que decirle `.catch` al objeto `Promise`, esto me devuelve otra `Promise` que se puede seguir encadenando.
+``` javascript
+function otheBusinessData() {
+    return axios.get("<other_url>")
+        .then(response => doSomethingAsync(response.data))
+        .then(second_response => /* other stuff */)
+        .catch(err => /* error handling */)
+}
+```
+
+## Muy lindo todo esto ... ¿sirve para algo?
+En principio, se podría pensar que al agregarse la sintaxis `async/await`, las `Promise` quedaron como cultura general.
+
+Creo que igual es útil entender el concepto de promesa, hasta donde vimos por dos razones:
+1. entender por qué en TS el tipo de retorno de una función asincrónica es `Promise<tipo_de_retorno_nuestro>`, de dónde viene eso y por qué hay que hacerlo así.
+1. saber que si tengo una función legacy que devuelve una `Promise` explícitamente, aunque no esté definida como `async` la puedo usar con `await`.
+
+Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explícita. Keep in touch.
 
