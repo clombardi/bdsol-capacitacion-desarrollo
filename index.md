@@ -29,7 +29,7 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 
 ### Procesamiento asincrónico
-[Async-await y promises](./async/promises.md)
+[Async-await y promises](./async/promises-async-await.md)
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
