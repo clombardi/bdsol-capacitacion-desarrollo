@@ -36,7 +36,7 @@ async function someBusinessData() {
     return doSomething(response.data)
 }
 ```
-Con el `await`, estamos forzando a que la función espere que llegue el valor de la operación externa; recién en ese momento se evalúa la línea siguiente.  
+Con el `await`, estamos forzando a que la función espere que llegue el valor de la operación externa; recién en ese momento se evalúa la línea siguiente. 
 Ahora `response` es lo que estábamos esperando:
 ``` javascript
 {
@@ -83,7 +83,8 @@ y lo mismo pasa con `axios.get`.
 ![Tipo de respuesta de `axios.get` es Promise](./images/axios-type-promise.jpg)
 Estas `Promise` son _las mismas_ que las del `console.log` de arriba, cuando no habíamos puesto el `await`. 
 
-Notita: `Promise` es un tipo genérico.
+**Notita**:
+`Promise` es un tipo genérico.
 
 Volviendo al ejemplo de la sección anterior, podemos implementarlo usando `Promise` así
 ``` javascript
@@ -92,7 +93,7 @@ function someBusinessData() {
 }
 ```
 notar que la función ya no necesita estar "marcada" con `async`.  
-Las Promises son objetos a que se les puede indicar `then` con un callback (o "continuación"), o sea, una función que se evalúa cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa (en el ejemplo, cuando llega el valor del `axios.get`).  
+Las Promises son objetos a que se les puede indicar `then` con una _continuación_[^1], o sea, una función que se evalúa cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa (en el ejemplo, cuando llega el valor del `axios.get`).  
 A su vez, _el `then` también devuelve una promesa_, por lo tanto `someBusinessData`  está devolviendo esa promesa.
 
 
@@ -111,13 +112,15 @@ const businessData = await someBusinessData()
 
 Cualquier función que devuelve una `Promise` puede ser llamada usando `await`, no es necesario marcarla con `async`.  
 
-_Pensando en tipos_, si una función devuelve `Promise<Algo>`, el `await` de la llamada "desempaqueta" el `Promise`. Por eso si el tipo de retorno de `someBusinessData()` es `Promise<SomeData>`, el de `await someBusinessData()` va a ser `SomeData`.
-
 En particular, este es el caso del segundo método en el servicio Nest. El `find` devuelve una `Promise`, el método del servicio se limita a devolver la misma `Promise`. No hace falta poner `async`.  
 En el otro método del servicio, el `async` es necesario para que compile, porque se hacen `await` adentro. Esto es así en JS, y lo hereda TS.
 
 > En rigor, el dúo `async/await` es (al menos hasta donde sé) un syntax sugar para no tener que andar haciendo `then` y pensando en promesas todo el tiempo.  
 En JS, el uso `async/await` habilita a que las `Promise` no se mencionen para nada en el código. En TS las seguimos viendo, en el valor de retorno de las funciones asincrónicas.
+
+**Pensando en tipos**:  
+si una función devuelve `Promise<Algo>`, el `await` de la llamada "desempaqueta" el `Promise`. Por eso si el tipo de retorno de `someBusinessData()` es `Promise<SomeData>`, el de `await someBusinessData()` va a ser `SomeData`.
+
 
 ### Secuencias de operaciones asincrónicas, errores
 Si una función realiza varias operaciones asincrónicas le tiene que poner `await` a cada una
@@ -171,3 +174,4 @@ Creo que igual es útil entender el concepto de promesa, hasta donde vimos por d
 
 Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explícita. Keep in touch.
 
+[^1]: ¿por qué "continuación" y no "callback"?
