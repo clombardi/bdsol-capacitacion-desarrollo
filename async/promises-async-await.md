@@ -14,12 +14,12 @@ Cualquier llamada a una operación externa, debe manejar el hecho de que el resu
 
 En lo que sigue, usamos una invocación HTTP como ejemplo de operación externa. Donde dice `axios.get(<url>)`, bien podría decir p.ej. `<repository>.findOne(<conditions>)`, o una función desarrollada por nosotros que invoca a alguno de estos.
 
-### async-await
+### async-await - la que nos sabemos todos
 La experiencia nos dice que este código
 ``` javascript
 function someBusinessCode() {
     const response = axios.get(<url>)
-    doSomething(response.data)
+    return doSomething(response.data)
 }
 ```
 falla, porque `response.data` es `undefined`. Un `console.log(response)` nos da esto
@@ -61,7 +61,7 @@ Al poner `await`, o usar promesas, habilitamos a la VM de Node a atender otras c
 ------
 
 
-### Promesas
+### Promesas - el "nombre verdadero" del async-await
 Estos son dos métodos de un servicio NestJS
 ``` javascript
   async addAddress(personId: string, address: NewAddressRequestDto): Promise<Person> {
@@ -78,8 +78,9 @@ Estos son dos métodos de un servicio NestJS
 Concentrémonos en el **tipo de respuesta** de estos métodos: son `Promise<...tipo...>`. 
 
 El `findOneOrFail` también responde `Promise`:
-![Tipo de respuesta es Promise](./images/find-type-promise.jpg)
+![Tipo de respuesta de `repo.find` es Promise](./images/find-type-promise.jpg)
 y lo mismo pasa con `axios.get`.  
+![Tipo de respuesta de `axios.get` es Promise](./images/axios-type-promise.jpg)
 Estas `Promise` son _las mismas_ que las del `console.log` de arriba, cuando no habíamos puesto el `await`. 
 
 Volviendo al ejemplo de la sección anterior, podemos implementarlo usando `Promise` así
@@ -89,20 +90,48 @@ function someBusinessData() {
 }
 ```
 notar que la función ya no necesita estar "marcada" con `async`.  
-Las Promises son objetos a que se les puede indicar `then` con una función que debe ejecutarse cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa.  
-A una función que se utiliza de esa forma se la llama "continuación". Por eso se dice que al invocar `then` sobre una `Promise`, se le pasa la continuación.
+Las Promises son objetos a que se les puede indicar `then` con un callback (o "continuación"), o sea, una función que se evalúa cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa (en el ejemplo, cuando llega el valor del `axios.get`).  
+A su vez, _el `then` también devuelve una promesa_, por lo tanto `someBusinessData`  está devolviendo esa promesa.
 
-Quienes invoquen a esta función, pueden seguir un patrón parecido ...
+
+Por lo tanto, quienes invoquen a esta función, pueden seguir un patrón parecido ...
 ``` javascript
 someBusinessData().then(businessData => /* ... etc ... */)
 ```
-... pero _también_ pueden mantener la sintaxis con el `await`.  
+... pero **también pueden mantener la sintaxis con el `await`**{: style="color: Crimson"}.  
+
+O sea: por más que la función se haya armado devolviendo explícitamente una `Promise`, y no tenga `async`, se la puede invocar así:
+``` javascript
+const businessData = await someBusinessData()
+/* ... etc ... */
+```
+
+
 Cualquier función que devuelve una `Promise` puede ser llamada usando `await`, no es necesario marcarla con `async`.  
 En particular, este es el caso del segundo método en el servicio Nest. El `find` devuelve una `Promise`, el método del servicio se limita a devolver la misma `Promise`. No hace falta poner `async`.  
 En el otro método del servicio, el `async` es necesario para que compile, porque se hacen `await` adentro. Recordemos que esto viene desde JS.
 
-En rigor, el dúo `async/await` es (al menos hasta donde sé) un syntax sugar para no tener que andar haciendo `then` todo el tiempo.  
-En JS, el uso `async/await` habilita a no mencionar a las `Promise` en el código. En TS, seguimos manteniendo las `Promise` en el valor de retorno de las funciones asincrónicas.
+En rigor, el dúo `async/await` es (al menos hasta donde sé) un syntax sugar para no tener que andar haciendo `then` y pensando en promesas todo el tiempo.  
+En JS, el uso `async/await` habilita a que las `Promise` no se mencionen para nada en el código. En TS las seguimos viendo, en el valor de retorno de las funciones asincrónicas.
+
+### Secuencias de operaciones asincrónicas, errores
+<!-- Si tengo 
+lo que permite armar la cadena de `then`: -->
+``` javascript
+async function otheBusinessData() {
+    const response = await axios.get(<other url>)
+    const second_response = await doSomethingAsync(response.data)
+    /* other stuff */
+}
+```
+
+``` javascript
+function otheBusinessData() {
+    return axios.get(<other url>)
+        .then(response => doSomethingAsync(response.data))
+        .then(second_response => /* other stuff */)
+}
+```
 
 
 
