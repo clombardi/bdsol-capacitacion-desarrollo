@@ -52,6 +52,8 @@ const businessData = await someBusinessData()
 /* ... etc ... */
 ```
 
+<br/>
+
 ------
 **Nota**{: style="color: SteelBlue"}:  
 En Node, es especialmente crítico que las llamadas externas no sean bloqueantes.  
@@ -60,6 +62,7 @@ Al poner `await`, o usar promesas, habilitamos a la VM de Node a atender otras c
 
 ------
 
+<br/>
 
 ### Promesas - el "nombre verdadero" del async-await
 Estos son dos métodos de un servicio NestJS
@@ -93,7 +96,7 @@ function someBusinessData() {
 }
 ```
 notar que la función ya no necesita estar "marcada" con `async`.  
-Las Promises son objetos a que se les puede indicar `then` con una _continuación_[^1], o sea, una función que se evalúa cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa (en el ejemplo, cuando llega el valor del `axios.get`).  
+Las Promises son objetos a que se les puede indicar `then` con una _continuación_ (ver abajo de todo por qué decimos "continuación" y no "callback"), o sea, una función que se evalúa cuando la promesa se resuelve, o sea, cuando llega el resultado de la operación externa (en el ejemplo, cuando llega el valor del `axios.get`).  
 A su vez, _el `then` también devuelve una promesa_, por lo tanto `someBusinessData`  está devolviendo esa promesa.
 
 
@@ -177,7 +180,7 @@ Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explíc
 <br/><br>
 
 -----
-[^1]: ¿por qué "continuación" y no "callback"?  
+**Nota al pie: ¿por qué "continuación" y no "callback"?**{: style="color: SteelBlue"}:    
 En caso de encadenamiento, si trabajo con callbacks es el primer callback que llama al segundo, en cambio con continuaciones es el mecanismo que las maneja (en este caso las promesas) el que maneja la secuencia.
 
 El callback es un valor adicional que se le pasa a la función asincrónica. El ejemplo con dos operaciones asincrónicas, en callback quedaría así
