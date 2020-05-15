@@ -63,7 +63,7 @@ Al poner `await`, o usar promesas, habilitamos a la VM de Node a atender otras c
 
 ### Promesas - el "nombre verdadero" del async-await
 Estos son dos métodos de un servicio NestJS
-``` javascript
+``` typescript
   async addAddress(personId: string, address: NewAddressRequestDto): Promise<Person> {
     const person = await this.personRepository.findOneOrFail(personId, { relations: ['addresses'] })
     const newAddress = await this.addressRepository.save(address)
@@ -177,4 +177,22 @@ Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explíc
 <br/><br>
 
 -----
-[^1]: ¿por qué "continuación" y no "callback"?
+[^1]: ¿por qué "continuación" y no "callback"?  
+En caso de encadenamiento, si trabajo con callbacks es el primer callback que llama al segundo, en cambio con continuaciones es el mecanismo que las maneja (en este caso las promesas) el que maneja la secuencia.
+
+El callback es un valor adicional que se le pasa a la función asincrónica. El ejemplo con dos operaciones asincrónicas, en callback quedaría así
+``` javascript
+function otheBusinessData() {
+    return axios.get(
+        "<other_url>", 
+        response => doSomethingAsync(
+            response.data, 
+            second_response => /* other stuff */
+        )
+    )
+}
+```
+
+**Notita histórica**:  
+nótese cómo el código se va corriendo hacia la derecha a medida que encadenamos operaciones asincrónicas. Esto es lo que se conoce como "callback hell". 
+Uno de los argumentos de venta de las promesas cuando aparecieron en el mundo JS es evitar el "callback hell". 
