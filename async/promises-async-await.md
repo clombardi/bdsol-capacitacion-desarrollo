@@ -128,7 +128,7 @@ si una función devuelve `Promise<Algo>`, el `await` de la llamada "desempaqueta
 ### Secuencias de operaciones asincrónicas, errores
 Si una función realiza varias operaciones asincrónicas le tiene que poner `await` a cada una
 ``` javascript
-async function otheBusinessData() {
+async function someOtherData() {
     const response = await axios.get("<other_url>")
     const second_response = await doSomethingAsync(response.data)
     return /* other stuff */
@@ -137,7 +137,7 @@ async function otheBusinessData() {
 
 Si lo implementamos usando `Promises`, aprovechamos que el `then` devuelve una promesa para hacer el encadenamiento de `then`s..
 ``` javascript
-function otheBusinessData() {
+function someOtherData() {
     return axios.get("<other_url>")
         .then(response => doSomethingAsync(response.data))
         .then(second_response => /* other stuff */)
@@ -147,7 +147,7 @@ Acá es _muy_ importante no olvidarse del `return` de adelante, porque hay que d
 
 Para manejar errores, usando `async-await` nos apoyamos en la vieja y querida estructura `try-catch`.
 ``` javascript
-async function otheBusinessData() {
+async function someOtherData() {
     try {
         const response = await axios.get("<other url>")
         const second_response = await doSomethingAsync(response.data)
@@ -160,7 +160,7 @@ async function otheBusinessData() {
 
 Si usamos promesas, el `try-catch` **no funciona**. Hay que decirle `.catch` al objeto `Promise`, esto me devuelve otra `Promise` que se puede seguir encadenando.
 ``` javascript
-function otheBusinessData() {
+function someOtherData() {
     return axios.get("<other_url>")
         .then(response => doSomethingAsync(response.data))
         .then(second_response => /* other stuff */)
@@ -168,7 +168,7 @@ function otheBusinessData() {
 }
 ```
 
-## Muy lindo todo esto ... ¿sirve para algo?
+## Muy lindo todo esto, pero ... ¿sirve para algo?
 En principio, se podría pensar que al agregarse la sintaxis `async/await`, las `Promise` quedaron como cultura general.
 
 Creo que igual es útil entender el concepto de promesa, hasta donde vimos por dos razones:
@@ -183,9 +183,9 @@ Hay otro escenario, en el que nos va a ser útil usar `Promise` en forma explíc
 **Nota al pie: ¿por qué "continuación" y no "callback"?**{: style="color: SteelBlue"}:    
 En caso de encadenamiento, si trabajo con callbacks es el primer callback que llama al segundo, en cambio con continuaciones es el mecanismo que las maneja (en este caso las promesas) el que maneja la secuencia.
 
-El callback es un valor adicional que se le pasa a la función asincrónica. El ejemplo con dos operaciones asincrónicas, en callback quedaría así
+El callback es un valor adicional que se le pasa a la función asincrónica. El ejemplo con dos operaciones asincrónicas, en callback quedaría así ...
 ``` javascript
-function otheBusinessData() {
+function otherBusinessCode() {
     return axios.get(
         "<other_url>", 
         response => doSomethingAsync(
@@ -195,6 +195,7 @@ function otheBusinessData() {
     )
 }
 ```
+... si `axios`  mantuviera la interface con callbacks, recién me fijé y parece que ya la deprecaron.
 
 **Notita histórica**:  
 nótese cómo el código se va corriendo hacia la derecha a medida que encadenamos operaciones asincrónicas. Esto es lo que se conoce como "callback hell". 
