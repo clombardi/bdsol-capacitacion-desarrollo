@@ -25,21 +25,24 @@ Definir una función que recibe un código de país ISO-3, y devuelve la siguien
     }
 }
 ```
+este ejemplo es para el código `ARG`.
 
 Usar las siguientes API públicas.
 
-REST Countries, http://restcountries.eu/ .  
+- **REST Countries**, http://restcountries.eu/ .  
 El endpoint `https://restcountries.eu/rest/v2/alpha/<codigo>` provee bastante de la data que se pide. Toma el código ISO-3. 
 
-Free Currency Converter API, https://free.currencyconverterapi.com/ .  
+- **Free Currency Converter API**, https://free.currencyconverterapi.com/ .  
 Hay que obtener una API Key para usar gratis el servicio.  
 El endpoint que nos va a servir es `https://free.currconv.com/api/v7/convert?q=USD_<currency_code>&compact=ultra&apiKey=<key>` .  
 El `currency_code` es uno de los datos que se obtiene en el endpoint de REST Countries.
 
-COVID19API, https://covid19api.com/ .  
+- **COVID19API**, https://covid19api.com/ .  
 El endpoint `https://api.covid19api.com/countries/<slug>` da la info sobre un país. Tomar los de la última fecha.  
 Para obtener el slug hay que usar `https://api.covid19api.com/countries` y buscar por el ISO-2 code, que es uno de los datos que da el endpoint de REST Countries.
 
 Con dos `Promise.all` debería alcanzar.
+
+No estaría de más chequear errores, al menos que el código corresponda a un país.
 
 Obviamente, a partir de acá, que cada une le agregue/retoque lo que quiera.
