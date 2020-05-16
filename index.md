@@ -35,6 +35,10 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Pequeño ejercicio integrador](./async/ejercicio-integrador.md)
 
+
+### NestJS
+[Conceptos iniciales](./nestjs-basics/conceptos-iniciales.md)
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 
