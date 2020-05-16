@@ -29,13 +29,14 @@ async function threeMix() {
 }
 ```
 donde ninguna de las tres URL dependen del resultado de las otras.  
+
 Este código es correcto mirando la _funcionalidad_, pero se le puede hacer un cuestionamiento respecto de la _performance_.
 De la forma en que está escrito, para lanzar la segunda consulta, va a esperar que llegue el resultado de la primera; lo mismo con la tercera respecto de la segunda. Las tres consultas se resuelven en forma **secuencial**. 
 Muy probablemente, el tiempo de respuesta de `threeMix()` podría mejorarse si se pudieran lanzar las tres consultas en **paralelo**.  
 Obviamente sacar los `await` no resuelve el problema: el `doSomeMix` _sí debe esperar_ que lleguen las 3 respuestas.
 
 ### Promise.all
-Acá es donde las `Promise`s vienen al rescate.  
+Acá es donde las `Promise` vienen al rescate.  
 Existe el `Promise.all`, que recibe una _lista_ de promesas, y que devuelve una promesa cuya continuación (o sea, la función que se le pasa al `then`) recibe la lista de los resultados de cada promesa.  
 Tal vez es más fácil verlo en código:
 ``` javascript

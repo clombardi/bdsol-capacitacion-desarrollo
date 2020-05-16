@@ -33,6 +33,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Operaciones en paralelo usando Promise.all](./async/promise-all.md)
 
+[Pequeño ejercicio integrador](./async/ejercicio-integrador.md)
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 
