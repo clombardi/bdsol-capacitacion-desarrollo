@@ -1,7 +1,9 @@
 ## Un poco de contexto
-Hasta ahora trabajamos con conceptos bastante genéricos. JS, y en menor medida TS, se pueden aplicar a proyectos de desarrollo de distintas características. La idea de operación externa y de procesamiento asincrónico también.
+Hasta ahora trabajamos con conceptos bastante genéricos: JS / TS, operaciones externas, procesamiento asincrónico. 
+Todas estas herramientas se aplican en proyectos de desarrollo de distintas características. 
 
-A partir de ahora nos vamos a concentrar en el desarrollo del backend de un software organizacional, con dos características relevantes
+En lo que viene, vamos a acercarnos a lo "concreto". 
+Nos vamos a concentrar en el desarrollo del backend de un software organizacional, con dos características relevantes
 1. la interface es mayormente API REST por HTTP
 1. se aplican ideas del desarrollo basado en microservicios.
 
@@ -30,10 +32,10 @@ El framework provee algunas facilidades que simplifican el desarrollo de request
 En particular, en muchos casos no es necesario manipular los objetos `request` y `response`, porque permite acceder a los datos que se usan más frecuentemente definiendo parámetros del método, y genera el response a partir del valor de respuesta.  
 Además provee un mecanismo para definir las rutas usando los decorators, sin necesidad de escribir código específico; y otro para manejar los casos de error a partir de excepciones, generando los response correspondientes.
 
-El concepto de **middleware**, que ya aparece en Express (y también en alternativas anteriores como p.ej. SpringBoot) está desarrollado. 
-NestJS define distintas variantes de middleware para propósitos específicos.
+NestJS le da vuelo al concepto de **middleware**, que ya aparece en Express (y también en alternativas anteriores como p.ej. SpringBoot). 
+Se definen distintas variantes de middleware para propósitos específicos.
 
-Finalmente, mencionamos que provee conectores que simplifican el acceso a bases de datos mediante ORM (incluyendo Mongoose, TypeORM y Sequelize), y también soporte para distintos tipos de test.
+Finalmente, mencionamos que NestJS provee conectores que simplifican el acceso a bases de datos mediante ORM (incluyendo Mongoose, TypeORM y Sequelize), y también soporte para distintos tipos de test.
 
 
 ## Qué vamos a hacer ahora
@@ -41,6 +43,6 @@ El objetivo es ir completando y enriqueciendo el mapa mental de NestJS que cada 
 También, que lo relacionen con varios de los temas dados al principio, en particular: interfaces, tipos, generics, promesas y async/await.
 
 Vamos a empezar implementando un servicio que accede y consolida datos de sitios externos, los mismos que usamos en el ejercicio sobre procesamiento asincrónico.  
-Aprovecharemos para repasar cómo maneja Nest ladefinición de rutas, un poco de manejo de errores, y algunos decorators.
+Aprovecharemos para repasar cómo maneja Nest la definición de rutas, un poco de manejo de errores, y algunos decorators.
 
 Intentaré no repetir en estas páginas la info que ya está en [la documentación de NestJS](https://docs.nestjs.com/).
