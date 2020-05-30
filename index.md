@@ -37,6 +37,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 
 ### NestJS
+[Pequeña introducción](./nestjs-basics/intro-nest.md)
+
 [Conceptos iniciales](./nestjs-basics/conceptos-iniciales.md)
 
 ## Referencias
