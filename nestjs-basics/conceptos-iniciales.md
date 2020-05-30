@@ -45,4 +45,10 @@ También, que lo relacionen con varios de los temas dados al principio, en parti
 Vamos a empezar implementando un servicio que accede y consolida datos de sitios externos, los mismos que usamos en el ejercicio sobre procesamiento asincrónico.  
 Aprovecharemos para repasar cómo maneja Nest la definición de rutas, un poco de manejo de errores, y algunos decorators.
 
-Intentaré no repetir en estas páginas la info que ya está en [la documentación de NestJS](https://docs.nestjs.com/).
+## Algunos disclaimers
+La idea de lo que viene **no** es indicar _pautas obligatorias_ de trabajo.  
+Se busca brindar un marco y algunas herramientas que tal vez les resulten novedosas y/o interesantes, que puedan enriquecer los debates sobre cómo llevar a cabo el desarrollo.
+
+Además, intentaré 
+- no repetir en estas páginas la info que ya está en [la documentación de NestJS](https://docs.nestjs.com/), y
+- no incluir detalles que seguramente ya conocen por la experiencia que ya están teniendo.
