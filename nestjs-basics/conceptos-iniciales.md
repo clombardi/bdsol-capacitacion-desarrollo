@@ -61,8 +61,7 @@ Este módulo es la raíz de la red de módulos[^2] que forman una aplicación Ne
 <br/>
 
 -----
-[^1]: 
-creo que también usar JS para desarrollar aplicaciones NestJS; no averigüé sobre esto.
 
-[^2]:
-en general la red de módulos tiene la forma de un árbol. Pero NestJS admite que haya dos módulos donde cada uno importa al otro, ver [la página sobre referencias circulares en la doc de NestJS](https://docs.nestjs.com/fundamentals/circular-dependency).
+[^1]: creo que también usar JS para desarrollar aplicaciones NestJS; no averigüé sobre esto.
+
+[^2]: en general la red de módulos tiene la forma de un árbol. Pero NestJS admite que haya dos módulos donde cada uno importa al otro, ver [la página sobre referencias circulares en la doc de NestJS](https://docs.nestjs.com/fundamentals/circular-dependency).
