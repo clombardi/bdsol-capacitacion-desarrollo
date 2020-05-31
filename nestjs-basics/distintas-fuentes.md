@@ -107,7 +107,7 @@ Notar que se puede especificar el tipo que va a tener cada elemento del array. E
 
 ### Qué pasa si no hay datos COVID
 Hay que contemplar el caso en que el servicio de info COVID no tenga disponibles datos para el pais.  
-La primer decisión es si en este caso, _el controller_ de info integrada de país
+La primer decisión a tomar es si en este caso, _el controller de info integrada_:
 - debe dar error, que puede ser un 404, o bien
 - da la info sin incluir los datos de COVID.
 
@@ -193,7 +193,7 @@ const covidData: (CovidRecord | undefined) = await this.covidDataService
         .getLastRecord(countryData.countryIso2Code)
         .catch(() => undefined)
 ```
-Una alternativa sería establecer que se le envía el mismo código a todos los servicios, y el que lo tenga que transformar, que se arregle. Pero entonces ... el servicio de COVID **debería usar al `CountryDataService`** para obtener el código.  
+Una alternativa sería establecer que se le envía el mismo código a todos los servicios, y el que lo tenga que transformar, que se arregle. Pero entonces ... el servicio de COVID **debería usar al `CountryDataService`** para obtener el código ISO-2.  
 Esta variante parece _peor_ que la anterior: se estaría accediendo **dos veces** a la info de país. Pero ... considerando que los códigos ISO de los países no cambian básicamente nunca, si establecemos una _cache_ en el servicio COVID, la necesidad de una consulta extra se va a atenuar.
 
 Este es un caso en el que nos viene bien una cache a nivel de provider. De esto vamos a hablar más adelante.
