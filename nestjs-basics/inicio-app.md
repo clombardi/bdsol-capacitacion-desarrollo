@@ -72,7 +72,7 @@ async getInfo(countryCode: string) {
 ```
 TS infiere correctamente los tipos de los dos métodos
 ![Tipo inferido para el método de controller](./images/controller-method-return-type-inference.jpg)
-pero ... ¿qué pasa si me olvido un componente, o me equivoco de nombre, o algo? Estoy perdiendo el chequeo de tipos.
+pero ... ¿qué pasa si me olvido un componente, o me equivoco de nombre, o algo? Estoy perdiendo el chequeo de tipos. TS va a _inferir_ el tipo a partir del código, pero no tiene cómo _validar_ que el código sea correcto.
 
 Por eso se estila definir una _interface_ que especifique el tipo de respuesta
 ``` typescript
