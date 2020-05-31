@@ -9,7 +9,7 @@ Empecemos con el desarrollo de una aplicación NestJS que brinde información so
     internetDomain: '.ar'
 }
 ```
-La info se obtiene consultando al servicio externo `http://restcountries.eu/` que mencionamos en [el ejercicio integrador sobre asincronismo](async/ejercicio-integrador.md).
+La info se obtiene consultando al servicio externo `http://restcountries.eu/` que mencionamos en [el ejercicio integrador sobre asincronismo](../async/ejercicio-integrador.md).
 
 Repasemos qué elementos tenemos que incluir en nuestra app.
 - El módulo inicial `AppModule`, en `app.module.ts`. Este ya lo crea el script de inicialización de Nest, ver en la [página inicial de la doc](https://docs.nestjs.com/first-steps).
@@ -97,7 +97,7 @@ y (además de que documenté la interface) ahora sí tengo chequeo de tipos
 La sigla "DTO" tal vez les suene: _Data Transfer Object_. O sea, un objeto que sirve para una interface, en este caso la response del request.  
 Visto así, es lógico que el método _del controller_ tenga com tipo de respuesta `CountryInfoDTO`.
 
-En el _servicio_ ... tal vez no siempre sea así. 
+En el _servicio_ ... tal vez no siempre sea así.  
 Un mismo método de servicio podría usarse en distintos lugares.
 En este ejemplo, podría haber varios métodos de controller que expongan distintos datos de un país, que siempre salen del mismo lado, pero puede ser que dependa del caso, a veces se quiere exponer algunos datos y a veces otros.  
 En tal caso, aparecen dos opciones.
