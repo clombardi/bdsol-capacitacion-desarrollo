@@ -14,6 +14,8 @@ Son las unidades de organización de una aplicación NestJS. Cada módulo incorp
 
 Los tres conceptos se implementan como clases TS[^1] con mucho uso de decorators.
 
+La documentación de NestJS recomienda, en la [página inicial](https://docs.nestjs.com/first-steps), tener cada módulo (incluyendo controllers y providers) en una carpeta separada.
+
 
 ## Cómo se arma una app
 Receta en varios pasos
@@ -49,7 +51,7 @@ Se lo suele llamar `AppModule`.
 })
 export class AppModule { }
 ```
-Este módulo es la raíz de la red de módulos[^2] que forman una aplicación NestJS.  La importación es _transitiva_, o sea que en este caso los controllers de `ToppingModule` también se van a incluir..
+Este módulo es la raíz de la red de módulos[^2] que forman una aplicación NestJS.  La importación es _transitiva_, o sea que en este caso los controllers de `ToppingModule` también se van a incluir.
 
 
 ### Paso 3 - Inyección de dependencias.
@@ -57,7 +59,11 @@ Los providers tienen que tener el decorator `@Injectable`.
 ``` typescript
 @Injectable()
 export class PizzaService {
-    // ... provider implementation ...
+    getCurrentFlavors() {
+        return ['Mozzarella', 'Peperoni', 'Onion', 'MincedMeat']
+    }
+
+    // ... rest of provider implementation ...
  }
 ```
 Nest se encarga de crear las instancias que necesite de cada provider (también de cada controller y módulo, claro) e _inyectarlas_ donde se necesite.
@@ -71,7 +77,12 @@ export class PizzaController {
         private readonly onionService: OnionService
     ) { }
 
-    // ... controller implementation ...
+    @Get('/flavors')
+    getCurrentFlavors() {
+        return this.service.getCurrentFlavors()
+    }
+
+    // ... other handlers ...
 }
 ```
 Al crear una instancia de `PizzaController`, NestJS le va a _inyectar_ (en el constructor) instancias de los providers, que tengan el mismo _tipo_ del parámetro del constructor.
@@ -80,18 +91,17 @@ Al crear una instancia de `PizzaController`, NestJS le va a _inyectar_ (en el co
 Con esto tenemos levantados y enganchados todos los elementos que forman parte de una app NestJS.
 
 ## Notas
-Lo que acabamos de contar es la forma más directa/usual de configurar una app NestJS.
+Lo que acabamos de contar es _la forma más directa/usual_ de configurar una app NestJS.
 
-El framework también incluye otras formas de generar, y de inyectar, instancias de providers. Ver (creo que entre otras) las secciones "Property-based injection"  y "Manual instantiation" en la [página sobre providers en la doc Nest](https://docs.nestjs.com/providers).
+El framework también incluye otras formas de generar, y de inyectar, instancias de providers. Ver las secciones "Property-based injection"  y "Manual instantiation" en la [página sobre providers en la doc Nest](https://docs.nestjs.com/providers), y tal vez también en otros lugares de la doc.
 
-También hay varias variantes para establecer relaciones entre módulos, ver en [página sobre módulos en la doc Nest](https://docs.nestjs.com/modules) desde "Shared modules" hasta el final.
-
+También hay varias variantes para establecer relaciones entre módulos, ver en la [página sobre módulos en la doc Nest](https://docs.nestjs.com/modules) desde "Shared modules" hasta el final.
 
 
 <br/>
 
 -----
 
-[^1]: creo que también usar JS para desarrollar aplicaciones NestJS; no averigüé sobre esto.
+[^1]: creo que también se puede usar JS para desarrollar aplicaciones NestJS; no averigüé sobre esto.
 
-[^2]: en general la red de módulos tiene la forma de un árbol. Pero NestJS admite que haya dos módulos donde cada uno importa al otro, ver [la página sobre referencias circulares en la doc de NestJS](https://docs.nestjs.com/fundamentals/circular-dependency).
+[^2]: en general la red de módulos tiene la forma de un _árbol_. Pero NestJS admite que haya dos módulos donde cada uno importa al otro, ver [la página sobre referencias circulares en la doc de NestJS](https://docs.nestjs.com/fundamentals/circular-dependency).

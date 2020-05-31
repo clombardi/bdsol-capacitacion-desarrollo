@@ -41,6 +41,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Conceptos iniciales](./nestjs-basics/conceptos-iniciales.md)
 
+[Empezamos a armar una app](./nestjs-basics/inicio-app.md)
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 

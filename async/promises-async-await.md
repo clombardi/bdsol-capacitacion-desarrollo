@@ -119,10 +119,10 @@ En particular, este es el caso del segundo método en el servicio Nest. El `find
 En el otro método del servicio, el `async` es necesario para que compile, porque se hacen `await` adentro. Esto es así en JS, y lo hereda TS.
 
 > En rigor, el dúo `async/await` es (al menos hasta donde sé) un syntax sugar para no tener que andar haciendo `then` y pensando en promesas todo el tiempo.  
-En JS, el uso `async/await` habilita a que las `Promise` no se mencionen para nada en el código. En TS las seguimos viendo, en el valor de retorno de las funciones asincrónicas.
+En JS, el uso `async/await` habilita a que las `Promise` no se mencionen para nada en el código. En TS siguen apareciendo, en el valor de retorno de las funciones asincrónicas.
 
 **Pensando en tipos**:  
-si una función devuelve `Promise<Algo>`, el `await` de la llamada "desempaqueta" el `Promise`. Por eso si el tipo de retorno de `someBusinessData()` es `Promise<SomeData>`, el de `await someBusinessData()` va a ser `SomeData`.
+si una función devuelve `Promise<Algo>`, el `await` de la llamada "desempaqueta" el `Promise` permitiéndonos llegar al `Algo`. Por eso si el tipo de retorno de `someBusinessData()` es `Promise<SomeData>`, el de `await someBusinessData()` va a ser `SomeData`.
 
 
 ### Secuencias de operaciones asincrónicas, errores
