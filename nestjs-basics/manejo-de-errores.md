@@ -1,11 +1,10 @@
-## Algo sobre manejo de errores
 En esta página vamos a dar algunas indicaciones para el manejo de errores al desarrollar un backend sobre NestJS.
 
 En [la página sobre el tema en la doc de NestJS](https://docs.nestjs.com/exception-filters) se describen las herramientas que ofrece el framework. 
 En esta página, vamos a usar estas herramientas para manejar distintos casos.
 
 
-### Distintos casos de error
+## Distintos casos de error
 Esta es una posible estructura para un método de un provider que accede a un servicio externo.
 ``` typescript
 async getInfo(countryIso3Code: string): Promise<CountryInfo> {
@@ -29,14 +28,14 @@ NestJS viene con un manejo de errores **muy básico**. Si no hacemos nada, ante 
 Este error no se va a loguear en nigún lado. El que sí se loguea es el del servicio externo
 ![Se loguea el error del servicio externo](./images/external-service-error-log.jpg)
 
-Si ponemos una URL que no se corresponde con ningún método de controller (de acuerdo a los decorator `@Get`, `@Post`, etc.) va a generar un 404
+Si ponemos una URL que no se corresponde con ningún request handler, va a generar un 404
 ![Status 404 si pongo una URL no reconocida](./images/postman-error-404.jpg)
 De este error no se loguea nada.
 
 Por lo general vamos a querer que haga algo distinto, y probablemente querramos generar nuestros propios 404 / 400 / etc..
 
 
-### Tres acciones a tener en cuenta
+## Tres acciones a tener en cuenta
 NestJS maneja los errores usando **excepciones**. En cada caso que querramos manejar, vamos a tener que hacer al menos una de estas tres cosas.
 
 1. _lanzar_ una excepción
@@ -44,7 +43,7 @@ NestJS maneja los errores usando **excepciones**. En cada caso que querramos man
 1. _manejar_ las excepciones. Ya vimos que NestJS tiene un manejo básico, tenemos que cambiarlo por uno mejor que hagamos nosotros.
 
 
-### HttpException - qué excepciones lanzamos
+## HttpException - qué excepciones lanzamos
 NestJS incluye excepciones que modelan los distintos status HTTP de error, p.ej. `NotFoundException`, `BadRequestException`, `ForbiddenException`, etc.. A todas estas se les puede mandar un mensaje en el constructor. Todas estas extienden una llamada `HttpException`.  
 Si en la ejecución de un request handler se lanza una excepción de estas, el response va a tener el status correspondiente y el mensaje indicado.  
 P.ej. supongamos que si el código de país es `TPT` queremos que el status de la response sea `418 - I'm a Teapot`. 
@@ -60,7 +59,7 @@ async getInfo(countryIso3Code: string): Promise<CountryInfo> {
 ![Error si se lanza excepción](./images/teapot-thrown.jpg)
 
 
-### Un caso de transformación
+## Un caso de transformación
 Si la llamada al servicio externo da error, axios va a generar una excepción ... que no va a ser de las que maneja NestJS. Por lo tanto, si no hacemos nada, NestJS la va a procesar como cualquier otra excepción que no es suya, y el status del response va a ser 500.  
 Es el caso del primer ejemplo que mostramos: el 404 que responde el servicio al que llamamos se loguea en la consola, pero nuestro endpoint responde un 500.
 
@@ -90,7 +89,7 @@ En lugar de responder un 500 como se ve al principio de esta página, responde u
 Quedan cosas por ajustar: tal vez querramos incluir más información, y/o sacar ese `error` que no dice gran cosa. Tal vez querramos hacer algo con la excepción que obtuvimos de `axios`, que en esta solución estamos perdiendo. Para esto vamos al aspecto que nos falta ...
 
 
-### Manejar las excepciones
+## Manejar las excepciones
 En las excepciones que define NestJS, se puede enviar un objeto en lugar de un String. Si se hace esto, ese objeto va derecho al response.
 En este caso, supongamos que queremos mandar la excepción original, y un saludito para los amigos.
 ``` typescript
@@ -117,7 +116,7 @@ En realidad, el `originalError` no se quiere incluir en la response, supongamos 
 
 Para manejar qué incluimos, o qué no incluimos, en el response body, y para poder realizar otras acciones como p.ej. loguear, tenemos que agregar el **manejo** de excepciones. Para eso se usan los _exception filters_. El detalle sobre esto se puede ver en [la doc de NestJS](https://docs.nestjs.com/exception-filters), acá vamos a dar algunos datos y usarlos.
 
-Un exception filter es una clase que tiene que implementar la interface `ExceptionFilter`. Esta interface es genérica, el parámetro es la clase de excepción (que tiene que ser un descendiente de `Error`,  la mega-super-clase de todo error en JS/TS hasta donde entiendo, ver [la doc de MSN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error).
+Un exception filter es una clase que tiene que implementar la interface `ExceptionFilter`. Esta interface es genérica, el parámetro es la clase de excepción (que tiene que ser un descendiente de `Error`,  la mega-super-clase de todo error en JS/TS hasta donde entiendo, ver [la doc de MSN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)).
 
 Para _activar_ un exception filter hay que hacer dos cosas.
 1. Ponerle a la clase un decorator `@Catch` que indique qué excepciones va a manejar, se le indica la clase de excepción. Sí, es el mismo valor que el parámetro de la clase genérica, no sé por qué hay que poner la misma info dos veces, pero es así.
@@ -217,7 +216,7 @@ Este es un ejemplo de la flexibilidad que da configurar usando instancias en lug
 
 ------
 
-### Varios filtros
+## Varios filtros
 
 Este filtro aplica solamente a las `HttpException`, el resto de las excepciones las está manejando el mecanismo genérico de NestJS. 
 
@@ -265,7 +264,7 @@ y el log aparece en la consola
 ![Control de error genérico - en la consola](./images/generic-error-handling-console.jpg)
 
 
-### Filtros específicos
+## Filtros específicos
 Un backend REST puede incluir varios módulos y controllers, y cada controller puede incluir varios request handlers.  
 NestJS permite definir que un filtro se aplica sólo a un controller, o sólo a un request handler. Aunque no lo encontré en la doc de NestJS, tal vez también se pueda configurar exception filters a nivel de módulo.
 
@@ -342,7 +341,7 @@ Este caso, de acuerdo a lo que se pide, calza justo para el uso de herencia. Pue
 
 ------
 
-### ¿**Dónde** hacer el manejo de errores, en el provider o en el controller?
+## ¿**Dónde** hacer el manejo de errores, en el provider o en el controller?
 
 Al principio trabajamos con el manejo de un 404 en el servicio externo, recién el caso de un país que queremos rechazar.  
 Hay una diferencia importante entre cómo manejamos estos dos casos de error: en el primero el manejo se hace _en el provider_, en el de recién, _en el controller_.
@@ -357,5 +356,40 @@ Supongamos que para resolver un request, se necesita combinar información de va
 
 Acá surge la pregunta: un error para obtener una parte de la información que hay que generar ¿implica que el request tiene que dar error? Otra opción es entregar la información que se tenga, "avisando" de alguna forma que hay información faltante.
 
-Esto va a aparecer al trabajar [combinando información de distintas fuentes](./)
+Esto va a aparecer al trabajar [combinando información de distintas fuentes](./distintas-fuentes.md).
+
+
+## Algunos desafíos
+
+### Agregar un dato a la respuesta del BadBadCountryException
+Lograr que el `BadBadCountryExceptionFilter` agregue un dato en el response body. Por decir algo, el timestamp.  
+Hint: definir un método auxiliar en el `HttpExceptionFilter` que se pueda redefinir en la subclase.
+
+### Especificar tipo del response body
+En `HttpExceptionFilter`, el `responseBody` se define con tipo `any`. Sobre esto dos cosas.
+1. sacar la definición de tipo, ver qué pasa, y sacar conclusiones.
+2. cambiar ese `any` horrible por un tipo adecuado ... que hay que definir, claro.
+
+### Method not Allowed
+Si se hace POST o PUT a una URL que tiene un request handler solamente para el método GET, NestJS hace lo mismo que en cualquier caso en la que no encuentra un request handler para un endpoint: genera un 404.  
+Lograr para una URL específica para la que hay definido un GET request handler, que si se hace POST o PUT a esa misma URL, el status de respuesta sea 405 (Method not Allowed) en lugar de 404.
+
+... claro, sería excelente una solución genérica, pero eso (confieso) no sabría cómo hacerlo. Por ahora, seamos humildes y hagámoslo solamente para una URL.
+
+### Incluir el userId en los response body
+En todos los response body de errores, incluir el valor del header `userId`, si viene en el request.
+
+### Rechazar un request si no viene userId
+En un endpoint, salir con 401 (Unauthorized) si el request no incluye un endpoint `userId`.
+
+### Endpoint que sólo se puede acceder algunos días de la semana
+En un endpoint, salir con 503 (Service Unavailable) para uno, o varios, días de la semana (p.ej. que no sea válido los fines de semana, o que sólo sea válido en fines de semana).  
+Adicionalmente, que la decisión del status code sea del exception filter (hay que hacer un exception filter sólo para esto). El controller sale con una BadWeekDayException (que es una excepción que hay que definir).
+
+### Cuota de acceso a un endpoint
+En el endpoint que obliga a poner `userId`, controlar que un mismo usuario no pueda accederlo más de n veces. Si un usuario excede su cuota, salir con 429 (Too Many Requests).  
+Pensar quién debería ser el encargado de recordar los accesos de cada usuario al endpoint con cuota.
+
+
+
 
