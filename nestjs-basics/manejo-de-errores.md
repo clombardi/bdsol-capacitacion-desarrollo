@@ -44,7 +44,7 @@ NestJS maneja los errores usando **excepciones**. En cada caso que querramos man
 
 
 ## HttpException - qué excepciones lanzamos
-NestJS incluye excepciones que modelan los distintos status HTTP de error, p.ej. `NotFoundException`, `BadRequestException`, `ForbiddenException`, etc.. A todas estas se les puede mandar un mensaje en el constructor. Todas estas extienden una llamada `HttpException`.  
+NestJS incluye excepciones que modelan los distintos status HTTP de error, p.ej. `NotFoundException`, `BadRequestException`, `ForbiddenException`, etc.. A todas estas se les puede mandar un mensaje en el constructor. Todas estas extienden a `HttpException`.  
 Si en la ejecución de un request handler se lanza una excepción de estas, el response va a tener el status correspondiente y el mensaje indicado.  
 P.ej. supongamos que si el código de país es `TPT` queremos que el status de la response sea `418 - I'm a Teapot`. 
 En este caso, tenemos que _lanzar_ una `ImATeapotException`.
@@ -252,7 +252,7 @@ async function bootstrap() {
 }
 ```
 **Atención**  
-Al revés de lo que al menos yo esperaba, hay que registrar _primero_ el filtro más genéricos, y _después_ el más específico; este orden hay que respetarlo. 
+Al revés de lo que al menos yo esperaba, hay que registrar _primero_ el filtro más genérico, y _después_ el más específico; este orden hay que respetarlo. 
 Si se hace al revés, el `GenericExceptionFilter` se encarga también de las `HttpException`.
 
 <br/>
