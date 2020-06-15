@@ -111,7 +111,7 @@ La **primera decisión a tomar** es si en este caso, _el controller de info inte
 - debe dar error, que puede ser un 404, o bien
 - da la info sin incluir los datos de COVID.
 
-Si elegimos la primera opción, podemos manejarnos como lo vimos al trabajar con el [manejo de errores]('./nestjs-basics/manejo-de-errores.md'). 
+Si elegimos la primera opción, podemos manejarnos como lo vimos al trabajar con el [manejo de errores](./manejo-de-errores.md). 
 
 Supongamos que elegimos la segunda opción.  
 ¿Qué valor le damos a `covidData` si no hay data?. Nos gustaría que fuera `undefined` y después hacer algo así:

@@ -342,6 +342,20 @@ Este caso, de acuerdo a lo que se pide, calza justo para el uso de herencia. Pue
 
 ------
 
-### ¿**Dónde** hacer el manejo de errores?
+### ¿**Dónde** hacer el manejo de errores, en el provider o en el controller?
 
-Hay 
+Al principio trabajamos con el manejo de un 404 en el servicio externo, recién el caso de un país que queremos rechazar.  
+Hay una diferencia importante entre cómo manejamos estos dos casos de error: en el primero el manejo se hace _en el provider_, en el de recién, _en el controller_.
+
+El **nivel** en el que se hace el manejo de errores puede ser un tema de debate, y en donde convenga tomar decisiones que se mantengan en forma coherente dentro del código de un microservicio, o incluso para todo un proyecto.  
+P.ej., podría ser discutible que un provider lance una `HttpException`, en realidad un provider no sabe a priori quién lo va a llamar, si otro provider o un controller. Podría decidirse que los providers sólo lanzan excepciones de negocio, y que son los controllers quienes tengan que transformarlas en `HttpException`.  
+En una visión distinta, esto puede ser considerado demasiado burocrático, y decidirse que cada nivel lance la mejor excepción posible. De última, si un controller quiere transformar una `NotFoundException` en otra cosa, nadie se lo impide.
+
+
+### ¿Y si hay operaciones combinadas?
+Supongamos que para resolver un request, se necesita combinar información de varias fuentes: puede ser consultar a la BD y a otro microservicio, o a varios microservicios, o a una combinación con servicios externos. Al consultar a cualquiera de estos, puede generarse un error.
+
+Acá surge la pregunta: un error para obtener una parte de la información que hay que generar ¿implica que el request tiene que dar error? Otra opción es entregar la información que se tenga, "avisando" de alguna forma que hay información faltante.
+
+Esto va a aparecer al trabajar [combinando información de distintas fuentes](./)
+
