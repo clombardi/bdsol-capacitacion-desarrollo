@@ -107,12 +107,13 @@ Notar que se puede especificar el tipo que va a tener cada elemento del array. E
 
 ### Qué pasa si no hay datos COVID
 Hay que contemplar el caso en que el servicio de info COVID no tenga disponibles datos para el pais.  
-La primer decisión a tomar es si en este caso, _el controller de info integrada_:
+La **primera decisión a tomar** es si en este caso, _el controller de info integrada_:
 - debe dar error, que puede ser un 404, o bien
 - da la info sin incluir los datos de COVID.
 
-Vamos a hablar más sobre esto cuando veamos manejo de errores. Por ahora, supongamos que elegimos la segunda opción. 
+Si elegimos la primera opción, podemos manejarnos como lo vimos al trabajar con el [manejo de errores]('./nestjs-basics/manejo-de-errores.md'). 
 
+Supongamos que elegimos la segunda opción.  
 ¿Qué valor le damos a `covidData` si no hay data?. Nos gustaría que fuera `undefined` y después hacer algo así:
 ``` typescript
 if (covidData) { 

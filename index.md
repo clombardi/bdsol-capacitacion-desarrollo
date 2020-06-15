@@ -43,9 +43,10 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Empezamos a armar una app](./nestjs-basics/inicio-app.md)
 
+[Manejo de errores](./nestjs-basics/manejo-de-errores.md)
+
 [Combinar datos de distintas fuentes](./nestjs-basics/distintas-fuentes.md)
 
-[Manejo de errores](./nestjs-basics/manejo-de-errores.md)
 
 
 ## Referencias
