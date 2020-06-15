@@ -45,6 +45,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Combinar datos de distintas fuentes](./nestjs-basics/distintas-fuentes.md)
 
+[Manejo de errores](./nestjs-basics/manejo-de-errores.md)
+
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
