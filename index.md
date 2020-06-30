@@ -47,6 +47,7 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Combinar datos de distintas fuentes](./nestjs-basics/distintas-fuentes.md)
 
+[Middleware - en general y en Nest](./nestjs-basics/middleware-intro.md)
 
 
 ## Referencias

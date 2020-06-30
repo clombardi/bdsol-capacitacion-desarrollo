@@ -165,7 +165,7 @@ Esto es un argumento a favor de llevar la integración más cerca del controller
 
 OK, ya manejamos la excepción para que no rompa el servicio de datos integrados.  
 Tal vez aparezca **otro** problema, este de tipos: si en el `tsconfig.json` tenemos prendido el  `strictNullChecks`, o el `strict` que lo incluye, entonces va a decir que `undefined` no es un valor aceptado para algo que se declara como `CovidRecord`:
-![No acepta `undefined` donde espera un `CovidRecord](./images/undefined-not-admitted.jpg)
+![No acepta `undefined` donde espera un CovidRecord](./images/undefined-not-admitted.jpg)
 
 Para ser ultra-prolijos con los tipos, tenemos que declarar que aceptar `undefined` como resultado de la consulta al `covidDataService`.
 ``` typescript

@@ -189,7 +189,7 @@ Aquí sólo queremos mostrar qué se puede hacer dentro de un exception filter.
 
 ------
 **Nota**{: style="color: SteelBlue"}:  
-Fíjense que lo que se registra es una _instancia_. También podrío sea, que incluso se podría configurar, p.ej. 
+Fíjense que lo que se registra es una _instancia_. Incluso se podría configurar, p.ej. 
 ``` typescript
   app.useGlobalFilters(new HttpExceptionFilter({ includeHostInResponse: false }));
 ```
@@ -325,7 +325,7 @@ Acá un detalle: a nivel de request handlers, (y también de controllers), se pu
 ``` typescript
 @UseFilters(new BadBadCountryExceptionFilter())
 ```
-Pero **atención**, para poder configurar usando una clase, el constructor de la clase que se configura (en este caso, `BadBadCountryExceptionFilter`) _no pued tener parámetros_.
+Pero **atención**, para poder configurar usando una clase, el constructor de la clase que se configura (en este caso, `BadBadCountryExceptionFilter`) _no puede tener parámetros_.
 Para eso definí el constructor en la clase y le pasé el parámetro al llamar al `super`.
 
 
@@ -380,10 +380,13 @@ Lograr para una URL específica para la que hay definido un GET request handler,
 En todos los response body de errores, incluir el valor del header `userId`, si viene en el request.
 
 ### Rechazar un request si no viene userId
-En un endpoint, salir con 401 (Unauthorized) si el request no incluye un endpoint `userId`.
+En un endpoint a elección (uno solo), salir con 401 (Unauthorized) si el request no incluye un endpoint `userId`.
+
+### País insignificante
+En un endpoint que brinda datos de país, salir con 400 (Bad request) si la población del país es menor a 100000 habitantes. El mensaje que sea "Country too small".
 
 ### Endpoint que sólo se puede acceder algunos días de la semana
-En un endpoint, salir con 503 (Service Unavailable) para uno, o varios, días de la semana (p.ej. que no sea válido los fines de semana, o que sólo sea válido en fines de semana).  
+En un endpoint a elección (uno solo), salir con 503 (Service Unavailable) para uno, o varios, días de la semana (p.ej. que no sea válido los fines de semana, o que sólo sea válido en fines de semana).  
 Adicionalmente, que la decisión del status code sea del exception filter (hay que hacer un exception filter sólo para esto). El controller sale con una BadWeekDayException (que es una excepción que hay que definir).
 
 ### Cuota de acceso a un endpoint
