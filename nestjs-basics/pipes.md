@@ -48,6 +48,10 @@ export class AddExpenseRequestDTO {
 }
 ```
 
+**Súper importante**  
+Para usar `class-validator`, hay que usar una _clase_ para modelar el request body. ¿Por qué? Porque las interfaces no pasan la transpilación, y se necesita una estructura que esté presente en el runtime para poder implementar las validaciones.  
+Por esta razón, `AddExpenseRequestDTO` es una `class` y no una `interface`.
+
 Este es un ejemplo de request que genera varios errores de validación.
 ![request con tres errores](./images/validaton-pipe-three-errors.jpg)
 
@@ -123,7 +127,8 @@ Una validación interesante es `@Matches`, que recibe una [expresión regular](h
 y se comporta como uno espera
 ![regex](./images/validaton-pipe-regex.jpg)
 
-Finalmente, mencionamos que se pueden definir _custom validators_, ver los detalles en la [documentación de class-validator](https://github.com/typestack/class-validator).
+Finalmente, mencionamos que se pueden definir _custom validators_, ver los detalles en la [documentación de class-validator](https://github.com/typestack/class-validator#custom-validation-classes) o en [este post en Stack Overflow](https://stackoverflow.com/questions/60451337/password-confirmation-in-typescript-with-class-validator).
+
 
 
 ### Comentario - integración de packages
@@ -133,6 +138,81 @@ La integración con `class-validator` es otro ejemplo: no repite funcionalidad q
 
 
 ## Pipes de tipos particulares
+Para usar el `ValidatorPipe`, hay que definir una clase que modele a los datos de request (body / parámetros de path o query / headers) que se quieran validar.  
+A veces es cómodo trabajar con datos de tipos básicos. P.ej. tenemos este endpoint de un servicio sobre fechas, que devuelve el resultado de sumarle una cantidad de días a una fecha.
+``` typescript
+@Get(':date/plus/:days')
+getDatePlusDays(@Param("date") rawDate: string, @Param("days") days: number): DateDTOPlus {
+    const theDate = moment.utc(rawDate, stdDateFormat)
+    return { 
+        date: moment(theDate).add(days, 'days').format(stdDateFormat),
+        daysPlusOne: days + 1
+    }
+}
+```
+Uno puede pensar, ingenuamente, que al ponerle el tipo `number` al segundo parámetro, va a haber una magia de NestJS que transforme el string que llega en el request en un número. Pero no, para verificar esto es que agregamos el atributo `daysPlusOne` en el response. Veamos un ejemplo.
+![parámetro "numérico" se porta como String](./images/number-path-param-is-string.jpg)
+pero ¿¿cómo?? si defino un parámetro como `number`, ¿cómo es que se porta desvergonzadamente como un String? Recordemos que los tipos no permanecen al transpilar a JavaScript, y este dato llega por un request, está claro que la conversión no es automática.  
+La siguiente pregunta es cómo es que anda la suma de fechas. La respuesta es que `moment` soporta que en el `add` se le pase un String en el parámetro en el que se indica la cantidad de días a sumar, y lo pasa a número. Si se le pasa un String que no representa un número, lo toma como 0. 
+![parámetro "numérico" inválido se toma como 0](./images/number-path-param-invalid-is-zero.jpg)
+
+NestJS incluye un pipe llamado `ParseIntPipe` que parece inventado exactamente para  este caso. La forma de usarlo es muy sencilla.
+``` typescript
+@Get(':date/plus/:days')
+getDatePlusDays(@Param("date") rawDate: string, @Param("days", ParseIntPipe) days: number): DateDTOPlus {
+    const theDate = moment.utc(rawDate, stdDateFormat)
+    return { 
+        date: moment(theDate).add(days, 'days').format(stdDateFormat),
+        daysPlusOne: days + 1
+    }
+}
+```
+Este pipe hace las dos cosas que queremos: transforma
+![parámetro numérico se toma como número](./images/number-path-param-transform.jpg)
+y valida
+![parámetro numérico inválido se rechaza](./images/number-path-param-invalid-is-checked.jpg)
+
+
+### Definir un custom Pipe no es difícil
+Nos gustaría hacer algo semejante con el otro parámetro de path, la fecha. Que valide que sea una fecha válida en el formato que elegimos, que es `YYYY-MM-DD`, y que transforme en `moment.Moment`.  
+Para eso, alcanza con implementar un Pipe. Resultó ser llamativamente fácil.
+``` typescript
+@Injectable()
+export class ParseDatePipe implements PipeTransform<string, moment.Moment | null> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    transform(value: string, metadata: ArgumentMetadata) {
+        const theMoment = moment.utc(value, stdDateFormat)
+        if (!theMoment.isValid()) {
+            throw new BadRequestException(`Value ${value} is not a valid date`)
+        }
+        return theMoment
+    }
+}
+```
+Los detalles, incluso para qué puede ser útil la `metadata`, se pueden consultar en [la página sobre Pipes en la documentación](https://docs.nestjs.com/pipes). Aquí sólo señalamos que si el valor no pasa la validación, lo que corresponde hacer es lanzar una `BadRequestException` con un mensaje adecuado.
+
+Este Pipe es tan fácil de usar como el que provee NestJS
+``` typescript
+@Get(':date/plus/:days')
+getDatePlusDays(
+    @Param("date", ParseDatePipe) theDate: moment.Moment, 
+    @Param("days", ParseIntPipe) days: number): DateDTOPlus 
+{
+    return { 
+        parsedDate: theDate,
+        date: moment(theDate).add(days, 'days').format(stdDateFormat),
+        daysPlusOne: days + 1
+    }
+}
+```
+(agregamos `parsedDate` para que se vea la fecha en el response)  
+obsérvese que ahora el parámetro se define como de tipo `moment.Moment`, y que no se realiza la conversión dentro del request handler, porque de esto se encarga el Pipe.  
+
+Este pipe también se comporta correctamente en la transformación:
+![parámetro date se toma como moment](./images/date-path-param-transform.jpg)
+y en la validación:
+![parámetro date inválido se rechaza](./images/date-path-param-invalid-is-checked.jpg)
+
 
 
 
@@ -143,3 +223,6 @@ Definir un `enum` para los valores posibles de `responsible`. Usar la validació
 
 ### Descuento menor al importe
 Agregar un atributo `discount`, que si está, su valor tiene que ser menor al de `amount`. Definir un custom validator para esto.
+
+### Procesar los errores que lanza el ValidationPipe
+Configurar un `ExceptionFilter` que maneje los errores que lanza el `ValidationPipe`, para que el response sea más resumido, p.ej. que incluya sólo los `constraints` de cada mensaje.
