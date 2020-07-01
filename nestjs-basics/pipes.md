@@ -1,5 +1,5 @@
 # Pipes
-En esta página vamos a comentar el rol de los _`Pipes`_, uno de los tipos específicos de middleware que provee NestJS. La información completa sobre este tema se puede consultar a partir [la página correspondiente en la documentación de NestJS](https://docs.nestjs.com/pipes).
+En esta página vamos a comentar el rol de los _Pipes_, uno de los tipos específicos de middleware que provee NestJS. La información completa sobre este tema se puede consultar a partir [la página correspondiente en la documentación de NestJS](https://docs.nestjs.com/pipes).
 
 El objetivo de los Pipes es hacer validaciones, y en algunos casos también transformaciones, sobre los _datos de entrada_, o sea los que llegan en el request: body, headers, parámetros de path y de query.
 
@@ -48,8 +48,8 @@ export class AddExpenseRequestDTO {
 }
 ```
 
-**Súper importante**  
-Para usar `class-validator`, hay que usar una _clase_ para modelar el request body. ¿Por qué? Porque las interfaces no pasan la transpilación, y se necesita una estructura que esté presente en el runtime para poder implementar las validaciones.  
+> **Súper importante**  
+> Para usar `class-validator`, hay que usar una _clase_ para modelar el request body. ¿Por qué? Porque las interfaces no pasan la transpilación, y se necesita una estructura que esté presente en el runtime para poder implementar las validaciones.  
 Por esta razón, `AddExpenseRequestDTO` es una `class` y no una `interface`.
 
 Este es un ejemplo de request que genera varios errores de validación.
@@ -70,7 +70,7 @@ El atributo `@IsOptional` deshabilita todos los chequeos si el atributo no está
 
 Obsérvese la diferencia con el campo `responsible` en el primer ejemplo de request: al no tener valor, se considera vacío y se aplica la validación. Por otro lado, el campo `comments`, que no tiene ninguna validación (el `@Allow` sólo "registra" el atributo para `class-validator`), puede o no estar.
 
-Para este ejemplo, el comportamiento del servicio es responder con el request.
+Para este ejemplo, el comportamiento del servicio es responder con el request, haciéndole una mínima transformación.
 ``` typescript
 @Post()
 @UsePipes(new ValidationPipe())

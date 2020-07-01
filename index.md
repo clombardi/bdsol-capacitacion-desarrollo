@@ -51,6 +51,9 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Middleware específicos de Nest - Pipes](./nestjs-basics/pipes.md)
 
+[Middleware específicos de Nest - Guards](./nestjs-basics/guards.md)
+
+
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 
