@@ -53,6 +53,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Middleware específicos de Nest - Guards](./nestjs-basics/guards.md)
 
+[Middleware específicos de Nest - Interceptors](./nestjs-basics/interceptors.md)
+
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
