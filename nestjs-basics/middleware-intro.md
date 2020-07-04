@@ -56,6 +56,8 @@ Otro ejemplo de middleware de propósito específico es el de los `ExceptionFilt
 
 Adicionalmente, NestJS provee implementaciones standard para algunos de los tipos de middleware que define, en particular para los relacionados con validación de datos de entrada.
 
+Es interesante señalar que agregar un middleware resulta muy sencillo: el boilerplate code es muy reducido, y la configuración consiste en agregar un decorator, o bien una línea en la función `bootstrap`. Y eso es todo. Y andan.
+
 Estas herramientas simplifican el manejo de varias de las problemáticas para las que se suele usar middleware; representan parte del valor agregado que se obtiene al utilizar NestJS.  
 Algunas de ellas son utilizadas en los microservicios de Banco del Sol.
 

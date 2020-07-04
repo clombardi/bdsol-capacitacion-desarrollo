@@ -89,12 +89,25 @@ y muestra la información indicada por consola
 ## Desafíos
 
 ### Control de acceso
-Uno de los desafíos en la [página sobre manejo de errores](./manejo-de-errores.md), es validar los requests para un endpoint tienen que incluir un header `userId`, rechanzando los que no tengan con un `401 - Unauthorized`. Pasar esta validación a un Guard, y habilitarlo para todos los endpoints de una aplicación.
+Uno de los desafíos en la [página sobre manejo de errores](./manejo-de-errores.md), es validar los requests para un endpoint tienen que incluir un header `userId`, rechanzando los que no tengan con un `401 - Unauthorized`.  
+Pasar esta validación a un Guard, y habilitarlo para todos los endpoints de una aplicación.
+
+### Cuotas de acceso por usuarios
+Otro de los desafíos en la página sobre manejo de errores, es establecer cuotas de acceso para usuarios a un determinado endpoint.  
+Hacer este control mediante un Guard. Que la cuota sea específica para un endpoint determinado, que se obtiene mediante el request.
 
 ### Configurar la lista de países peligrosos
 Permitir que se pueda configurar la lista de países peligrosos del Guard `ForbidDangerousCountries` _mediante accesos a la aplicación_ (o sea, sin tocar código).  
 Una forma es habilitar un `Post` que agregue un país, y un `Delete` que elimine uno. Dejar todo en memoria por el momento, en breve viene la integración con bases de datos.
 
-
+### Agregar timestamp y un saludito en la response
+Implementar un interceptor que agrega en todas las response un nuevo atributo `generalData`, con este formato
+``` json
+{ 
+    "timestamp": "2019-12-28T00:00:00Z",
+    "greeting": "Hi user <userId>"
+}
+```
+Si la respuesta está vacía, no es un JSON, o ya tiene un atributo `generalData`, no hacer nada.
 
 

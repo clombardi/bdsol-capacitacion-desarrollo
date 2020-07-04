@@ -87,5 +87,58 @@ Se obtiene el resultado esperado
 
 
 ## Log
+Para hacer una descripción un poco más completa de lo que se puede hacer mediante interceptors, hagamos uno que simplemente loguee el endpoint.
+``` typescript
+@Injectable()
+export class LogEndpointInterceptor implements NestInterceptor {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        const httpContext = context.switchToHttp()
+        const request = httpContext.getRequest();
+        console.log(`Serving URL ${request.originalUrl}`)
+        return next.handle()
+    }
+}
+``` 
+Hagamos que este endpoint tenga alcance global
+``` typescript
+async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    // ... otras configuraciones
+    app.useGlobalInterceptors(new LogEndpointInterceptor());
+    await app.listen(/* port */);
+}
+```
+
+Listo, funciona. 
+![log endpoints](./images/interceptors-log-endpoint.jpg)
+
+Y en el caso del endpoint afectado por el `SumPopulationInterceptor`, se ejecutan _los dos_ interceptors. 
+
 
 ## Desafíos
+Cerramos esta pequeña revisión de variantes de middleware disponibles en NestJS, con unos pequeños desafíos para implementar.
+
+### Pregunta sencilla
+¿Qué pasa si quiero "ahorrarme" una línea en la definición del `LogEndpointInterceptor`, de esta forma?
+``` typescript
+@Injectable()
+export class LogEndpointInterceptor implements NestInterceptor {
+    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        const httpContext = context.switchToHttp()
+        const request = httpContext.getRequest();
+        console.log(`Serving URL ${request.originalUrl}`)
+        // return next.handle()
+    }
+}
+``` 
+Antes de comentar la línea, pensar qué va a pasar.
+
+### Interceptor selectivo
+Supongamos que en el controller de datos de países, tenemos algunos endpoints, no todos, cuyo resultado es una lista de datos de países. Lograr que se pueda configurar el interceptor a nivel de controller, o sea poner en el controller 
+``` typescript
+@UseInterceptors(new SumPopulationInterceptor())
+export class CountryDataController {
+    // implementacion
+}
+``` 
+En el interceptor, detectar si la respuesta es una `ListWithPopulations`. De ser así hay que aplicarle la transformación, caso contrario la response tiene quedar sin modificaciones.
