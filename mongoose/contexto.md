@@ -81,7 +81,8 @@ Para almacenar la información de vuelos y pasajes, podemos usar una sola colecc
         ]
     },
     {
-        "numero_de_vuelo": 3043, "fecha": "15/10/2020", "origen": "Bombay", "destino": "Nueva Delhi", "pasajes": []
+        "numero_de_vuelo": 3043, "fecha": "15/10/2020", "origen": "Bombay", "destino": "Nueva Delhi", 
+        "pasajes": []
     },
     {
         "numero_de_vuelo": 3048, "fecha": "17/10/2020", "origen": "Bangalore", "destino": "Calcuta",
@@ -91,7 +92,8 @@ Para almacenar la información de vuelos y pasajes, podemos usar una sola colecc
         ]
     },
     {
-        "numero_de_vuelo": 3114, "fecha": "02/11/2020", "origen": "Jaipur", "destino": "Agra", "pasajes": []
+        "numero_de_vuelo": 3114, "fecha": "02/11/2020", "origen": "Jaipur", "destino": "Agra", 
+        "pasajes": []
     }
 ]
 ``` 
