@@ -40,7 +40,7 @@ A partir de estas ideas de identificador unívoco y de vinculación, surgen vari
 En este caso, tenemos:
 - la PK de vuelos es el número de vuelo, la PK de pasajes es el número de pasaje.
 - En pasajes, tenemos una FK a la tabla de vuelos.
-- Esta sería una consulta que trae algunos datos de los pasajes del vuelo 3041, incluyendo los que están en la tabla de vuelos
+- Esta sería una consulta que trae algunos datos de los pasajes del vuelo 3041, tomándolos de las tablas de vuelos y pasajes.
 ``` sql
 SELECT vuelos.numero_de_vuelo, vuelos.origen, vuelos.destino, pasajes.asiento
 FROM pasajes
@@ -65,15 +65,15 @@ En este modelo (contado tan ultra-rápidamente como hicimos con el modelo relaci
 | Fila | Documento |
 | Columna | Atributo |
 
-No, no es lo mismo, porque hay diferencias.  
-Tal vez la más relevante es que el valor de un atributo en el modelo relacional puede ser un dato compuesto: un sub-documento, un array, o combinaciones. En una celda sólo puede ir un dato simple: un string, un número, OK también un [BLOB](https://en.wikipedia.org/wiki/Binary_large_object) y ahí se puede poner cualquier cosa, pero una base relacional (al menos en principio) no puede interpretar qué hay adentro de un BLOB.
+Esta correspondencia es correcta. Pero los modelos no son iguales.  
+La diferencia tal vez más relevante es que el valor de un atributo en el modelo relacional puede ser un dato compuesto: un sub-documento, un array, o combinaciones. En una celda sólo puede ir un dato simple: un string, un número, OK también un [BLOB](https://en.wikipedia.org/wiki/Binary_large_object) y ahí se puede poner cualquier cosa, pero una base relacional (al menos en principio) no puede interpretar qué hay adentro de un BLOB.
 
 Para almacenar la información de vuelos y pasajes, podemos usar una sola colección de vuelos, donde cada vuelo tiene un atributo compuesto `pasajes`.
 
 ``` json
 [
     {
-        "numero_de_vuelo": 3041, "fecha" "12/10/2020", "origen": "Calcuta", "destino": "Madrás",
+        "numero_de_vuelo": 3041, "fecha": "12/10/2020", "origen": "Calcuta", "destino": "Madrás",
         "pasajes": [
             { "numero_de_pasaje": "AA439J9", "asiento": "32A", "pasajero": "Juana Molina" },
             { "numero_de_pasaje": "AA809X1", "asiento": "21C", "pasajero": "Analía Susini" },
@@ -98,3 +98,30 @@ Para almacenar la información de vuelos y pasajes, podemos usar una sola colecc
 ]
 ``` 
 
+La información que en el modelo relacional requiere dos tablas, aquí se puede incluir en una sola colección.
+
+
+### Cómo se reflejan algunos conceptos
+Los conceptos de _clave primaria_ e _índice_ aplican también a este modelo. En particular, Mongo agrega un atributo `_id` a cada documento al agregarlo en una colección.
+
+Al permitir la agrupación de más información en una misma colección, los _`JOIN`_ son menos relevantes. 
+La misma consulta indicada arriba, se puede expresar en Mongo de esta forma:
+``` javascript
+db.vuelos.find(
+    {"numero_de_vuelo": 3041}, 
+    {"_id": false, "numero_de_vuelo": true, "origen": true, "destino": true, "pasajes": true}
+)
+```
+
+También es posible realizar búsquedas dentro de los atributos compuestos. Esta consulta permite obtener los números de los vuelos en los que viaja una determinada persona
+``` javascript
+db.vuelos.find(
+    {"pasajes.pasajero": "Melina Sánchez"}, 
+    {"numero_de_vuelo": true, "_id": false}
+)
+```
+
+Respecto de la _integridad referencial_, en los casos en que se agrupa la información en una única colección el concepto deja de tener sentido, y si existen datos relacionados en colecciones distintas ... este tipo de bases no incluye funcionalidades que garanticen consistencia, será responsabilidad de quienes la usen.
+
+
+## 
