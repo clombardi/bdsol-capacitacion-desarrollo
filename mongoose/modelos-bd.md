@@ -1,18 +1,12 @@
-# Llegando a Mongoose
-
-## Bases de datos y librerías
+# Bases de datos relacionales y de documentos
 Dentro del recorrido que estamos haciendo, llega el momento de interactuar con _bases de datos_.   
 
-El acceso a bases de datos desde una aplicación, se hace (al menos casi-casi-siempre) mediante librerías.  
-Algunas de estas librerías son básicamente conectores que permiten ejecutar las operaciones de BD desde un programa, digamos que son librerías de _bajo nivel_. Un ejemlo es la venerable librería [JDBC](https://www.javatpoint.com/java-jdbc) de Java.  
-Hay otras librerías de más _alto nivel_, que incluyen funcionalidades que simplifican la interacción con bases de datos, en distintos aspectos que pueden incluir
-- el modelado de datos, incluyendo validaciones y transformaciones.
-- el manejo de transacciones.
-- el manejo de sesiones.
-- la definición de caches.
-- herramientas para tests.
+En esta capacitación vamos a trabajar con dos bases de datos de características muy distintas, porque responden a distintos _modelos_.
 
-En esta capacitación vamos a usar dos librerías de alto nivel. Para describirlas, tenemos que hablar del tipo de base de datos al que aplica cada una.
+En esta etapa vamos a estudiar [MongoDB](https://www.mongodb.com/es), una _base de datos de documentos_.  
+Más adelante, cubriremos [PostgreSQL](https://www.postgresql.org/), una _base de datos relacional_.
+
+Empecemos con una ultra-breve descripción de estos dos modelos de bases de datos.
 
 
 ## Bases de datos relacionales
@@ -124,4 +118,13 @@ db.vuelos.find(
 Respecto de la _integridad referencial_, en los casos en que se agrupa la información en una única colección el concepto deja de tener sentido, y si existen datos relacionados en colecciones distintas ... este tipo de bases no incluye funcionalidades que garanticen consistencia, será responsabilidad de quienes la usen.
 
 
-## 
+## Tendencia a la convergencia
+Al avanzar en proyectos donde se adopta una BD que corresponde a un modelo, muchas veces se encuentran situaciones o requerimientos que hacen conveniente incorporar características de otro modelo.
+
+Esto empuja a la _convergencia_ entre modelos: bases de datos que responden a un modelo, van incorporando paulatinamente características que se asocian a un modelo distinto, tratando de reunir "lo mejor de distintos mundos".
+
+Por ejemplo, en sucesivas versiones de MongoDB, se incorporan características que es más común encontrar en bases de datos relacionales. En particular
+- se potencia la capacidad de hacer `joins` entre varias colecciones en una consulta, utilizando el [operador `$lookup`](https://docs.mongodb.com/manual/reference/operator/aggregation/lookup/).
+- se robustece el soporte para transacciones [ACID](https://www.geeksforgeeks.org/acid-properties-in-dbms/), en particular [a partir de la versión 4.0](https://www.mongodb.com/blog/post/mongodb-multi-document-acid-transactions-general-availability).
+
+
