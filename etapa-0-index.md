@@ -55,4 +55,6 @@
 
 
 ## Mongoose
-[Bases de documentos, mongo, Mongoose](./mongoose/contexto.md)
+[Bases de datos relacionales y de documentos](./mongoose/modelos-bd.md)
+
+[Librerias](./mongoose/librerias.md)
