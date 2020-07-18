@@ -22,10 +22,12 @@ El más difundido sigue siendo el _modelo relacional_, que es el que más probab
 En este modelo, para decirlo ultra-rápidamente (estamos resumiendo un libro en dos frases), en este modelo una base de datos es un conjunto de tablas, y cada tabla es como una hoja de planilla de cálculo, con filas y columnas, donde en cada celda va un dato simple.  
 Para representar p.ej. los vuelos de una aerolínea y los pasajes que se venden, se necesitan dos tablas, una de vuelos y otra de pasajes.
 
-Esta sería una posible tabla de vuelos  
+Esta sería una posible tabla de vuelos
+
 ![tabla de vuelos](./images/vuelos.jpg)
 
-y esta una de pasajes  
+y esta una de pasajes
+
 ![tabla de pasajes](./images/pasajes.jpg)
 
 Las dos tablas se pueden vincular mediante el dato de número de vuelo, que _identifica unívocamente_ el vuelo (o sea, no puede haber dos vuelos con el mismo número).  
