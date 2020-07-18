@@ -73,25 +73,25 @@ Para almacenar la información de vuelos y pasajes, podemos usar una sola colecc
 ``` json
 [
     {
-        numero_de_vuelo: 3041, fecha: '12/10/2020', origen: 'Calcuta', destino: 'Madrás',
-        pasajes: [
-            { numero_de_pasaje: 'AA439J9', asiento: '32A', pasajero: 'Juana Molina' },
-            { numero_de_pasaje: 'AA809X1', asiento: '21C', pasajero: 'Analía Susini' },
-            { numero_de_pasaje: 'BX391L2', asiento: '12F', pasajero: 'Teresa Enríquez' }
+        "numero_de_vuelo": 3041, "fecha" "12/10/2020", "origen": "Calcuta", "destino": "Madrás",
+        "pasajes": [
+            { "numero_de_pasaje": "AA439J9", "asiento": "32A", "pasajero": "Juana Molina" },
+            { "numero_de_pasaje": "AA809X1", "asiento": "21C", "pasajero": "Analía Susini" },
+            { "numero_de_pasaje": "BX391L2", "asiento": "12F", "pasajero": "Teresa Enríquez" }
         ]
     },
     {
-        numero_de_vuelo: 3043, fecha: '15/10/2020', origen: 'Bombay', destino: 'Nueva Delhi', pasajes: []
+        "numero_de_vuelo": 3043, "fecha": "15/10/2020", "origen": "Bombay", "destino": "Nueva Delhi", "pasajes": []
     },
     {
-        numero_de_vuelo: 3048, fecha: '17/10/2020', origen: 'Bangalore', destino: 'Calcuta',
-        pasajes: [
-            { numero_de_pasaje: 'JJ428U7', asiento: '03B', pasajero: 'Rosa Amarilla' },
-            { numero_de_pasaje: 'JX304N1', asiento: '04B', pasajero: 'Melina Sánchez' }
+        "numero_de_vuelo": 3048, "fecha": "17/10/2020", "origen": "Bangalore", "destino": "Calcuta",
+        "pasajes": [
+            { "numero_de_pasaje": "JJ428U7", "asiento": "03B", "pasajero": "Rosa Amarilla" },
+            { "numero_de_pasaje": "JX304N1", "asiento": "04B", "pasajero": "Melina Sánchez" }
         ]
     },
     {
-        numero_de_vuelo: 3114, fecha: '02/11/2020', origen: 'Jaipur', destino: 'Agra', pasajes: []
+        "numero_de_vuelo": 3114, "fecha": "02/11/2020", "origen": "Jaipur", "destino": "Agra", "pasajes": []
     }
 ]
 ``` 
