@@ -175,6 +175,8 @@ El "casi" es porque todavía hay dos datos más de los que incluimos en el docum
 
 
 ## Algunas pruebas para hacer
+Notar que en el documento que agregamos, no se incluyen todos los atributos definidos en el esquema. Revisar cómo quedó.
+
 Intentar el agregado de documentos que no cumplen con las validaciones definidas en el esquema.
 
 Crear un documento a partir de un objeto que incluya atributos no definidos en el esquema, insertarlo, ver qué pasa.
