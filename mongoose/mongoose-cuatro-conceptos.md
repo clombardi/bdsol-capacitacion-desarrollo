@@ -1,9 +1,10 @@
 # Arranquemos con Mongoose
 En esta página, daremos una brevísima introducción a Mongoose. 
-El obejtivo es presentar un conjunto mínimo de elementos que sean suficientes para comenzar a interactuar con una base MongoDB desde un programa.  
-En un primer momento usaremos JavaScript como lenguaje y haremos pequeños scripts que ejecutaremos usando Node. Luego de adquiridos los elementos básicos, veremos cómo utilizarlos desde una aplicación NestJS en TypeScript.
-
+El objetivo es presentar un conjunto mínimo de elementos que sean suficientes para comenzar a interactuar con una base MongoDB desde un programa.  
+En este material, y en general en la capacitación, nos limitaremos a presentar algunos elementos, con los links para que cada uno siga explorando.  
 En esta página, y en las que siguen, nos limitaremos a presentar los elementos que utilicemos. Los detalles se pueden consultar en la [documentación de Mongoose](https://mongoosejs.com/docs/). Incluiremos los links específicos dentro de esta documentación, que incluyan información extendida de distintos temas que iremos tocando.
+
+En un primer momento usaremos JavaScript como lenguaje y haremos pequeños scripts que ejecutaremos usando Node. Luego de adquiridos los elementos básicos, veremos cómo utilizarlos desde una aplicación NestJS en TypeScript.
 
 La interface de Mongoose puede explicarse a partir de cuatro conceptos
 1. **conexión**: acceso a una BD.
@@ -139,9 +140,45 @@ await firstResult.save()
 > Sí ... y lo veremos en una etapa posterior.
 
 
+## Más sobre documentos
+Si probamos esto
+``` javascript
+const allTheRequests = await accountRequestModel.find();
+const firstRequest = allTheRequests[0]
+return {...firstRequest, greeting: "Hola"}
+```
+el resultado va a ser más largo de lo que esperamos. La razón es que `firstRequest`, como vimos recién, es un documento Mongoose, que incluye información propia de Mongoose, además de la información propia del documento que obtuvimos de la base.
+
+Para que nos quede el objeto "limpio", usamos `toObject()`.
+``` javascript
+const allTheRequests = await accountRequestModel.find();
+const firstRequest = allTheRequests[0]
+return {...firstRequest.toObject(), greeting: "Hola"}
+```
+
+Ahora sí obtenemos (casi) el resultado esperado.
+``` json
+{
+  _id: 5e929cfbfc8c3d6370dc0c1c,
+  customer: 'Pedro Navaja',
+  status: 'Pending',
+  requiredApprovals: 21,
+  date: 1585699200000,
+  __v: 0,
+  greeting: 'Hola'
+}
+```
+
+El "casi" es porque todavía hay dos datos más de los que incluimos en el documento. Pero esos son correctos.
+- el `_id` es el identificador que MongoDB le agrega automáticamente a todo documento.
+- el `__v` es la _versión_, que se usa para chequeos de modificaciones concurrentes.
+
+
 ## Algunas pruebas para hacer
 Intentar el agregado de documentos que no cumplen con las validaciones definidas en el esquema.
 
 Crear un documento a partir de un objeto que incluya atributos no definidos en el esquema, insertarlo, ver qué pasa.
 
 Ver en la documentación [sobre modelos](https://mongoosejs.com/docs/api/model.html) cómo hacer para borrar un documento, y probar. Verán que hay varias opciones, creo que la recomendada es `findOneAndDelete`.
+
+En la [documentación sobre `toObject()`](https://mongoosejs.com/docs/api/document.html#document_Document-toObject), buscar cómo hacer para que no incluya el atributo correspondiente a la versión. 

@@ -60,3 +60,5 @@
 [Librerias](./mongoose/librerias.md)
 
 [Arranquemos con Mongoose](./mongoose/mongoose-cuatro-conceptos.md)
+
+[Búsqueda de documentos](./mongoose/busqueda-basicos.md)
