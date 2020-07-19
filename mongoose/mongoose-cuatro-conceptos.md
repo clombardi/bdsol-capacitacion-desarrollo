@@ -157,7 +157,7 @@ return {...firstRequest.toObject(), greeting: "Hola"}
 ```
 
 Ahora sí obtenemos (casi) el resultado esperado.
-``` json
+``` javascript
 {
   _id: 5e929cfbfc8c3d6370dc0c1c,
   customer: 'Pedro Navaja',
@@ -180,6 +180,8 @@ Notar que en el documento que agregamos, no se incluyen todos los atributos defi
 Intentar el agregado de documentos que no cumplen con las validaciones definidas en el esquema.
 
 Crear un documento a partir de un objeto que incluya atributos no definidos en el esquema, insertarlo, ver qué pasa.
+
+Ver en la documentación [sobre SchemaTypes](https://mongoosejs.com/docs/schematypes.html) cómo poner un valor por defecto para un atributo, y usarlo para indicar un status y/o cantidad de aprobaciones necesarias por defecto.
 
 Ver en la documentación [sobre modelos](https://mongoosejs.com/docs/api/model.html) cómo hacer para borrar un documento, y probar. Verán que hay varias opciones, creo que la recomendada es `findOneAndDelete`.
 

@@ -16,12 +16,12 @@ Esto puede ser distinto en librerías que apunten a ser compatibles con distinta
 Los criterios de búsqueda en Mongo _son un mundo_, hay muchísimas opciones, pensadas para poder efectura distintas operaciones en forma eficiente sobre bases con muchos datos.  
 Encontramos la documentación en [el sitio de MongoDB](https://docs.mongodb.com/manual/reference/operator/query/).
 
+En esta página, nos limitamos a mostrar algunos casos sencillos.
+
 > **Comentario**  
 > Un aspecto a considerar cuando se piensa en la _eficiencia_ en una operación que involucra datos que están en una base, es si conviene que el procesamiento lo haga la base, o bien si conviene enviar datos más "crudos" al servidor de lógica de negocio, y que el procesamiento se haga ahí.  
 > Un ejemplo extremo: para obtener la suma de los puntos obtenidos por un millón de jugadores en un juego online, suele ser más eficiente hacer la suma en la base y que al servicio viaje un número, que pasar el millón de objetos al servicio para que resuelva el cálculo. La razón es el tiempo de transmisión de los datos de la base al servicio.   
 > Sobre esto hay mucho escrito, pensado y estudiado; aquí nos limitamos a mencionar este tema para agregarlo a la visión de "cosas que se pueden pensar" al resolver un servicio.
-
-En esta página, nos limitamos a mostrar algunos casos sencillos.
 
 Recordemos la definición de esquema y modelo.
 ``` javascript
