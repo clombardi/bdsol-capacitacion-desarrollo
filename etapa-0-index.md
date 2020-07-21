@@ -64,3 +64,7 @@
 [Búsqueda de documentos](./mongoose/busqueda-basicos.md)
 
 [Algo más sobre esquemas](./mongoose/esquema-avanzados.md)
+
+
+## Integración de base de datos en aplicación Nest
+[TS + Nest + Mongoose](./mongoose-nest/ts-nest-mongoose.md)
