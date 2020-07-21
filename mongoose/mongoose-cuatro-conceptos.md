@@ -45,7 +45,7 @@ Un esquema es la _especificación_ de la forma que van a tener documentos que se
 Notar que todavía no hablamos de _colecciones_: sólo estamos especificando qué _atributos_ debe tener un _documento_.  
 Para cada atributo se define el tipo de dato, y eventualmente configuraciones adicionales. Varias de estas configuraciones tienen que ver con validaciones. 
 
-Esta es la defnición de un esquema con cuatro atributos sencillos.
+Esta es la defnición de un esquema con cuatro atributos sencillos, una versión ultra-simplificada de un modelo de solicitudes de cuenta.
 ``` javascript
 const accountRequestSchema = new mongoose.Schema({
     customer: { type: String, required: true },

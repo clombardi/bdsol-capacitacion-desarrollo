@@ -20,10 +20,6 @@ La otra es más general: analizar las diferencias que aparecen entre los tipos d
 
 Esto no quiere decir que se recomiende tipar todo, todo el tiempo; la decisión de maximizar el tipado se tomó a efectos demostrativos.
 
-Debemos recordar que para usar una versión tipada de Mongoose debemos incorporar el package `@types/mongoose`, o sea.
-```
-> npm install @types/mongoose --save-dev
-```
 
 ## El ejemplo - solicitudes de cuenta
 Vamos a usar el mismo dominio de solicitudes de cuenta con el que practicamos [el uso de Mongoose sobre JavaScript](../mongoose/mongoose-cuatro-conceptos.md). Podemos incluso consultar las mismas solicitudes que agregamos usando JavaScript.
@@ -31,3 +27,10 @@ Vamos a usar el mismo dominio de solicitudes de cuenta con el que practicamos [e
 Para arrancar, hay que definir un nuevo módulo en una aplicación Nest, con su controller y su service.  
 Para construir sobre algo ya armado, armemos un endpoint `@Get` que devuelve una lista fija de `AccountRequest`s que se define en el servicio (para ya tener armado el camino controller -> service).  
 Pueden dejar la fecha para más adelante ... o no, como prefiera cada une.
+
+
+## Para practicar un poco más
+Incluir los siguientes middleware de Nest para que actúen sobre el nuevo endpoint.
+- un guard para chequear que el request tenga un header `userId`.
+- un interceptor para agregar el promedio de `requiredApprovals` de las solicitudes informadas.
+- un interceptor para que muestre por consola cada endpoint a atender.

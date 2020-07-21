@@ -68,3 +68,5 @@
 
 ## Integración de base de datos en aplicación Nest
 [TS + Nest + Mongoose](./mongoose-nest/ts-nest-mongoose.md)
+
+[Conectando Mongoose con Nest](./mongoose-nest/mongoose-en-nest.md)

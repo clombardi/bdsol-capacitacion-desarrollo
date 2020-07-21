@@ -4,7 +4,8 @@ Dentro del recorrido que estamos haciendo, llega el momento de interactuar con _
 En esta capacitación vamos a trabajar con dos bases de datos de características muy distintas, porque responden a distintos _modelos_.
 
 En esta etapa vamos a estudiar [MongoDB](https://www.mongodb.com/es), una _base de datos de documentos_.  
-Más adelante, cubriremos [PostgreSQL](https://www.postgresql.org/), una _base de datos relacional_.
+Más adelante, trabajaremos con [MariaDB](https://mariadb.org/), una _base de datos relacional_ abierta similar a [MySQL](https://www.mysql.com/).  
+En ambos casos, la elección está ligada a las bases de datos utilizadas en servicios del Banco del Sol.
 
 Empecemos con una ultra-breve descripción de estos dos modelos de bases de datos.
 
@@ -118,7 +119,7 @@ db.vuelos.find(
 Respecto de la _integridad referencial_, en los casos en que se agrupa la información en una única colección el concepto deja de tener sentido, y si existen datos relacionados en colecciones distintas ... este tipo de bases no incluye funcionalidades que garanticen consistencia, será responsabilidad de quienes la usen.
 
 
-## Tendencia a la convergencia
+## Se tiende a la convergencia
 Al avanzar en proyectos donde se adopta una BD que corresponde a un modelo, muchas veces se encuentran situaciones o requerimientos que hacen conveniente incorporar características de otro modelo.
 
 Esto empuja a la _convergencia_ entre modelos: bases de datos que responden a un modelo, van incorporando paulatinamente características que se asocian a un modelo distinto, tratando de reunir "lo mejor de distintos mundos".
