@@ -70,3 +70,5 @@
 [TS + Nest + Mongoose](./mongoose-nest/ts-nest-mongoose.md)
 
 [Conectando Mongoose con Nest](./mongoose-nest/mongoose-en-nest.md)
+
+[Tipos - en la API, en el servicio, en la base](./mongoose-nest/tipos.md)

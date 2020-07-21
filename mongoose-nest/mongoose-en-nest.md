@@ -92,17 +92,17 @@ Aquí debemos recordar que lo que devuelve Mongo es una lista _de objetos Docume
 Podemos recurrir a `toObject()` como lo hicimos en Mongoose. Para controlar con precisión qué va a devolver el provider, en lugar de hacer eso, utilizamos un `map` para extraer los datos requeridos.
 
 ``` typescript
-    async getAccountRequests(): Promise<AccountRequest[]> {
-        const mongooseData = await this.accountRequestModel.find();
-        return mongooseData.map(mongooseReq => {
-            return {
-                id: mongooseReq._id,
-                customer: mongooseReq.customer,
-                status: mongooseReq.status,
-                requiredApprovals: mongooseReq.requiredApprovals
-            }
-        })
-    }
+async getAccountRequests(): Promise<AccountRequest[]> {
+    const mongooseData = await this.accountRequestModel.find();
+    return mongooseData.map(mongooseReq => {
+        return {
+            id: mongooseReq._id,
+            customer: mongooseReq.customer,
+            status: mongooseReq.status,
+            requiredApprovals: mongooseReq.requiredApprovals
+        }
+    })
+}
 ```
 
 Agregamos el `id` a nuestra descripción de un `AccountRequest`.
@@ -128,4 +128,7 @@ Nos falta ajustar cuestiones relacionadas con tipos, que dejamos para una págin
 Agregar el atributo `receivedApprovals` a `AccountRequest`, de acuerdo a lo sugerido [al final del material sobre Mongoose en JS](../mongoose/esquema-avanzados).
 
 Agregar dos virtuals en el esquema Mongoose: el que indica si una solicitud está definida (ya sea aceptada o rechazada), y el que indica cuántas aprobaciones le faltan (que es `required` - `received`). Agregar los atributos correspondientes en la interface `AccountRequest`, y en el resultado de servicio y request handler.
+
+Utilizar la función `pick` incluida en el package [Lodash](https://lodash.com/) como alternativa para armar los objetos que retorna el servicio; tal como lo hicimos [al armar nuestro primer módulo NestJS](../nestjs-basics/inicio-app.md). 
+No olvidar cargar el package `@types/lodash` como `--save-dev` para que funcione correctamente el chequeo de tipos.
 
