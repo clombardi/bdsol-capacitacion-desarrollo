@@ -72,3 +72,5 @@
 [Conectando Mongoose con Nest](./mongoose-nest/mongoose-en-nest.md)
 
 [Tipos - en la API, en el servicio, en la base](./mongoose-nest/tipos.md)
+
+[Búsqueda de documentos](./mongoose-nest/busqueda.md)

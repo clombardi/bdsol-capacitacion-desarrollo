@@ -105,6 +105,9 @@ async getAccountRequests(): Promise<AccountRequest[]> {
 }
 ```
 
+> **Atención**  
+> No debemos olvidar que las operaciones de BD son siempre asincrónicas, por lo tanto siempre tenemos que trabajar con `async / await` y `Promise` en el tipo.
+
 Agregamos el `id` a nuestra descripción de un `AccountRequest`.
 ``` typescript
 export interface AccountRequest {

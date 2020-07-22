@@ -200,7 +200,7 @@ async getAccountRequests(): Promise<AccountRequestDto[]> {
     const requests = await this.service.getAccountRequests()
     return requests.map(request => { 
         return { ...request, date: request.date.format('YYYY-MM-DD') } 
-    });
+    }); 
 }
 ``` 
 
