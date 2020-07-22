@@ -74,3 +74,5 @@
 [Tipos - en la API, en el servicio, en la base](./mongoose-nest/tipos.md)
 
 [Búsqueda de documentos](./mongoose-nest/busqueda.md)
+
+[Ejercicio integrador - un endpoint Post](./mongoose-nest/ejercicio-post.md)

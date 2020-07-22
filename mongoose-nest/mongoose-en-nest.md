@@ -134,4 +134,3 @@ Agregar dos virtuals en el esquema Mongoose: el que indica si una solicitud est�
 
 Utilizar la función `pick` incluida en el package [Lodash](https://lodash.com/) como alternativa para armar los objetos que retorna el servicio; tal como lo hicimos [al armar nuestro primer módulo NestJS](../nestjs-basics/inicio-app.md). 
 No olvidar cargar el package `@types/lodash` como `--save-dev` para que funcione correctamente el chequeo de tipos.
-
