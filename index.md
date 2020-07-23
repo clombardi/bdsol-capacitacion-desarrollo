@@ -3,6 +3,7 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 ## Indice
 [Etapa 0](./etapa-0-index.md)
 
+[Etapa 1](./etapa-1-index.md)
 
 
 ## Referencias
