@@ -9,3 +9,5 @@
 [API REST](./api-rest/api-rest.md)
 
 [Algunas particularidades](./api-rest/api-rest-varios.md)
+
+[Ejercicio integrador](./api-rest/api-rest-ejercicio.md)
