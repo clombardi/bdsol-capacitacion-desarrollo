@@ -1,4 +1,4 @@
-# REST
+# Una descripción de REST
 En esta página, desarrollaremos las ideas principales de lo que se conoce como [REST](https://restfulapi.net/), una sigla de "Representational State Transfer" ... nombre que al menos a mí no me dice mucho.  
 Como (¿casi?) toda sigla popular en informática, existen múltiples definiciones y descripciones de qué se entiende por REST.  
 Aquí elegiremos una perspectiva que, esperamos, proporcione un buen marco para definir las interfaces de nuestros componentes.
@@ -99,7 +99,7 @@ P.ej. si queremos acceder a la colección de todas las solicitudes de cuentas en
 /account-requests
 ```
 Ahora, se pueden realizar distintas **acciones** sobre un mismo recurso. P.ej. otra acción posible sobre la colección de solicitudes es agregar un elemento, o sea, informar sobre la existencia de una nueva solicitud.  
-La acción a realizar sobre el recurso se informa por separado. En el caso de HTTP, típicamente usando los [verbos HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).  
+La acción a realizar sobre el recurso se informa por separado. En el caso de HTTP, típicamente usando los [métodos (o verbos) HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods).  
 
 Hablaremos más en profundidad sobre la definición de endpoints HTTP un poco más adelante. Aquí sólo aclararemos que _una_ solicitud de cuenta es un recurso distinto a la _colección_ de solicitudes, por lo tanto va a tener una URL distinta, que va a incluir su _identificador_. Cada recurso dentro de una colección debe tener un [identificador único](https://en.wikipedia.org/wiki/Universally_unique_identifier).  
 La URL para la solicitud cuyo identificador es `5f177780a4178205a49fb308` será. 
@@ -117,6 +117,12 @@ y para consultar el estado de un proceso con identificador `5e929cfbfc8c3d6370dc
 ```
 
 
+### Representación
+La "R" en "REST" no se refiere a "recurso" sino a "representación".
+La respuesta a un pedido de información es una _representación_ de un recurso, tal vez entre varias posibles.
+En particular, se expresa en un formato de intercambio de información determinado (JSON, XML, YAML, etc.) y puede incluir sólo parte de la información asociada al recurso.
+
+Analizaremos un poco más adelante, el manejo de _múltiples representaciones para un mismo recurso_.
 
 
 ## Para seguir leyendo

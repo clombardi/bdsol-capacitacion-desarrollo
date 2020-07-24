@@ -4,4 +4,8 @@
 ## API REST
 [De qué se trata - interface de un microservicio](./api-rest/api-rest-intro.md)
 
-[Principios REST](./api-rest/rest.md)
+[Una descripción de REST](./api-rest/rest.md)
+
+[API REST](./api-rest/api-rest.md)
+
+[Algunas particularidades](./api-rest/api-rest-varios.md)
