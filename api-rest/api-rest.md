@@ -49,14 +49,14 @@ En la definición de APIs, se suman los llamados _path parameters_, que desde el
 Para garantizar que nuestra API sea stateless, debemos verificar que el comportamiento del servicio al recibir un pedido dependa únicamente de la información incluida en el pedido, y no tenga relación con pedidos anteriores.
 
 Por ejemplo, un protocolo para agregar una solicitud de cuenta de esta forma
-- avisar que se va a querer crear una solicitud de cuenta.
-- enviar el nombre del cliente.
-- enviar la cantidad de aprobaciones requerida.
-- indicar "fin-de-datos" para que se realice el alta.
+1. avisar que se va a querer crear una solicitud de cuenta.
+1. enviar el nombre del cliente.
+1. enviar la cantidad de aprobaciones requerida.
+1. indicar "fin-de-datos" para que se realice el alta.
 
 no es stateless, porque los datos de la nueva solicitud, que se genera en el último pedido, dependen de los datos enviados en pedidos anteriores. 
 
-Pensando en porqué conviene no romper el principio de comunicación stateless, notemos que el protocolo definido exige que _el server_ mantenga información sobre cada operación "abierta", asociándola p.ej. a algún identificador de sesión de cliente.  
+Pensando en _porqué_ conviene no romper el principio de comunicación stateless, notemos que el protocolo definido exige que _el server_ mantenga información sobre cada operación "abierta", asociándola p.ej. a algún identificador de sesión de cliente.  
 
 Además, supongamos un servicio que viene corriendo en una única instancia, y al que se decide agregar varias instancias con un load-balancer.
 En el nuevo escenario, para que el protocolo definido funcione, hay que garantizar que todos los pedidos que forman una misma operación sean atendidos por el mismo servidor, pensar qué pasa si ese servidor se cae en el medio de la operación, y tal vez otras complicaciones. 
