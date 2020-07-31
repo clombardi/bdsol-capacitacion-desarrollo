@@ -20,3 +20,9 @@
 [Un test chiquito para arrancar](./test/un-test-chiquito.md)
 
 [Más sobre testeo de una función sencilla](./test/mas-sobre-family-size.md)
+
+[Testear una aplicación Nest - panorama](./test/testear-nest-panorama.md)
+
+[Un test de controller](./test/un-test-de-controller-nest.md)
+
+

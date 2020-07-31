@@ -69,6 +69,10 @@ El nombre es simplemente para que aparezca en el reporte.
 ![un test OK](./images/show-test-name.jpg)
 (ya veremos de dónde sale la leyenda `Family size` que se ve arriba)
 
+
+### Anatomía de un test
+Veamos qué incluye el código de un test. Lo que viene ahora lo vemos en Jest, pero sirve para cualquier test automático no importa qué herramienta se use. 
+
 Dentro del código (o en algún otro lado, ya veremos) tiene que haber tres cosas
 1. la configuración del caso de test, o escenario.
 1. la invocación a lo que estamos testeando.
@@ -93,6 +97,30 @@ Señalemos las tres cosas en el test definido.
 >```
 > (o sea, sin el `() =>` que transforma un bloque de código en una función)
 
+
+### Afirmaciones, resultado esperado y recibido
+En esta línea 
+``` typescript
+expect(familySize(standardFamily)).toBe(12);
+```
+se está usando una estructura que provee Jest para hacer una **afirmación**: afirmamos que el resultado de la expresión `familySize(standardFamily)` debe ser `12`.  
+La forma general es 
+``` typescript
+expect(<expresion>).toBe(<resultado_esperado>);
+```
+Distingamos entre resultado **esperado**, que es el que nosotros afirmamos que es correcto, y **recibido** (u **obtenido**), que es el que entrega la expresión cuando lo evaluamos.
+
+El objetivo del test es verificar que el resultado recibido coincide con el esperado. Si son distintos, entonces hay un problema.  
+Más sobre esto en la [página siguiente](./mas-sobre-family-size.md).
+
+Cualquier framework de test va a incluir alguna forma de 
+> **Nota sobre Jest**  
+> En Jest, el `toBe` es _una_ de las verificaciones que se pueden hacer sobre el resultado de una expresión.  
+> Puede ser interesante verificar otras cosas. P.ej. si el resultado es un array, que incluya cierto elemento.  
+> Se pueden chequear varias opciones en la [doc de Jest](https://jestjs.io/docs/en/expect).
+
+
+## Test suites
 En el ejemplo, el test está dentro de una estructura llamada `describe`, que define lo que se llama un _test suite_ en la terminología del testing automático. En criollo, un agrupamiento de tests.  
 La definición de un test suite tiene el mismo formato que un test.
 ``` typescript

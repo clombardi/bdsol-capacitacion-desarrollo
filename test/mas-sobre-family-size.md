@@ -75,7 +75,7 @@ De los tres tests, falló uno. El reporte nos da bastante información.
 - qué tests se ejecutaron. Acá se ve bien la indentación de test suite a tests individuales.
 - Cuáles anduvieron OK, cuáles fallaron. Esto se ve en los tildes y las cruces.
 - exactamente, cuál fue la verificación que falló: la del resultado de `familySize(completeFamily)`.
-- Un poco más arriba, los valores esperado (lo que nosotros decimos que tiene que ser el resultado) y recibido (el resultado de la función como está programada).
+- Un poco más arriba, los valores **esperado** (lo que nosotros decimos que tiene que ser el resultado) y **recibido** (el resultado de la función como está programada).
 - un resumen al final.
 
 
@@ -95,3 +95,8 @@ Probamos de nuevo.
 ![una test suite toda verde](./images/three-tests-ok.jpg)
 
 Perfecto, un caso "de manual": los tests ayudaron a encontrar un problema en el código.
+
+
+## Un poco de ejercitación
+Ver en la [documentación de Jest](https://jestjs.io/docs/en/api) cómo hacer para que se ejecute solamente uno de los tests, o se "saltee" un test.
+
