@@ -27,3 +27,4 @@
 
 [Agrupando acciones comunes](./test/before-all.md)
 
+[Testeando listas](./test/testeando-listas.md)
