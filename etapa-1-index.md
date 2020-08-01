@@ -25,4 +25,5 @@
 
 [Un test de controller](./test/un-test-de-controller-nest.md)
 
+[Agrupando acciones comunes](./test/before-all.md)
 
