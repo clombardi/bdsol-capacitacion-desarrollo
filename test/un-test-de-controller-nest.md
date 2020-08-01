@@ -91,3 +91,134 @@ throw new NotFoundException({
 
 
 ## Uso del controller con un provider mockeado
+Para probar el código del controller, en lugar de que acceda al provider real, armamos uno que devuelve siempre el mismo objeto fijo.
+
+``` typescript
+const fakeCountryDataService = {
+    getCountryData: (countryCode: string): CountryData => {
+        return {
+            countryCode: "SHR",
+            countryNames: { es: "La Comarca", en: "The Shire", br: "Condado" },
+            population: 8500,
+            currency: { code: "CRZ", name: "Cerezas de la Comarca", symbol: "JPQ" },
+            neighborCountryCodes: ["LIN", "CAR", "OLW"],
+            continentCode: "AM"
+        }
+    }
+}
+```
+
+Para tener corriendo al controller usando este servicio en lugar del que está configurado en el módulo, el [soporte para test de NestJS](https://docs.nestjs.com/fundamentals/testing) provee la posbilidad de configurar un módulo para test. Este se define como un módulo "normal", con sus `controllers`, sus `providers`, también se pueden importar otros módulos. Después, se le puede reemplazar uno cualquiera de los componentes definidos por una implementación fake, de esta forma estamos mockeando el componente. 
+Al final, hay que poner `.compile()`.
+
+Todo junto, queda así.
+``` typescript
+const testModule: TestingModule = await Test.createTestingModule({
+    controllers: [CountryDataController],
+    providers: [CountryDataService],
+})
+    .overrideProvider(CountryDataService)
+    .useValue(fakeCountryDataService)
+    .compile();
+```
+
+> **Pregunta**  
+> ¿Por qué es necesario configurar el `CountryDataService`, que no se va a usar? ¿No se puede hacer directamente esto?
+> ``` typescript
+> const testModule: TestingModule = await Test.createTestingModule({
+>     controllers: [CountryDataController],
+>     providers: [fakeCountryDataService],
+> }).compile();
+> ```
+> Piensen qué podría no gustarle a NestJS. Después prueben y vean qué les dice.
+
+Al `testModule` se le puede pedir un componente, y usarlo.
+``` typescript
+const theController = testModule.get(CountryDataController);
+const theData = await theController.getCountryData("SHR");
+```
+
+Listo, ya tenemos un controller que usa el provider "para test".
+
+
+## Manos a la obra
+Armar una implementación real del controller, usando la [API abierta de REST Countries](https://restcountries.eu/), que ya mencionamos en el [ejercicio integrador sobre procesamiento asincrónico](../async/ejercicio-integrador.md).  
+
+Después, armar un test integrando los elementos indicados en la sección anterior, que verifique el resultado que entrega el controller. Este test puede tener un solo `expect`, que compare `theData` con la respuesta esperada.
+Recordar lo mencionado acerca de la [comparación de objetos compuestos](./mas-sobre-family-size.md).  
+**Atención**: como el controlador es asincrónico, entonces la función que se le pasa al test debe ser `async`, o sea, tener esta forma: `async () => {/* codigo */}`.
+
+Después un pequeño desafío: al armar el `testingModule`, estamos repitiendo de alguna forma la definición del `CountryDataModule`. Cambiar la definición para evitar esta repetición.  
+**Hint**: usar directamente el módulo.
+
+
+## Comportamiento ante errores
+¿Cuál es el comportamiento esperado del controller si el provider sale por excepción? 
+Mirando el código, vemos que _no hace nada_, o sea, no hace ningún manejo de excepciones. Por lo tanto, debería obtenerse la misma excepción "recibida" desde el provider.  
+Esto también es parte del comportamiento del controller, podría tener sentido un test específico. Hagámoslo.
+
+Para esto, necesitamos que nuestro provider-para-test genere una excepción 
+``` typescript
+const fakeCountryDataService = {
+    getCountryData: (countryCode: string): CountryData => {
+        if (countryCode === 'SHR') {
+            return {
+                // lo mismo que antes
+            };
+        } else {
+            throw new NotFoundException(`country ${countryCode} unknown`);
+        }
+    }
+}
+```
+
+Ahora, en nuestro test, queremos verificar que al evaluar
+``` typescript
+await theController.getCountryData("JPQ");
+```
+se genere un error. 
+
+En rigor, este escenario presenta _dos_ particularidades para armar una verificación: lo que queremos verificar es que se genera un error, _y además_, es código asincrónico.
+
+Para verificar errores, Jest provee la verificación `toThrow`; ver [la doc de Jest](https://jestjs.io/docs/en/expect#tothrowerror). Esto lo vamos a usar, _combinado con el manejo de procesamiento asincrónico_ que [tiene su página en la doc de Jest](https://jestjs.io/docs/en/asynchronous).
+
+Hasta ahora, el manejo de asincronismo lo maneja Jest, alcanza con poner los `await` donde van y que las funciones de test sean `async`.  
+Cuando **además** lo que queremos verificar es que se genera un error, ya tenemos que ser más conscientes del asincronismo. En particular, recordar que lo que devuelve el controller es una promesa.
+Entre las distintas formas que propone la documentación, la que me pareció más clara es la siguiente.
+``` typescript
+await expect(theController.getCountryData("XXX")).rejects.toThrow();
+```
+El `rejects` (ver [en la doc de Jest](https://jestjs.io/docs/en/expect#rejects)) verifica que la `Promise` que devuelve `getCountryData` es un rechazo (que es lo que pasa, en particualr, con las excepciones en funciones `async`), y le "transmite" el valor asociado al rechazo a lo que se ponga detrás en la afirmación.  
+Con el `toThrow()` posterior, verificamos que efectivamente el rechazo corresponde a una excepción.  
+Finalmente, **no olvidar** el `await` de adelante, para que el test no salga antes que termine el análisis.
+
+<!-- Para esto, Jest provee la verificación `toThrow`. Miremos la documentación.
+![documentación toThrow en Jest](./images/jest-to-throw-doc.jpg)
+El código que se quiere testear, en este caso `drinkFlavor('octopus')`, se envolvió (_wrap_) en una función. El mismo test no "wrappeado" sería así
+``` typescript
+test('throws on octopus', () => {
+  expect(drinkFlavor('octopus')).toThrow();
+});
+```
+Después se aclara que el wrap es necesario. O sea, que si escribimos el test como pusimos recién, _no_ va a funcionar como esperamos.
+
+> **Nota "teórica"**  
+>
+> Para entender por qué es necesario wrappear el código en una función, volvamos a la primer verificación que estudiamos  
+> `expect(familySize(standardFamily)).toBe(12);`  
+> Recordando cómo se evalúa el código, de adentro para afuera (y de izquierda a derecha), al `expect` le llega **el resultado** de `familySize(standardFamily)`. Eso le alcanza para verificar si ese resultado es `12` o no, Jest no conoce la expresión, solamente maneja su resultado.  
+>
+> Si evaluamos
+> `expect(drinkFlavor('octopus')).toThrow();`, 
+> lo primero que se va a evaluar es `drinkFlavor('octopus')`. Si eso genera un error, el `expect` no se va a ejecutar, lo que va a pasar es que se va a lanzar ese error.  
+> Para que Jest pueda verificar errores, tiene que ser el mismo Jest quien _ejecute_ el código. En este caso, no le alcanza con el resultado, le tiene que llegar **el código** a ejecutar. Eso es lo que logramos envolviéndolo en una función, ahora a Jest le llega _una función_ que puede evaluar como lo necesite. -->
+
+
+### Hora de implementar
+Escribir un test en el que se invoque al servicio, y se verifique que se genera un error. Notando que `toThrow` puede recibir una clase por parámetro, verificar que en particular la excepción que se genera es una `NotFoundException`. 
+
+Verificar que si el controller **no sale por excepción**, entonces el test falla. Interpretar el mensaje.
+
+Armar otro test, que verifique que se genera una `NastyCountryException` si se pasa `ZZZ` como código de país.
+
+
