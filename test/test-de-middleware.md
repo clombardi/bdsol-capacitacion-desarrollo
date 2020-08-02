@@ -144,10 +144,10 @@ La simulación de un request es muy sencilla, describámosla a partir de un ejem
 ``` typescript
 it('does apply', async () => {
     // creamos una instancia de supertest ligada a la app-para-test de Nest
-    const testApp = supertest(app.getHttpServer());
+    const testHttpExecutor = supertest(app.getHttpServer());
 
     // hacemos un request normalmente.
-    const response = await testApp.get('/mock-countries/CHN');
+    const response = await testHttpExecutor.get('/mock-countries/CHN');
 
     // a partir de este punto, podemos hacer afirmaciones sobre la response,
     // usando todos los matches que proveen Jest y jest-extended
@@ -162,8 +162,8 @@ Listo, eso es todo. Puede leerse algo más sobre el uso de SuperTest con Jest en
 En los ejemplos de test end-to-end incluidos en la [doc de NestJS](https://docs.nestjs.com/fundamentals/testing), se usan métodos que provee _SuperTest_ para hacer las afirmaciones. El mismo test que mostramos arriba, quedaría así.
 ``` typescript
 it('does apply', async () => {
-    const testApp = supertest(app.getHttpServer());
-    return testApp.get('/mock-countries/CHN').expect(HttpStatus.NOT_ACCEPTABLE);
+    const testHttpExecutor = supertest(app.getHttpServer());
+    return testHttpExecutor.get('/mock-countries/CHN').expect(HttpStatus.NOT_ACCEPTABLE);
 });
 ``` 
 El `return` es necesario porque Jest parece procesar este resultado para definir si el test fue exitoso o falló.
@@ -181,7 +181,7 @@ Hay que probar.
 En principio, armar el test indicado en esta página, hacerlo andar.  No es necesario incorporar el package SuperTest, esto lo hace NestJS al crear un proyecto.
 
 Después, agregar un test de un caso en que el guard no se active. 
-Notar que se está repitiendo la definición de `testApp`, subirla al `beforeAll`.
+Notar que se está repitiendo la definición de `testHttpExecutor`, subirla al `beforeAll`.
 
 ### Para seguir practicando
 Se pueden desarrollar tests de algunos de los middleware descriptos en la presentación de Nest. Van algunas sugerencias
@@ -192,4 +192,10 @@ La estrategia definida en esta página también puede servir para testear [excep
 
 En cada caso, incorporar primero el middleware elegido a la aplicación donde se están armando los tests, probar que anda, y después armar el test.
 
+
+### Otro proyectito
+Podríamos incorporar el interceptor que agrega la suma de la población de cada país, que definimos [al presentar interceptores](./nestjs-basics/interceptors.md), al endpoint que obtiene los datos de los países vecinos de un país, y armar un test del mismo.  
+Pero sería interesante agregarle al interceptor, la posibilidad de setearle un nombre de atributo, en este caso va a asumir que la lista de información de países va a estar en ese atributo, en lugar de ser toda la respuesta.  
+De esta forma, podemos modificar el endpoint de países vecinos, para que la response tenga tres atributos: `country` (datos del país del que se pidieron los vecinos), `neighbors` (lo que ahora es la respuesta), `notFoundNeighborCodes` (los códigos de vecinos para los que no se encontró información). El interceptor aplica al atributo `neighbors`.  
+Creo que esto mejora la interface de nuestro servicio de información de países.
 

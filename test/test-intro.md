@@ -54,7 +54,7 @@ P.ej. determinar que mientras se está ejecutando un test, cuando se hace un `fi
 A esta técnica de lograr que un test utilice implementaciones simuladas de componentes se la llama _mock_.
 Vale usar el verbo "mockear", en el ejemplo anterior, para testear un request handler, estamos mockeando Mongoose, o sea, reemplazando la implementación "de verdad" de Mongoose por una que devuelve valores fijos.
 
-Existen librerías para mockear distintos componentes, p.ej. vamos a usar [Mockingoose](https://www.npmjs.com/package/mockingoose) para mockear Mongoose.
+Existen librerías para mockear distintos componentes, p.ej. vamos a usar [MongoDB In-Memory Server](https://github.com/nodkz/mongodb-memory-server) para mockear MongoDB.
 
 El soporte de Nest para testing incluye mockeo de providers y módulos.
 

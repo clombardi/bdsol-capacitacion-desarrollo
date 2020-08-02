@@ -142,7 +142,8 @@ Listo, ya tenemos un controller que usa el provider "para test".
 
 
 ## Manos a la obra
-Armar una implementación real del controller, usando la [API abierta de REST Countries](https://restcountries.eu/), que ya mencionamos en el [ejercicio integrador sobre procesamiento asincrónico](../async/ejercicio-integrador.md).  
+Armar una implementación real del controller, usando la [API abierta de REST Countries](https://restcountries.eu/), que ya mencionamos en el [ejercicio integrador sobre procesamiento asincrónico](../async/ejercicio-integrador.md). 
+Para el continente, pueden usar el atributo `region` que está en la respuesta de REST Countries. Sí, el servicio va a pasar de nombre a código, y el controller de código a nombre, esta así por propósitos didácticos, en concreto para que el controller sea un poco más interesante.
 
 Después, armar un test integrando los elementos indicados en la sección anterior, que verifique el resultado que entrega el controller. Este test puede tener un solo `expect`, que compare `theData` con la respuesta esperada.
 Recordar lo mencionado acerca de la [comparación de objetos compuestos](./mas-sobre-family-size.md).  
