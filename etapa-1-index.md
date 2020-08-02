@@ -28,3 +28,5 @@
 [Agrupando acciones comunes](./test/before-all.md)
 
 [Testeando listas](./test/testeando-listas.md)
+
+[Test de middleware - end-to-end test](./test/test-de-middleware.md)

@@ -257,3 +257,7 @@ Pensar otros tests que puedan tener sentido, considerando en particular qué pas
 También se puede considerar Australia (código `AUS`) que no tiene vecinos. Vale incluir ese país, y/o los que se considere necesario, en el JSON que alimenta al fake provider.
 
 Implementar los tests definidos. Recordar la posibilidad de definir código que se ejecuta antes de empezar la suite o antes de cada test, como se indica [en la página anterior](./before-all.md).
+
+### Retomando lo que hablamos sobre API
+Tal vez el endpoint de datos de países vecinos sea un buen ejemplo para pensar las ideas de [HATEOAS](https://dzone.com/articles/rest-api-what-is-hateoas). Pensar qué links puede convenir agregar, y si hay muchas ganas, implementar una versión HATEOAS-powered del endpoint.  
+Siempre se puede permitir que el usuario elija en qué formato quiere la info, según lo que vimos al debatir sobre API REST.
