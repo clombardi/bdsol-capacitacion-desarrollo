@@ -332,6 +332,7 @@ Adicionalmente, se pueden armar tests que incluyan valores de filtros de cliente
 > **Nota previa**  
 > Es importante entender que Jest _no_ garantiza el orden en que se van a ejecutar los tests. De hecho, creo que Jest tiene soporte para ejecución _paralela_ de tests, aunque nunca la investigué.  
 > Esto les va a pasar con (casi) cualquier framework de test que usen.
+> En [esta página de la doc de Jest](https://jestjs.io/docs/en/setup-teardown) habla algo sobre el orden de ejecución.  
 
 Imaginemos que en la suite hay varios tests, algunos modifican la base (agregando, eliminando y/o modificando elementos) y otros sólo la consultan.
 Los tests que consultan la base, necesitan que haya en la misma **exactamente** los datos de test que se agreguen, ni más ni menos.   

@@ -30,5 +30,7 @@
 [Testeando listas](./test/testeando-listas.md)
 
 [Test de middleware - end-to-end test](./test/test-de-middleware.md)
-    
+
 [Test de providers - mockeando Mongo](./test/test-de-providers.md)
+
+[Variaciones y reflexiones](./test/variaciones-reflexiones.md)
