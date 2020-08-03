@@ -122,6 +122,9 @@ export interface AddResponseDTO {
 
 La única responsabilidad propia del controller es realizar las transformaciones entre las interfaces DTO y las que maneja el provider.
 
+### Antes de seguir
+Tener andando el módulo de solicitudes de cuenta de acuerdo a lo que se describe en esta página. 
+
 
 ## Estrategia - mock de la base
 Los tests apuntan a verificar el código incluido en los métodos del provider. 
@@ -142,6 +145,11 @@ MongooseModule.forRoot(
     memoryMongoUri, { useNewUrlParser: true, useUnifiedTopology: true }
 )
 ```
+Al final (en nuestro caso, en el `afterAll`) hay que detener el server Mongo.
+``` typescript
+await mongoServer.stop();
+```
+
 Destacamos (nuevamente) que se está utilizando la versión **operativa** de Mongoose, que ejecutará operaciones sobre la base Mongo de la que se indica la URI en la configuración. La única diferencia de la operación en los tests, es que la base Mongo a la que accede Mongoose es "virtual". Pero de esto, Mongoose ni se entera.  
 El código del provider, y eventualmente del controller, también son los operativos.
 
@@ -160,4 +168,59 @@ Se observa que el único que cambia es la BD Mongo. Esta estrategia maximiza el 
 Los detalles se pueden consultar en la [doc del package](https://github.com/nodkz/mongodb-memory-server).
 
 
+### La base está vacía
+Al utilizar esta estrategia, cada test se ejecutará contra una base de datos que en principio está vacía. 
+Si el funcionamiento de un test depende de la existencia de ciertos datos en la base, entonces estos datos deben agregarse como parte de la configuración del escenario de test, que describimos [al armar nuestro primer test](./un-test-chiquito.md). Este es el caso para uno de los tests que vamos a armar a continuación.
+
+
 ### Una alternativa - mockear Mongoose
+Una estrategia alternativa para armar un test de provider es mockear Mongoose.  
+Esto quiere decir, reemplazar Mongoose por un mock al cual se le indica explícitamente qué debe responder ante cada consulta, tal como hicimos con el mock de servicio en los tests de provider.  
+La librería [Mockingoose](https://github.com/alonronin/mockingoose) hace exactamente esto.
+
+Como punto a favor (en nuestra opinión) de la estrategia de mockear Mongo, mencionamos que permite verificar que la interacción con la base de datos funciona correctamente, p.ej. que se están manejando adecuadamente los filtros en una consulta, o que los endpoints que agregan, modifican y/o eliminan documentos, efectivamente realizan las modificaciones esperadas en la base de datos; sin necesidad de implementar estrategias sofisticadas de mock (que p.ej. al agregarse un documento, lo registren en alguna lista que luego se tiene en cuenta en las consultas).
+
+Como punto a favor de mockear Mongoose, se puede señalar que en algunos casos se simplifica la configuración del escenario de prueba: definir directamente el resultado de los queries puede ser más sencillo que agregar documentos en una base. 
+
+
+## Estructura de la suite
+La suite tiene la misma estructura descripta en los [tests de middleware](./test-de-middleware.md), agregando los elementos necesarios para que el módulo real interactúe con la base mock de Mongo.  
+``` typescript
+describe('Account request service', () => {
+    let testApp: INestApplication;
+    let mongoServer: MongoMemoryServer;
+
+    beforeAll(async () => {
+        mongoServer = new MongoMemoryServer();
+        const memoryMongoUri = await mongoServer.getConnectionString();
+
+        const testAppModule = await Test.createTestingModule({
+            imports: [
+                AccountRequestModule,
+                MongooseModule.forRoot(
+                    memoryMongoUri, { useNewUrlParser: true, useUnifiedTopology: true }
+                )
+            ]
+        }).compile();
+
+        testApp = testAppModule.createNestApplication();
+        await testApp.init();
+    });
+
+    afterAll(async () => {
+        await testApp.close();
+        await mongoServer.stop();
+    });
+});
+```
+O sea: el `TestingModule` importa el `MongooseModule` configurado con la URI del mock de la base Mongo, y directamente importa el módulo real sin mockear nada.
+
+Como lo hicimos en varios tests anteriores, mediante el `testAppModule` podemos obtener la instancia de controller o la de provider.
+``` typescript
+const accountRequestController = testApp.get(AccountRequestController);
+const accountRequestService = testApp.get(AccountRequestService);
+```
+
+
+## Un primer test
+A partir de lo indicado hasta aquí, c
