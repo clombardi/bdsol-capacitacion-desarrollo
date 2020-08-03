@@ -160,6 +160,7 @@ Los siguientes esquemas muestran los elementos involucrados en un entorno operat
 
 Se observa que el único que cambia es la BD Mongo. Esta estrategia maximiza el código operativo que interviene en los tests.
 
+El uso de `mongodb-memory-server` para armar tests de aplicaciones que usan Mongoose está descripto en [este post](https://dev.to/paulasantamaria/testing-node-js-mongoose-with-an-in-memory-database-32np).
 
 
 > **Nota**  
@@ -330,8 +331,8 @@ Adicionalmente, se pueden armar tests que incluyan valores de filtros de cliente
 ## La conveniencia de limpiar los datos
 
 > **Nota previa**  
-> Es importante entender que Jest _no_ garantiza el orden en que se van a ejecutar los tests. De hecho, creo que Jest tiene soporte para ejecución _paralela_ de tests, aunque nunca la investigué.  
-> Esto les va a pasar con (casi) cualquier framework de test que usen.
+> Es importante entender que Jest _no_ garantiza el orden en que se van a ejecutar los tests. De hecho, creo que Jest tiene soporte para ejecución _paralela_ de tests, aunque nunca la investigué. 
+> Esto les va a pasar con (casi) cualquier framework de test que usen.  
 > En [esta página de la doc de Jest](https://jestjs.io/docs/en/setup-teardown) habla algo sobre el orden de ejecución.  
 
 Imaginemos que en la suite hay varios tests, algunos modifican la base (agregando, eliminando y/o modificando elementos) y otros sólo la consultan.

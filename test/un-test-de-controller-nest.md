@@ -181,7 +181,7 @@ se genere un error.
 
 En rigor, este escenario presenta _dos_ particularidades para armar una verificación: lo que queremos verificar es que se genera un error, _y además_, es código asincrónico.
 
-Para verificar errores, Jest provee la verificación `toThrow`; ver [la doc de Jest](https://jestjs.io/docs/en/expect#tothrowerror). Esto lo vamos a usar, _combinado con el manejo de procesamiento asincrónico_ que [tiene su página en la doc de Jest](https://jestjs.io/docs/en/asynchronous).
+Para verificar errores, Jest provee la verificación `toThrow`; ver [la doc de Jest](https://jestjs.io/docs/en/expect#tothrowerror). Esto lo vamos a usar, _combinado con el manejo de procesamiento asincrónico_ que [tiene su página en la doc de Jest](https://jestjs.io/docs/en/asynchronous). Sobre el testeo de código asincrónico también se puede leer (entre miles de referencias que se encuentran googleando) [este post](https://dev.to/paulasantamaria/testing-with-jest-async-await-314e).
 
 Hasta ahora, el manejo de asincronismo lo maneja Jest, alcanza con poner los `await` donde van y que las funciones de test sean `async`.  
 Cuando **además** lo que queremos verificar es que se genera un error, ya tenemos que ser más conscientes del asincronismo. En particular, recordar que lo que devuelve el controller es una promesa.
