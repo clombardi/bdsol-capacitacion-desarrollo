@@ -222,5 +222,191 @@ const accountRequestService = testApp.get(AccountRequestService);
 ```
 
 
-## Un primer test
-A partir de lo indicado hasta aquí, c
+## Un primer test: se obtiene lo que se ingresa
+A partir de lo indicado hasta aquí, desarrollar un test en el que se agrega una solicitud de cuenta utilizando `addAccountRequest`, y luego se obtienen todas las solicitudes mediante `getAccountRequests` con un filtro vacío.  
+Se puede verificar que
+- se obtiene exactamente una solicitud.
+- el id de esta solicitud coincide con el resultado de `addAccountRequest`.
+- los otros datos de la solicitud tienen los valores esperados.
+
+Se pueden hacer dos tests, uno interactuando con el provider, el otro interactuando con el servicio.
+
+
+## Datos iniciales - varias estrategias
+En muchas situaciones, vamos a querer hacer tests que supongan que ya hay datos en la base al arrancar el test. Como ya indicamos, la incorporación de estos datos tiene que formar parte de la configuración del caso de test. 
+Hay que agregar estos datos _en el mock de Mongo_.
+
+Algunas estrategias para lograr esto son
+1. utilizar la interface de Mongo para JS / TS, agregando documentos directamente en las colecciones sin utilizar Mongoose.
+1. crear una conexión separada de Mongoose a partir de la URI del mock de Mongo.
+1. crear un _provider para test_ que incorporamos a la aplicación Nest. En el constructor de este provider se pueden recibir los modelos de Mongoose de los datos que se quiera agregar.
+1. si el módulo que estamos testeando provee una forma de incorporar la información que necesitamos, entonces podemos usarlo directamente.
+
+De la última podría criticarse que estamos usando para el test lo mismo que queremos testear. Desde otro punto de vista, se puede preferir esta opción porque evita la duplicación de código entre aplicación operativa y test.  
+En este material, nos limitamos a indicar las opciones y puntos de vista, sin tomar partido.
+
+A continuación, vamos a describir brevemente dos estrategias: utilizar la interface de Mongo, y crear un módulo de test.
+
+
+## Utilizar la interface de Mongo
+Para esto debemos incorporar el package de acceso directo a Mongo, sólo para test. Incorporemos también la información de tipos para TS.
+```
+npm install mongodb --save-dev
+npm install @types/mongodb --save-dev
+```
+
+Este package incluye una clase `MongoClient`, a la que se le puede pedir una conexión. Utilizaremos la URI generada por el mock de Mongo.
+``` typescript
+const mongoServer = new MongoMemoryServer();
+const memoryMongoUri = await mongoServer.getConnectionString();
+const mongoDirectConnection = await MongoClient.connect(
+    memoryMongoUri, { useNewUrlParser: true, useUnifiedTopology: true }
+);
+```
+
+Al final hay que cerrar la conexión
+``` typescript
+await mongoDirectConnection.close();
+``` 
+
+Para agregar un documento, debemos obtener una referencia a la colección, e invocar `insertOne` sobre la misma.
+``` typescript
+const addTestAccountRequest = async (
+    customer: string, status: string, dateAsString: string, requiredApprovals = 3
+) => {
+    const collection: Collection = 
+        await mongoDirectConnection.db().collection('accountrequests');
+    await collection.insertOne(
+        { customer, status, requiredApprovals, 
+          date: moment(dateAsString, stdDateFormat).valueOf() }
+    );
+}
+```
+
+Aquí definimos una función que agrega un documento, para simplificar la tarea de crear varios documentos.
+``` typescript
+const addTestData = async () => {
+    await addTestAccountRequest("Juana Molina", Status.ACCEPTED, "2020-04-08", 8)
+    await addTestAccountRequest("Pedro Almodóvar", Status.REJECTED, "2020-06-15", 2)
+    // ... etc ...
+}
+```
+
+Las funciones necesarias para la creación de datos de test, pueden definirse _dentro_ de la suite
+``` typescript
+describe('Account request service', () => {
+    let testApp: INestApplication;
+    let mongoServer: MongoMemoryServer;
+    let mongoDirectConnection: MongoClient;
+
+    const addTestAccountRequest = async (
+        customer: string, status: string, dateAsString: string, requiredApprovals = 3
+    ) => {
+        // ... el código descripto más arriba
+    }
+    const addTestData = async () => {
+        // ... el código descripto más arriba
+    }
+
+    // beforeAll / afterAll / tests
+});
+```
+
+### Su turno
+Armar un test que, a partir de algunos documentos agregados en la base, verifique que el método de búsqueda del provider funciona correctamente. Ejemplos de verificaciones posibles:
+- la cantidad de documentos obtenidos.
+- cuántos hay con un determinado status.
+- la lista de nombres de clientes.
+- que exista alguno con un determinado nombre.
+- que no exista ninguno con un determinado nombre.
+- la estructura completa de un documento, buscando por nombre de cliente.
+- la estructura parcial de un documento, buscando por nombre de cliente. Aquí se puede hacer énfasis en los datos calculados, `month` e `isDecided`.
+
+Todo esto se sugiere para practicar los matches de Jest y `jest-extended`. 
+
+Adicionalmente, se pueden armar tests que incluyan valores de filtros de cliente y/o status.
+
+
+## La conveniencia de limpiar los datos
+
+> **Nota previa**  
+> Es importante entender que Jest _no_ garantiza el orden en que se van a ejecutar los tests. De hecho, creo que Jest tiene soporte para ejecución _paralela_ de tests, aunque nunca la investigué.  
+> Esto les va a pasar con (casi) cualquier framework de test que usen.
+
+Imaginemos que en la suite hay varios tests, algunos modifican la base (agregando, eliminando y/o modificando elementos) y otros sólo la consultan.
+Los tests que consultan la base, necesitan que haya en la misma **exactamente** los datos de test que se agreguen, ni más ni menos.   
+Si se ejecutan tests que modifican la base antes de los de consulta, en estos últimos podrían fallar algunas verificaciones: podría haber más, o menos, resultados de los esperados; o no estar más un documento que se está buscando.
+
+Para evitar esto, aprovechando que el mock de la base es veloz, vamos a **limpiar** los datos entre test y test. Para eso vamos a usar el `beforeEach` de Jest, una función que se ejecuta antes de cada test (a diferencia del `beforeAll`, que se ejecuta una sola vez antes de arrancar la suite).
+
+``` typescript
+const clearData = async () => {
+    const collections = await mongoDirectConnection.db().collections();
+
+    for (const key in collections) {
+        const collection = collections[key];
+        await collection.deleteMany({});
+    }
+}
+
+beforeEach(async () => {
+    await clearData();
+    await addTestData();
+})
+```
+Notar que movimos la invocación a `addTestData()` del `beforeAll` al `beforeEach`.
+
+
+
+## Crear un provider de test
+Vamos a incorporar a la `testApp`, un provider específico para crear los datos de test. 
+``` typescript
+beforeAll(async () => {
+    mongoServer = new MongoMemoryServer();
+    const memoryMongoUri = await mongoServer.getConnectionString();
+
+    const testAppModule = await Test.createTestingModule({
+        imports: [
+            AccountRequestModule,
+            MongooseModule.forRoot(
+                memoryMongoUri, { useNewUrlParser: true, useUnifiedTopology: true }
+            )
+        ],
+        providers: [TestDataService]  // <--- provider que se va a encargar de agregar datos
+    }).compile();
+
+    testApp = testAppModule.createNestApplication();
+    await testApp.init();
+});
+```
+Esto es análogo a lo que hicimos para [testear middleware](./test-de-middleware.md), donde incorporamos un mock de controller.  
+
+El provider lo podemos definir en el mismo archivo de test (o en uno separado si fuera a ser usado en varias suites).  
+Como dijimos antes, puede incorporar los modelos Mongoose que necesite en el constructor.  
+A este provider también le vamos a agregar un método para limpiar los datos. Para esto necesitamos la conexión a Mongoose que está usando Nest; por suerte podemos incorporarla también en el constructor del provider.
+``` typescript
+@Injectable()
+class TestDataService {
+    constructor(
+        @InjectModel('AccountRequest') private accountRequestModel: Model<AccountRequestMongoose>,
+        @InjectConnection() private readonly connection: Connection 
+    ) {}
+
+
+    async clearData(): Promise<void> {
+        const collections = this.connection.collections;
+
+        for (const key in collections) {
+            const collection = collections[key];
+            await collection.deleteMany({});
+        }
+    }
+
+    // método/s para agregar data
+}
+```
+
+### A probar
+Con estos elementos, se pueden armar tests similares a los armados antes, pero que en lugar de agregar datos de prueba accediendo directamente a Mongo, utilizan un provider de test.
+
+Aquí pueden elegir entre que el provider genere la data para test, o bien que sólo provea un servicio mínimo (p.ej. agregar un documento) y que sea el test el que decide qué data agregar.
