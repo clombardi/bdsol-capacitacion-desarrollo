@@ -38,3 +38,8 @@ layout: default
 [Test de providers - mockeando Mongo](./test/test-de-providers)
 
 [Variaciones y reflexiones](./test/variaciones-reflexiones)
+
+
+## Más operaciones usando Mongo/Mongoose
+[Un endpoint para acceder a una modificación individual](./mongoose-operaciones/modificacion-individual)
+

@@ -28,6 +28,9 @@ En rigor, el planteado es un refactor chiquito, puede haber otros más ambicioso
 ¿Y cómo sé que no se me escapa nada al hacer un refactor? _Porque tenemos los tests_.  
 Les propongo hacer este pequeño cambio, y correr los tests para verificar que nada dejó de andar.
 
+> **Pedido**  
+> Quienes hagan este refactor, por favor háganlo en un branch separado. La versión con virtuals y methods de Mongoose nos va a servir un poco más adelante.
+
 Obviamente, en refactors más potentes, también puede ser necesario cambiar algunos tests, p.ej. si paso responsabilidades de controller a provider o viceversa, es probable que haya que ajustar los tests de los componentes que hacen más que antes, o que hacen menos que antes.  
 Pero en todo caso, los _tests de integración_ me dan un primer indicio de que "vamos bien".
 
