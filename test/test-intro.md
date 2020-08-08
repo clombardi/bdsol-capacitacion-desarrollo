@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Test - empezamos
 En esta parte de la capacitación, vamos a trabajar con **testeo automático**, orientado a microservicios desarrollados en NestJS.
 

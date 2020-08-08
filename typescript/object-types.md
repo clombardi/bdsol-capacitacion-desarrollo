@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Tipos de los objetos
 Si ponemos 
 ``` typescript

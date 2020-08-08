@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # API REST - interface de un microservicio
 Vamos a poner nuestra atención en algunos conceptos relacionados con la _interface_ que **expone** un microservicio.   
 Al destacar la palabra _expone_, queremos subrayar que la interface es lo _único_ que otros componentes de un sistema pueden conocer de un microservicio: la forma de comunicarse.

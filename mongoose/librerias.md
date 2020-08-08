@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Librerías de acceso a Bases de Datos
 El acceso a bases de datos desde una aplicación, se hace (al menos casi-casi-siempre) mediante _librerías_.  
 

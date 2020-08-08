@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # Búsqueda de documentos
-En esta página, vamos a aplicar lo que estudiamos sobre [búsqueda de documentos en MongoDB/Mongoose](../mongoose/busqueda-basicos.md) a nuestro módulo NestJS.
+En esta página, vamos a aplicar lo que estudiamos sobre [búsqueda de documentos en MongoDB/Mongoose](../mongoose/busqueda-basicos) a nuestro módulo NestJS.
 
 Para esto, vamos a admitir dos query params en el endpoint de búsqueda de documentos, que permita filtrar por status y/o por (nombre de) cliente. Si se envía un valor de nombre de cliente, se busca en cualquier parte del nombre. P.ej. si se especifica `ana`, encontraría ya sea `analía Amandi` (en minúscula), `Mariana Suárez`, o `Lucas Antezana`.
 

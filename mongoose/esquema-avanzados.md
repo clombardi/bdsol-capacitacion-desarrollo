@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # Algo más sobre esquemas
-Como se indicó [al presentar los esquemas](./mongoose-cuatro-conceptos.md), además de la configuración de cada atributo, se pueden incluir definiciones adicionales. 
+Como se indicó [al presentar los esquemas](./mongoose-cuatro-conceptos), además de la configuración de cada atributo, se pueden incluir definiciones adicionales. 
 El efecto de varias de estas definiciones es funcionalidad _a los documentos_ que se crean a partir de (los modelos creados a partir de) un esquema.
 
 En esta página analizamos dos tipos de definiciones, como ejemplo de qué se puede obtener configurando adecuadamente los esquemas Mongoose.  
@@ -146,7 +150,7 @@ new accountRequestModel({
     status: 'Accepted'
 })
 ```
-la "capa" que agrega Mongoose, le inyecta funcionalidad agregada al objeto que representa al documento. Inclusive, simplifica su modificación como vimos [al describir las operaciones](./mongoose-cuatro-conceptos.md).  
+la "capa" que agrega Mongoose, le inyecta funcionalidad agregada al objeto que representa al documento. Inclusive, simplifica su modificación como vimos [al describir las operaciones](./mongoose-cuatro-conceptos).  
 Configurando el esquema, le podemos agregar potencia a los documentos Mongoose.
 
 

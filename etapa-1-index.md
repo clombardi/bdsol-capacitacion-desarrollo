@@ -1,36 +1,40 @@
+---
+layout: default
+---
+
 # Etapa 1
-[Hacia dónde vamos - definición completa de un microservicio](./etapa-1-intro.md)
+[Hacia dónde vamos - definición completa de un microservicio](./etapa-1-intro)
 
 
 ## API REST
-[De qué se trata - interface de un microservicio](./api-rest/api-rest-intro.md)
+[De qué se trata - interface de un microservicio](./api-rest/api-rest-intro)
 
-[Una descripción de REST](./api-rest/rest.md)
+[Una descripción de REST](./api-rest/rest)
 
-[API REST](./api-rest/api-rest.md)
+[API REST](./api-rest/api-rest)
 
-[Algunas particularidades](./api-rest/api-rest-varios.md)
+[Algunas particularidades](./api-rest/api-rest-varios)
 
-[Ejercicio integrador](./api-rest/api-rest-ejercicio.md)
+[Ejercicio integrador](./api-rest/api-rest-ejercicio)
 
 
 ## Test
-[Algunas notas iniciales](./test/test-intro.md)
+[Algunas notas iniciales](./test/test-intro)
 
-[Un test chiquito para arrancar](./test/un-test-chiquito.md)
+[Un test chiquito para arrancar](./test/un-test-chiquito)
 
-[Más sobre testeo de una función sencilla](./test/mas-sobre-family-size.md)
+[Más sobre testeo de una función sencilla](./test/mas-sobre-family-size)
 
-[Testear una aplicación Nest - panorama](./test/testear-nest-panorama.md)
+[Testear una aplicación Nest - panorama](./test/testear-nest-panorama)
 
-[Un test de controller](./test/un-test-de-controller-nest.md)
+[Un test de controller](./test/un-test-de-controller-nest)
 
-[Agrupando acciones comunes](./test/before-all.md)
+[Agrupando acciones comunes](./test/before-all)
 
-[Testeando listas](./test/testeando-listas.md)
+[Testeando listas](./test/testeando-listas)
 
-[Test de middleware - end-to-end test](./test/test-de-middleware.md)
+[Test de middleware - end-to-end test](./test/test-de-middleware)
 
-[Test de providers - mockeando Mongo](./test/test-de-providers.md)
+[Test de providers - mockeando Mongo](./test/test-de-providers)
 
-[Variaciones y reflexiones](./test/variaciones-reflexiones.md)
+[Variaciones y reflexiones](./test/variaciones-reflexiones)

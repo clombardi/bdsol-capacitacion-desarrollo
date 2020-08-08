@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # Testeando listas
-En el [ejemplo anterior](./un-test-de-controller-nest.md), cada elemento trata con un solo objeto: el mock del provider devuelve siempre el mismo objeto, y el resultado del request handler, sobre el que se hacen las verificaciones, también es un objeto. No es necesario manejar listas, ni en el mock del provider, ni en el código del test.
+En el [ejemplo anterior](./un-test-de-controller-nest), cada elemento trata con un solo objeto: el mock del provider devuelve siempre el mismo objeto, y el resultado del request handler, sobre el que se hacen las verificaciones, también es un objeto. No es necesario manejar listas, ni en el mock del provider, ni en el código del test.
 
 Pasemos a un ejemplo un poco más complejo: un test para un request handler con la siguiente firma.
 ``` typescript
@@ -61,7 +65,7 @@ Si no se encuentra información _sobre el país por el que se consultó_ (Argent
 
 ## Ejercitación antes del test
 Implementar el request handler de acuerdo a lo indicado. Usar `Promise.all` para poder lanzar en paralelo las consultas para los países limítrofes.  
-Tener en cuenta que el provider puede salir por excepción para algunos de los países limítrofes, hay que manejar esta excepción para que el controller igualmente brinde una respuesta. Vimos un caso similar al [integrar distintas fuentes de información](../nestjs-basics/distintas-fuentes.md).
+Tener en cuenta que el provider puede salir por excepción para algunos de los países limítrofes, hay que manejar esta excepción para que el controller igualmente brinde una respuesta. Vimos un caso similar al [integrar distintas fuentes de información](../nestjs-basics/distintas-fuentes).
 
 La definición del endpoint tiene algunos aspectos que se prestan al debate, algún aspecto de la implementación también.  
 Puede ser un buen ejercicio pensar en cuáles pueden ser estos aspectos, y pensar en alternativas sobre el diseño del endpoint (en conjunto con el definido antes, que brinda información sobre un país) y también acerca de cómo está organizada la implementación entre controller y provider.
@@ -172,7 +176,7 @@ La función `findCountry` es sencilla, pero la definimos aparte porque la vamos 
 
 
 ## Tests sobre lista
-En el test, después de configurar el módulo de test como se muestra en el [ejemplo anterior](./un-test-de-controller-nest.md), se invoca al controller (que va a usar al mock de provider).
+En el test, después de configurar el módulo de test como se muestra en el [ejemplo anterior](./un-test-de-controller-nest), se invoca al controller (que va a usar al mock de provider).
 ``` typescript
 const theData = await theController.getNeighborData("ARG");
 ``` 
@@ -243,7 +247,7 @@ Recordemos que podemos consultar [la doc de Jest](https://jestjs.io/docs/en/expe
 A partir de estos elementos, podemos armar **varios** tests para el endpoint de datos de países limítrofes.
 
 ### Vecinos de la Argentina
-Armar el test descripto más arriba, ensamblando el armado del módulo-para-test descripta en el [ejemplo anterior](./un-test-de-controller-nest.md), con las afirmaciones indicadas acá arriba.  
+Armar el test descripto más arriba, ensamblando el armado del módulo-para-test descripta en el [ejemplo anterior](./un-test-de-controller-nest), con las afirmaciones indicadas acá arriba.  
 Agregar las siguientes afirmaciones, usando matches de Jest o `jest-extended`.
 - que los nombres de países incluyen `Brasil` y `Uruguay`. Para esto vale hacer un `map` como el que se hizo para los códigos.
 - que la población de todos los países supera un millón de habitantes. Para eso hay un matcher específico en `jest-extended`.
@@ -256,7 +260,7 @@ Armar un JSON que incluya la info de Argentina y de todos sus vecinos, y nadie m
 Pensar otros tests que puedan tener sentido, considerando en particular qué pasa si el pais por el que se pregunta es desconocido, o si algún limítrofe es desconocido.  
 También se puede considerar Australia (código `AUS`) que no tiene vecinos. Vale incluir ese país, y/o los que se considere necesario, en el JSON que alimenta al fake provider.
 
-Implementar los tests definidos. Recordar la posibilidad de definir código que se ejecuta antes de empezar la suite o antes de cada test, como se indica [en la página anterior](./before-all.md).
+Implementar los tests definidos. Recordar la posibilidad de definir código que se ejecuta antes de empezar la suite o antes de cada test, como se indica [en la página anterior](./before-all).
 
 ### Retomando lo que hablamos sobre API
 Tal vez el endpoint de datos de países vecinos sea un buen ejemplo para pensar las ideas de [HATEOAS](https://dzone.com/articles/rest-api-what-is-hateoas). Pensar qué links puede convenir agregar, y si hay muchas ganas, implementar una versión HATEOAS-powered del endpoint.  

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Tipado estructural
 
 Miremos estas definiciones

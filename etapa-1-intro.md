@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Hacia dónde vamos - definición completa de un microservicio
 Las semanas que compartimos hasta ahora definen una _primera etapa_ de esta actividad de capacitación.
 En esta etapa, ejercitamos con los elementos principales involucrados en la implementación de un endpoint con la arquitectura definida para los proyectos de Banco del Sol, en particular

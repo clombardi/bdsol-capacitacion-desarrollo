@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Let y var - parecidos pero (un poquito) distintos
 
 Ya sabemos que sirven para lo mismo, veamos las diferencias, que son dos.

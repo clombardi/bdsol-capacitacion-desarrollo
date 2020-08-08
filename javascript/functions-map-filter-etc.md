@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Funciones en JavaScript
 
 ### Funciones por todos lados

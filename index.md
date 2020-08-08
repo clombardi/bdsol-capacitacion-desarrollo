@@ -1,9 +1,13 @@
+---
+layout: default
+---
+
 La intención de este sitio es acompañar a la capacitación sobre temas de programación y desarrollo, a brindarse en Banco del Sol en 2020.
 
 ## Indice
-[Etapa 0](./etapa-0-index.md)
+[Etapa 0](./etapa-0-index)
 
-[Etapa 1](./etapa-1-index.md)
+[Etapa 1](./etapa-1-index)
 
 
 ## Referencias

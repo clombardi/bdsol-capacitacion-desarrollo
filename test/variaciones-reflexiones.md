@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Variaciones y reflexiones
 Con (todo) el material que estudiamos, creo que tenemos una buena base para encarar tests que verifiquen un backend Nest.
 
@@ -9,7 +13,7 @@ Todos los tests que armamos apuntan a verificar el funcionamiento de un componen
 
 Un tipo de test distinto, que también tiene sentido, es el _test de integración_. En estos tests, se accede a la API de lo que se quiere testear (en nuestro caso, microservicios que forman un backend), y se verifica que se obtienen los resultados esperados, utilizando el máximo posible del código operativo (o sea, mockeando lo menos posible).
 
-Juntando elementos que presentamos en los [tests de middleware](./test-de-middleware.md) y los [test de providers](./test-de-providers.md), podemos armar tests de integración:
+Juntando elementos que presentamos en los [tests de middleware](./test-de-middleware) y los [test de providers](./test-de-providers), podemos armar tests de integración:
 - se testea accediendo a la API como en los tests de middleware, y
 - se mockea la base de datos agregando datos de prueba, como en los tests de providers.
 

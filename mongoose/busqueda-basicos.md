@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Búsqueda de documentos
 En la página anterior, vimos que el resultado de la operación `<modelo>.find()`, _sin parámetros_, es un array que incluye _todos_ los documentos de la colección correspondiente.
 

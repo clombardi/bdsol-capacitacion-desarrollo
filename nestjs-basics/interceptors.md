@@ -1,9 +1,13 @@
+---
+layout: default
+---
+
 # Interceptors
 
-Un _Interceptor_ es un middleware que responde a la idea que describimos en la [introducción a middleware](./middleware-intro.md): le llega un parámetro `next` que representa la cadena de ejecución del request, y puede
+Un _Interceptor_ es un middleware que responde a la idea que describimos en la [introducción a middleware](./middleware-intro): le llega un parámetro `next` que representa la cadena de ejecución del request, y puede
 - agregar comportamiento _a la entrada_, o sea antes de dar curso al `next`. En particular, puede modificar el request.
 - agregar comportamiento _a la salida_, o sea luego de dar curso al `next`. En particular, puede modificar la response.
-- evitar que se dé curso al `next`, en tal caso funcionaría en forma similar a un [Guard](./guards.md).
+- evitar que se dé curso al `next`, en tal caso funcionaría en forma similar a un [Guard](./guards).
 
 Los interceptors actúan en combinación con el package [RxJS](https://github.com/ReactiveX/rxjs). En particular, esto facilita la realización de distintas manipulaciones a la salida.
 
@@ -25,7 +29,7 @@ Vamos a utilizar un interceptor para agregar el _total de población_ de los pa�
 }
 ```
 
-Como lo indicamos para los [Guards](./guards.md), es más sencillo arrancar mostrando el código.
+Como lo indicamos para los [Guards](./guards), es más sencillo arrancar mostrando el código.
 ``` typescript
 type ObjectWithPopulation = { population: number } 
 type ListWithPopulations = ObjectWithPopulation[]

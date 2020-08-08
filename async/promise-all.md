@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Operaciones en paralelo
 
 Volvamos a este ejemplo

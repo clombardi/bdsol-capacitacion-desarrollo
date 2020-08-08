@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Arranquemos con Mongoose
 En esta página, daremos una brevísima introducción a Mongoose. 
 El objetivo es presentar un conjunto mínimo de elementos que sean suficientes para comenzar a interactuar con una base MongoDB desde un programa.  
@@ -16,7 +20,7 @@ Veamos brevemente cada uno.
 
 
 ## Conexión
-Es el objeto mediante el cual se accede a una base de datos. Es un concepto común en las [librerías de acceso a BD](./librerias.md).
+Es el objeto mediante el cual se accede a una base de datos. Es un concepto común en las [librerías de acceso a BD](./librerias).
 
 La especificación de la BD a acceder se hace mediante el _string de conexión_ de la base, el concepto de [string de conexión](https://en.wikipedia.org/wiki/Connection_string) esta muy extendido en BD de distintos modelos.  
 Actualmente, estos string toman la forma de una URL.

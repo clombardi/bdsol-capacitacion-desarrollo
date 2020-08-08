@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 En esta página vamos a dar algunas indicaciones para el manejo de errores al desarrollar un backend sobre NestJS.
 
 En [la página sobre el tema en la doc de NestJS](https://docs.nestjs.com/exception-filters) se describen las herramientas que ofrece el framework. 
@@ -356,7 +360,7 @@ Supongamos que para resolver un request, se necesita combinar información de va
 
 Acá surge la pregunta: un error para obtener una parte de la información que hay que generar ¿implica que el request tiene que dar error? Otra opción es entregar la información que se tenga, "avisando" de alguna forma que hay información faltante.
 
-Esto va a aparecer al trabajar [combinando información de distintas fuentes](./distintas-fuentes.md).
+Esto va a aparecer al trabajar [combinando información de distintas fuentes](./distintas-fuentes).
 
 
 ## Algunos desafíos

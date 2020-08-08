@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # Más sobre el testeo de una función sencilla
-Transcribimos la función `familySize`, a la que le hicimos un primer test en la [página anterior](./un-test-chiquito.md).
+Transcribimos la función `familySize`, a la que le hicimos un primer test en la [página anterior](./un-test-chiquito).
 
 ``` typescript
 import { defaultTo } from 'lodash';

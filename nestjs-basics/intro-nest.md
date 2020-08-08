@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Un poco de contexto
 Hasta ahora trabajamos con conceptos bastante genéricos: JS / TS, operaciones externas, procesamiento asincrónico. 
 Todas estas herramientas se aplican en proyectos de desarrollo de distintas características. 

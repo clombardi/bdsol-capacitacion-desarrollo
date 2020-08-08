@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # API REST - algunas particularidades
-Después de haber planteado [criterios generales para definir una API HTTP que sea REST](./api-rest.md), vamos a concentrarnos en algunas cuestiones puntuales, para completar lo que vamos a decir sobre este tema.
+Después de haber planteado [criterios generales para definir una API HTTP que sea REST](./api-rest), vamos a concentrarnos en algunas cuestiones puntuales, para completar lo que vamos a decir sobre este tema.
 
 
 ## Métodos: PUT vs PATCH (vs POST)
@@ -134,7 +138,7 @@ Ante un valor de `Accept` que no incluya JSON como posibilidad, p.ej.
 Accept: 'application/xml'
 ```
 se debería responder con un status code `406 - Not Acceptable`, como se describe [en la página MDN de este status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/406).  
-Hasta donde entiendo, NestJS no incluye una funcionalidad que controle el valor de `Accept`, deberíamos hacerlo en el código. Una alternativa sería definir un [Guard](../nestjs-basics/guards.md) que rechace los pedidos `GET` que no acepten un JSON como respuesta.
+Hasta donde entiendo, NestJS no incluye una funcionalidad que controle el valor de `Accept`, deberíamos hacerlo en el código. Una alternativa sería definir un [Guard](../nestjs-basics/guards) que rechace los pedidos `GET` que no acepten un JSON como respuesta.
 
 **Yendo a lo nuesto**  
 El header `Accept` también puede incluir indicaciones específicas para el proveedor, conocidas como "vendor types" o "vendor MIME types". Estos tipos empiezan con `application/vnd.`, y se acumulan con el formato usando `+`.  

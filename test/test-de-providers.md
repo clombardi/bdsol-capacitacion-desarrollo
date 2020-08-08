@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Test de providers - mockeando Mongo
 En secciones anteriores, definimos tests que apuntan a la lógica implementada en _controllers_ y _middleware_.  
 En esta página, vamos a plantear tests que se focalicen en el código de los **providers**.
@@ -12,7 +16,7 @@ Destacamos que se está ejecutando el mismo código de Mongoose que en producci�
 
 ## El provider a testear
 Para este test, vamos a cambiar de dominio: vamos a trabajar con un módulo sobre solicitudes de cuentas (`AccountRequest`).  
-Este módulo se apoya en una colección de Mongo, a la que se accede mediante Mongoose. Se utiliza el soporte para Mongoose que provee Nest, descripto en una [sección anterior](../mongoose-nest/mongoose-en-nest.md). El dominio es muy similar al que utilizamos en esa sección.
+Este módulo se apoya en una colección de Mongo, a la que se accede mediante Mongoose. Se utiliza el soporte para Mongoose que provee Nest, descripto en una [sección anterior](../mongoose-nest/mongoose-en-nest). El dominio es muy similar al que utilizamos en esa sección.
 
 ### El modelo de datos
 Esta es la definición del esquema Mongoose para las solicitudes de datos.
@@ -171,7 +175,7 @@ Los detalles se pueden consultar en la [doc del package](https://github.com/nodk
 
 ### La base está vacía
 Al utilizar esta estrategia, cada test se ejecutará contra una base de datos que en principio está vacía. 
-Si el funcionamiento de un test depende de la existencia de ciertos datos en la base, entonces estos datos deben agregarse como parte de la configuración del escenario de test, que describimos [al armar nuestro primer test](./un-test-chiquito.md). Este es el caso para uno de los tests que vamos a armar a continuación.
+Si el funcionamiento de un test depende de la existencia de ciertos datos en la base, entonces estos datos deben agregarse como parte de la configuración del escenario de test, que describimos [al armar nuestro primer test](./un-test-chiquito). Este es el caso para uno de los tests que vamos a armar a continuación.
 
 
 ### Una alternativa - mockear Mongoose
@@ -185,7 +189,7 @@ Como punto a favor de mockear Mongoose, se puede señalar que en algunos casos s
 
 
 ## Estructura de la suite
-La suite tiene la misma estructura descripta en los [tests de middleware](./test-de-middleware.md), agregando los elementos necesarios para que el módulo real interactúe con la base mock de Mongo.  
+La suite tiene la misma estructura descripta en los [tests de middleware](./test-de-middleware), agregando los elementos necesarios para que el módulo real interactúe con la base mock de Mongo.  
 ``` typescript
 describe('Account request service', () => {
     let testApp: INestApplication;
@@ -381,7 +385,7 @@ beforeAll(async () => {
     await testApp.init();
 });
 ```
-Esto es análogo a lo que hicimos para [testear middleware](./test-de-middleware.md), donde incorporamos un mock de controller.  
+Esto es análogo a lo que hicimos para [testear middleware](./test-de-middleware), donde incorporamos un mock de controller.  
 
 El provider lo podemos definir en el mismo archivo de test (o en uno separado si fuera a ser usado en varias suites).  
 Como dijimos antes, puede incorporar los modelos Mongoose que necesite en el constructor.  

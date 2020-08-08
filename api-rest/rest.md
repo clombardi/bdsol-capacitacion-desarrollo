@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Una descripción de REST
 En esta página, desarrollaremos las ideas principales de lo que se conoce como [REST](https://restfulapi.net/), una sigla de "Representational State Transfer" ... nombre que al menos a mí no me dice mucho.  
 Como (¿casi?) toda sigla popular en informática, existen múltiples definiciones y descripciones de qué se entiende por REST.  

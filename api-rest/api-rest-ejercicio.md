@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Ejercicio integrador
 Hasta ahora no hemos planteado ningún desafío referido a la temática de API REST. 
 Preferimos plantear un ejercicio en el que se puedan aplicar distintas ideas que aparecieron en este contenido, para llegar a la definición de una API compleja.

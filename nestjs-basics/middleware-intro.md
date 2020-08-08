@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Middleware
 En este repaso de conceptos sobre cómo darle forma a un backend, llega el momento de incorporar la idea de _middleware_.
 
@@ -52,7 +56,7 @@ async getCountryShortSummary(@Param() params: { countryCode: string }): Promise<
 }
 ```
 
-Otro ejemplo de middleware de propósito específico es el de los `ExceptionFilters` que describimos en la página sobre [manejo de errores](./manejo-de-errores.md). Los exception filters controlan la salida de un request handler en caso de error. De esta forma, permiten definir una forma de manejo de errores, delegando en Nest el manejo de la lógica de activación del, o de los, ExceptionFilters que se configuren para cada request handler.
+Otro ejemplo de middleware de propósito específico es el de los `ExceptionFilters` que describimos en la página sobre [manejo de errores](./manejo-de-errores). Los exception filters controlan la salida de un request handler en caso de error. De esta forma, permiten definir una forma de manejo de errores, delegando en Nest el manejo de la lógica de activación del, o de los, ExceptionFilters que se configuren para cada request handler.
 
 Adicionalmente, NestJS provee implementaciones standard para algunos de los tipos de middleware que define, en particular para los relacionados con validación de datos de entrada.
 
@@ -73,7 +77,7 @@ En ningún caso pretenderemos dar explicaciones abarcativas. Nos limitaremos a d
 Describimos aquí una característica en común de los tres tipos de middleware (y también de los `ExceptionFilter`): las **opciones para activarlos** son
 - para un endpoint específico, mediante un decorator en el método correspondiente del controller, como mostramos en el ejemplo de `Guard`.
 - para todos los endpoints de un controller, colocando el mismo decorator en la clase del controller.
-- para toda una aplicacion, para esto hay que registrarlos en la función `bootstrap` que configura una aplicación NestJS. Esto es lo que hicimos con los `ExceptionFilter` genéricos en la página sobre [manejo de errores](./manejo-de-errores.md).
+- para toda una aplicacion, para esto hay que registrarlos en la función `bootstrap` que configura una aplicación NestJS. Esto es lo que hicimos con los `ExceptionFilter` genéricos en la página sobre [manejo de errores](./manejo-de-errores).
 
 En los dos primeros casos, se puede optar por indicar el nombre de la clase (de la que NestJS creará instancias como lo considere oportuno) o un objeto ya creado, lo que permite realizar configuraciones específicas. Las configuraciones a nivel aplicación sólo pueden hacerse mediante objetos, no clases.
 

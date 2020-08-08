@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Valores falsy y truthy
 
 **Todos** los valores en JavaScript tienen una "correspondencia" booleana, o sea que se consideran (de alguna forma) análogos a `true` o a `false`. A los valores análogos a `true` se los llama _truthy_, y _falsy_ a los que son análogos a `false`.

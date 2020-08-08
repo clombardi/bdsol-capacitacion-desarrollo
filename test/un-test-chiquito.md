@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Un test chiquito
 Para hacer una nivelación mínima, hagamos un test de un componente bien chiquito e independiente. 
 
@@ -111,7 +115,7 @@ expect(<expresion>).toBe(<resultado_esperado>);
 Distingamos entre resultado **esperado**, que es el que nosotros afirmamos que es correcto, y **recibido** (u **obtenido**), que es el que entrega la expresión cuando lo evaluamos.
 
 El objetivo del test es verificar que el resultado recibido coincide con el esperado. Si son distintos, entonces hay un problema.  
-Más sobre esto en la [página siguiente](./mas-sobre-family-size.md).
+Más sobre esto en la [página siguiente](./mas-sobre-family-size).
 
 Cualquier framework de test va a incluir alguna forma de 
 > **Nota sobre Jest**  

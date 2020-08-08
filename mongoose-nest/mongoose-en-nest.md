@@ -1,9 +1,13 @@
+---
+layout: default
+---
+
 # Conectando Mongoose con Nest
 En esta página vamos a seguir los pasos necesarios para que el módulo Nest sobre solicitudes de cuenta obtenga la información desde una base Mongo, utilizando Mongoose como librería de acceso a la BD.
 
 Para esto vamos a tomar como referencia el instructivo _para la versión 6_ de NestJS, que se accede [a partir de la documentación de la versión 6](https://docs.nestjs.com/v6/), y de ahí eligiendo Techniques -> Mongo en el menú de la izquierda.
 
-Vamos a observar cómo se reflejan en un módulo Nest, cada uno de los [cuatro conceptos iniciales](../mongoose/mongoose-cuatro-conceptos.md) de Mongoose.
+Vamos a observar cómo se reflejan en un módulo Nest, cada uno de los [cuatro conceptos iniciales](../mongoose/mongoose-cuatro-conceptos) de Mongoose.
 
 
 ## Antes de empezar - cargar packages necesarios
@@ -68,7 +72,7 @@ export class AccountRequestModule { }
 ```
 Esta declaración registra un nuevo modelo con el nombre definido, que va a ser administrado por Nest.
 
-Los providers que quieran acceder a estos modelos, deben incorporarlos usando _inyección de dependencias_, como se indicó al [describir los elementos iniciales de NestJS.](../nestjs-basics/conceptos-iniciales.md).  
+Los providers que quieran acceder a estos modelos, deben incorporarlos usando _inyección de dependencias_, como se indicó al [describir los elementos iniciales de NestJS.](../nestjs-basics/conceptos-iniciales).  
 Definiremos un _constructor_ en el provider para inyectar la instancia de modelo Mongoose.
 ``` typescript
 export class AccountRequestService {
@@ -84,7 +88,7 @@ export class AccountRequestService {
 
 
 ## Operaciones - nuestro primer find en NestJS
-Las definiciones que hicimos hasta este punto, permiten utilizar el `accountRequestModel`, que accede a la tabla `accountrequests` como se indicó en la [descripción de Mongoose](../mongoose/mongoose-cuatro-conceptos.md).
+Las definiciones que hicimos hasta este punto, permiten utilizar el `accountRequestModel`, que accede a la tabla `accountrequests` como se indicó en la [descripción de Mongoose](../mongoose/mongoose-cuatro-conceptos).
 
 Con lo cual, nos alcanza con modificar el método del provider que devuelve una lista fija de `AccountRequest`, para que acceda a la base Mongo.
 
@@ -132,5 +136,5 @@ Agregar el atributo `receivedApprovals` a `AccountRequest`, de acuerdo a lo suge
 
 Agregar dos virtuals en el esquema Mongoose: el que indica si una solicitud está definida (ya sea aceptada o rechazada), y el que indica cuántas aprobaciones le faltan (que es `required` - `received`). Agregar los atributos correspondientes en la interface `AccountRequest`, y en el resultado de servicio y request handler.
 
-Utilizar la función `pick` incluida en el package [Lodash](https://lodash.com/) como alternativa para armar los objetos que retorna el servicio; tal como lo hicimos [al armar nuestro primer módulo NestJS](../nestjs-basics/inicio-app.md). 
+Utilizar la función `pick` incluida en el package [Lodash](https://lodash.com/) como alternativa para armar los objetos que retorna el servicio; tal como lo hicimos [al armar nuestro primer módulo NestJS](../nestjs-basics/inicio-app). 
 No olvidar cargar el package `@types/lodash` como `--save-dev` para que funcione correctamente el chequeo de tipos.

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # TS + Mongoose + Nest
 En esta página y las que siguen, vamos a integrar las tres tecnologías principales con las que trabajamos hasta ahora: TypeScript, NestJS y Mongo/Mongoose.
 
@@ -22,7 +26,7 @@ Esto no quiere decir que se recomiende tipar todo, todo el tiempo; la decisión 
 
 
 ## El ejemplo - solicitudes de cuenta
-Vamos a usar el mismo dominio de solicitudes de cuenta con el que practicamos [el uso de Mongoose sobre JavaScript](../mongoose/mongoose-cuatro-conceptos.md). Podemos incluso consultar las mismas solicitudes que agregamos usando JavaScript.
+Vamos a usar el mismo dominio de solicitudes de cuenta con el que practicamos [el uso de Mongoose sobre JavaScript](../mongoose/mongoose-cuatro-conceptos). Podemos incluso consultar las mismas solicitudes que agregamos usando JavaScript.
 
 Para arrancar, hay que definir un nuevo módulo en una aplicación Nest, con su controller y su service.  
 Para construir sobre algo ya armado, armemos un endpoint `@Get` que devuelve una lista fija de `AccountRequest`s que se define en el servicio (para ya tener armado el camino controller -> service).  

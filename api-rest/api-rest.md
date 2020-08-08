@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # API REST (finalmente)
-En la [página anterior](./rest.md), describimos los principios que propone REST.  
+En la [página anterior](./rest), describimos los principios que propone REST.  
 Ahora, vamos a estudiar qué propiedades debe cumplir la _interface_ de nuestros servicios, para cumplir con estos principios.
 
 ## Qué nos brinda la arquitectura elegida

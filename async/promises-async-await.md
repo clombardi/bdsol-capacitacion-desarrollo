@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Operaciones externas
 Llamemos _operación externa_ a cualquier operación que se invoca dentro de una VM JS (que puede ser p.ej. una instancia de Node o un browser), y que se resuelve fuera de esa VM.
 

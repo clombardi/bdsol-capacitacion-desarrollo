@@ -1,8 +1,12 @@
-# Test de middleware - end-to-end test
-Ya hicimos varios tests de endpoints de controller, [primero sobre un endpoint sencillo](./un-test-de-controller-nest.md), después [otro que involucra listas](./testeando-listas.md).
+---
+layout: default
+---
 
-En esta página, vamos a hacer un test que apunta a los elementos de [middleware](./nestjs-basics/middleware-intro.md) que permite definir NestJS.  
-En este caso vamos a testear un [guard](./nestjs-basics/guards.md), pero la misma técnica aplica a los otros tipos de middleware.
+# Test de middleware - end-to-end test
+Ya hicimos varios tests de endpoints de controller, [primero sobre un endpoint sencillo](./un-test-de-controller-nest), después [otro que involucra listas](./testeando-listas).
+
+En esta página, vamos a hacer un test que apunta a los elementos de [middleware](../nestjs-basics/middleware-intro) que permite definir NestJS.  
+En este caso vamos a testear un [guard](../nestjs-basics/guards), pero la misma técnica aplica a los otros tipos de middleware.
 
 
 ## A qué nivel testear
@@ -188,13 +192,13 @@ Se pueden desarrollar tests de algunos de los middleware descriptos en la presen
 - el guard que controla que haya un header `userId`. Ver en la [doc de superagent](http://visionmedia.github.io/superagent/) cómo mandar valores de header.
 - el interceptor que agrega timestamp y un saludito.
 
-La estrategia definida en esta página también puede servir para testear [exception handlers](./nestjs-basics/manejo-de-errores.md). Se puede probar con alguno a elección.
+La estrategia definida en esta página también puede servir para testear [exception handlers](../nestjs-basics/manejo-de-errores). Se puede probar con alguno a elección.
 
 En cada caso, incorporar primero el middleware elegido a la aplicación donde se están armando los tests, probar que anda, y después armar el test.
 
 
 ### Otro proyectito
-Podríamos incorporar el interceptor que agrega la suma de la población de cada país, que definimos [al presentar interceptores](./nestjs-basics/interceptors.md), al endpoint que obtiene los datos de los países vecinos de un país, y armar un test del mismo.  
+Podríamos incorporar el interceptor que agrega la suma de la población de cada país, que definimos [al presentar interceptores](../nestjs-basics/interceptors), al endpoint que obtiene los datos de los países vecinos de un país, y armar un test del mismo.  
 Pero sería interesante agregarle al interceptor, la posibilidad de setearle un nombre de atributo, en este caso va a asumir que la lista de información de países va a estar en ese atributo, en lugar de ser toda la respuesta.  
 De esta forma, podemos modificar el endpoint de países vecinos, para que la response tenga tres atributos: `country` (datos del país del que se pidieron los vecinos), `neighbors` (lo que ahora es la respuesta), `notFoundNeighborCodes` (los códigos de vecinos para los que no se encontró información). El interceptor aplica al atributo `neighbors`.  
 Creo que esto mejora la interface de nuestro servicio de información de países.

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Tipos - en la API, en el servicio, en la base
 En la página anterior, llegamos a integrar Mongoose para obtener las respuestas a un request desde una colección Mongo.
 
@@ -208,4 +212,4 @@ async getAccountRequests(): Promise<AccountRequestDto[]> {
 ## Para seguir jugando con el código
 Refactorizar las interfaces definidas usando herencia de interfaces.
 
-Probar usando `toObject()` en el servicio. Esto es interesante en particular si se agregan los virtuals indicados en [la página anterior](./mongoose-en-nest.md).
+Probar usando `toObject()` en el servicio. Esto es interesante en particular si se agregan los virtuals indicados en [la página anterior](./mongoose-en-nest).

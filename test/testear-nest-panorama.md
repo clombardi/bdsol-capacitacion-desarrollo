@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Testear una aplicación Nest
 Después del rápido repaso sobre conceptos básicos de test en general, y de Jest en particular, vamos a incorporar los elementos necesarios para testear, específicamente, un backend construido sobre NestJS.
 

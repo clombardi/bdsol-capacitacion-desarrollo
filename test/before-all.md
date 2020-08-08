@@ -1,5 +1,9 @@
+---
+layout: default
+---
+
 # Agrupando acciones comunes
-Si hicimos todo lo indicado en la [página anterior](./un-test-de-controller-nest.md), entonces vamos a tener tres tests de controller ... y en los tres vamos a tener _el mismo_ código de inicialización del `TestingModule`.
+Si hicimos todo lo indicado en la [página anterior](./un-test-de-controller-nest), entonces vamos a tener tres tests de controller ... y en los tres vamos a tener _el mismo_ código de inicialización del `TestingModule`.
 
 ``` typescript
 describe('Country data service', () => {

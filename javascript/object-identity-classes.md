@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Object literals
 
 Compañeros de ruta de todo JavaScriptero.

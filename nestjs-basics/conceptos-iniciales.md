@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Conceptos iniciales - controller, provider, módulo
 NestJS basa el desarrollo de una aplicación en tres conceptos: controller, provider y módulo.  
 

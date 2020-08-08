@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Bases de datos relacionales y de documentos
 Dentro del recorrido que estamos haciendo, llega el momento de interactuar con _bases de datos_.   
 

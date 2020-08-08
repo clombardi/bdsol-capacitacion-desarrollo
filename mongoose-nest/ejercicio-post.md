@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Ejercicio integrador - un endpoint Post
 Para cerrar con esta etapa de la ronda de capacitación, les dejamos un pequeño ejercicio que va a servir (espero) para repasar varios de los temas mencionados.
 
@@ -11,7 +15,7 @@ el request handler, o sea un método agregado en el controller, marcado con el d
 POST \account-requests
 ```
 Este método va a tener un parámetro decorado con `@Body` en el que llega un objeto con los datos de la nueva solicitud.  
-Definimos un método similar cuando trabajamos con los [pipes de NestJS](../nesjs-basics/pipes.md).  
+Definimos un método similar cuando trabajamos con los [pipes de NestJS](../nesjs-basics/pipes).  
 En este caso, el response es un objeto que tiene un único atributo `id`, cuyo valor es el id que MongoDB le asigna a la nueva solicitud.
 
 **Dos**  
@@ -19,7 +23,7 @@ Un método agregado en el servicio, que es invocado por el request handler, y ag
 
 
 ## Tipos
-Nos conviene pensar en los tipos de acuerdo a lo que se analizó acerca de los [tres entornos que estamos manejando](./tipos.md): API, servicio, base.
+Nos conviene pensar en los tipos de acuerdo a lo que se analizó acerca de los [tres entornos que estamos manejando](./tipos): API, servicio, base.
 
 La propuesta es mantener, en el POST, las mismas definiciones acerca de los tipos de la fecha y el status que se adoptaron para el GET en cada entorno. Por lo tanto, los tipos deberían ser _casi_ iguales a los definidos para el GET. En concreto
 - el tipo del `@Body` del request debería ser _casi_ `AccountRequestDto`.
@@ -42,7 +46,7 @@ A `dataForMongoose` se le puede dar el tipo `AccountRequestMongooseData`, es par
 ## Transformaciones
 Se puede armar el encabezado de los métodos en controller y servicio antes de ponerles código, para que queden bien definidos los tipos.
 
-Una vez hecho esto, pensar qué _transformaciones_ de datos hacen falta para poder pasar los datos de controller a servicio, y de servicio al objeto que llamamos `dataForMongoose`. No va a haber ninguna que no se haya hecho cuando [agregamos tipos en el GET](./tipos.md).
+Una vez hecho esto, pensar qué _transformaciones_ de datos hacen falta para poder pasar los datos de controller a servicio, y de servicio al objeto que llamamos `dataForMongoose`. No va a haber ninguna que no se haya hecho cuando [agregamos tipos en el GET](./tipos).
 
 
 ## Validaciones
@@ -54,6 +58,6 @@ Dónde hacer cada validación, si en un lado, en el otro, o en los dos, es en gr
 
 Se puede hacer lo siguiente, se recomienda hacerlo en orden.
 - comprobar que las validaciones de Mongoose están operativas, ver qué status code se obtiene.
-- manejar el error, de acuerdo a lo estudiado sobre [manejo de errores en NestJS](../nestjs-basics/manejo-de-errores.md), para que el status code sea un `400 - Bad Request`, con un mensaje informativo.
-- habilitar el `ValidationPipe`, para lo cual habrá que transformar algunas interfaces en clases, por lo que se indicó al [presentar los pipes en NestJS](../nesjs-basics/pipes.md).
+- manejar el error, de acuerdo a lo estudiado sobre [manejo de errores en NestJS](../nestjs-basics/manejo-de-errores), para que el status code sea un `400 - Bad Request`, con un mensaje informativo.
+- habilitar el `ValidationPipe`, para lo cual habrá que transformar algunas interfaces en clases, por lo que se indicó al [presentar los pipes en NestJS](../nesjs-basics/pipes).
 - agregar una validación adicional: no se pueden requerir más de 25 aprobaciones. Hacerlo en los dos lugares, primero esquema de Mongoose, probar, después sobre el body.

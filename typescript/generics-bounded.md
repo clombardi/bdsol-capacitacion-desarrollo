@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Generics acotados
 
 Este código

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Guards
 
 Un _Guard_ es un middleware pensado para implementar control de acceso. Si un request no cumple con lo requerido por un Guard que está activado para ese endpoint, entonces el request **no llega** al request handler, y se lanza una excepción.
@@ -18,7 +22,7 @@ export class ForbidDangerousCountries implements CanActivate {
 }
 ``` 
 Como vemos, un Guard es una clase que debe implementar la interface `CanActivate` e incluir el decorator `@Injectable`. La interface define un único método que devuelve un booleano. Si el método devuelve `false`, quiere decir que el Guard no acepta al request.  
-Dentro del método, se accede al request mediante el `ExecutionContext` que llega por parámetro. Este `ExecutionContext` es similar al `ArgumentsHost` que recibe un `ExceptionFilter`, que se describe en [la página sobre manejo de errores](./manejo-de-errores.md).  
+Dentro del método, se accede al request mediante el `ExecutionContext` que llega por parámetro. Este `ExecutionContext` es similar al `ArgumentsHost` que recibe un `ExceptionFilter`, que se describe en [la página sobre manejo de errores](./manejo-de-errores).  
 Los detalles sobre la implementación de Guards pueden consultarse en [la página de Guards en la documentación de NestJS](https://docs.nestjs.com/guards).
 
 Un Guard se activa para un endpoint o controller, mediante el decorator `@UseGuards`.
@@ -36,7 +40,7 @@ Si un Guard activado rechaza el request, sale con `403 - Forbidden` y un mensaje
 
 Si se quiere que el status code y/o la response sean distintos, se puede: o manejar la `ForbiddenException` que lanza el Guard en un `ExceptionFilter`, o _salir con excepción_ del Guard en lugar de devolver `false`.
 
-A modo de ejemplo, cambiemos el comportamiento del Guard definido, para que lance la `BadBadCountryException` descripta en la [página sobre manejo de errores](./manejo-de-errores.md).
+A modo de ejemplo, cambiemos el comportamiento del Guard definido, para que lance la `BadBadCountryException` descripta en la [página sobre manejo de errores](./manejo-de-errores).
 
 Variamos un poco la definición de la excepción. En particular, la hacemos extender de `NotAcceptableException`, que es la excepción que provee NestJS para el status codd `406 - Not Acceptable`.
 ``` typescript
@@ -89,7 +93,7 @@ y muestra la información indicada por consola
 ## Desafíos
 
 ### Control de acceso
-Uno de los desafíos en la [página sobre manejo de errores](./manejo-de-errores.md), es validar los requests para un endpoint tienen que incluir un header `userId`, rechanzando los que no tengan con un `401 - Unauthorized`.  
+Uno de los desafíos en la [página sobre manejo de errores](./manejo-de-errores), es validar los requests para un endpoint tienen que incluir un header `userId`, rechanzando los que no tengan con un `401 - Unauthorized`.  
 Pasar esta validación a un Guard, y habilitarlo para todos los endpoints de una aplicación.
 
 ### Cuotas de acceso por usuarios

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Procesamiento asincrónico - ejercicio integrador
 Para practicar el uso de `Promise.all`, y ya que estamos algo de manejo de listas y estructuras, les proponemos este ejercicio.
 

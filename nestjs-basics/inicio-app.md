@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Arranquemos por algún lado - datos de un país
 
 Empecemos con el desarrollo de una aplicación NestJS que brinde información sobre países. Por ahora que atienda solamente a un endpoint `countries/:countryCode` que devuelva información sobre el país de acuerdo a esta ejemplo (para la consulta `countries/ARG` )
@@ -9,7 +13,7 @@ Empecemos con el desarrollo de una aplicación NestJS que brinde información so
     internetDomain: '.ar'
 }
 ```
-La info se obtiene consultando al servicio externo `http://restcountries.eu/` que mencionamos en [el ejercicio integrador sobre asincronismo](../async/ejercicio-integrador.md).
+La info se obtiene consultando al servicio externo `http://restcountries.eu/` que mencionamos en [el ejercicio integrador sobre asincronismo](../async/ejercicio-integrador).
 
 Repasemos qué elementos tenemos que incluir en nuestra app.
 - El módulo inicial `AppModule`, en `app.module.ts`. Este ya lo crea el script de inicialización de Nest, ver en la [página inicial de la doc](https://docs.nestjs.com/first-steps).

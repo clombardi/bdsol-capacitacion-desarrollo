@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Un test de controller NestJS
 Vamos a volver al dominio de la información sobre países, con el que trabajamos hace un tiempo. 
 
@@ -142,11 +146,11 @@ Listo, ya tenemos un controller que usa el provider "para test".
 
 
 ## Manos a la obra
-Armar una implementación real del controller, usando la [API abierta de REST Countries](https://restcountries.eu/), que ya mencionamos en el [ejercicio integrador sobre procesamiento asincrónico](../async/ejercicio-integrador.md). 
+Armar una implementación real del controller, usando la [API abierta de REST Countries](https://restcountries.eu/), que ya mencionamos en el [ejercicio integrador sobre procesamiento asincrónico](../async/ejercicio-integrador). 
 Para el continente, pueden usar el atributo `region` que está en la respuesta de REST Countries. Sí, el servicio va a pasar de nombre a código, y el controller de código a nombre, esta así por propósitos didácticos, en concreto para que el controller sea un poco más interesante.
 
 Después, armar un test integrando los elementos indicados en la sección anterior, que verifique el resultado que entrega el controller. Este test puede tener un solo `expect`, que compare `theData` con la respuesta esperada.
-Recordar lo mencionado acerca de la [comparación de objetos compuestos](./mas-sobre-family-size.md).  
+Recordar lo mencionado acerca de la [comparación de objetos compuestos](./mas-sobre-family-size).  
 **Atención**: como el controlador es asincrónico, entonces la función que se le pasa al test debe ser `async`, o sea, tener esta forma: `async () => {/* codigo */}`.
 
 Después un pequeño desafío: al armar el `testingModule`, estamos repitiendo de alguna forma la definición del `CountryDataModule`. Cambiar la definición para evitar esta repetición.  

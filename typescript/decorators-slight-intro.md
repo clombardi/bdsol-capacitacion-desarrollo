@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Decorators en TS - nano-introducción
 
 Miremos la definición de un controller NestJS

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Arrays - estructura genérica, funciones genéricas
 
 En TS, no puedo definir que algo es un array, sin decir "un array _de qué_". Es decir, hay que especificar qué tipo deben tener los elementos que voy a agregar.

@@ -1,10 +1,14 @@
+---
+layout: default
+---
+
 # Pipes
 En esta página vamos a comentar el rol de los _Pipes_, uno de los tipos específicos de middleware que provee NestJS. La información completa sobre este tema se puede consultar a partir [la página correspondiente en la documentación de NestJS](https://docs.nestjs.com/pipes).
 
 El objetivo de los Pipes es hacer validaciones, y en algunos casos también transformaciones, sobre los _datos de entrada_, o sea los que llegan en el request: body, headers, parámetros de path y de query.
 
 Si los datos no cumplen con las condiciones requeridas por un Pipe, el código del request handler no se llega a ejecutar, y se genera una respuesta con status code `400 - Bad Request`. El Pipe es el encargado de generar el mensaje de error correspondiente.  
-Como ya vimos al revisar el [manejo de errores](./manejo-de-errores.md), en realidad lo que hace el Pipe es lanzar una excepción `BadRequestException`, con un determinado mensaje. Esta excepción puede ser gestionada por un `ExceptionHandler`, que puede realizar las transformaciones y acciones adicionales que se estimen convenientes.
+Como ya vimos al revisar el [manejo de errores](./manejo-de-errores), en realidad lo que hace el Pipe es lanzar una excepción `BadRequestException`, con un determinado mensaje. Esta excepción puede ser gestionada por un `ExceptionHandler`, que puede realizar las transformaciones y acciones adicionales que se estimen convenientes.
 
 _NestJS provee varias implementaciones operativas de Pipe_, que se pueden integrar en nuestras aplicaciones.  
 También se permite la definición de _Pipes particulares_ (custom Pipes). 

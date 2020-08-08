@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 ## Acerca de TypeScript
 TypeScript es un compiler (¿o transpiler?), que _genera código JavaScript_.  
 El `tsc` es el compilador de TypeScript a JavaScript. En este sentido, usar `tsc` es análogo a babelizar.
