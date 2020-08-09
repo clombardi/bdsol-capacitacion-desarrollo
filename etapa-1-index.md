@@ -43,3 +43,4 @@ layout: default
 ## Más operaciones usando Mongo/Mongoose
 [Un endpoint para acceder a una modificación individual](./mongoose-operaciones/modificacion-individual)
 
+[Modificación masiva](./mongoose-operaciones/modificacion-masiva)
