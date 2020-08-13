@@ -50,3 +50,7 @@ layout: default
 [Alta masiva](./mongoose-operaciones/alta-masiva)
 
 [Extra - refactor en los tests](./mongoose-operaciones/extra-refactor-tests)
+
+
+## Consideraciones de performance usando Mongo/Mongoose
+[Performance usando Mongo/Mongoose - resumen de técnicas](./mongoose-performance/intro)
