@@ -44,3 +44,5 @@ layout: default
 [Un endpoint para acceder a una modificación individual](./mongoose-operaciones/modificacion-individual)
 
 [Modificación masiva](./mongoose-operaciones/modificacion-masiva)
+
+[Baja](./mongoose-operaciones/baja)

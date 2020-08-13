@@ -50,6 +50,12 @@ accountRequestDb.status = Status.PENDING;
 await accountRequestDb.save()
 ```
 
+> **Alternativa**  
+> Mongoose incluye un método específico `findById`, que se le pasa el id directamente, no hace falta armar un objeto. O sea, la primera línea del código anterior podría ser así
+> ``` typescript
+> const accountRequestDb = await this.accountRequestModel.findById(id);
+> ```
+
 Sobre esta base, nos faltan dos cosas
 1. qué pasa si el id es inválido, o sea, el `findOne` devuelve `null`. Hagamos que salga con un status `404 - Not Found`.
 1. armar el valor de retorno. Hay que transformar el documento Mongoose en un objeto que cumpla la interface definida para el servicio.
