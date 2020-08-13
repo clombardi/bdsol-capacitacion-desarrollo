@@ -46,3 +46,7 @@ layout: default
 [Modificación masiva](./mongoose-operaciones/modificacion-masiva)
 
 [Baja](./mongoose-operaciones/baja)
+
+[Alta masiva](./mongoose-operaciones/alta-masiva)
+
+[Extra - refactor en los tests](./mongoose-operaciones/extra-refactor-tests)
