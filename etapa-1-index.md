@@ -54,3 +54,5 @@ layout: default
 
 ## Consideraciones de performance usando Mongo/Mongoose
 [Performance usando Mongo/Mongoose - resumen de técnicas](./mongoose-performance/intro)
+
+[Lean - Mongoose se corre a un costado](./mongoose-performance/lean)
