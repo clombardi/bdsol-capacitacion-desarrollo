@@ -58,3 +58,5 @@ layout: default
 [Lean - Mongoose se corre a un costado](./mongoose-performance/lean)
 
 [Uso de índices de BD para acelerar consultas](./mongoose-performance/indices)
+
+[Proyección - incluir solamente algunos atributos](./mongoose-performance/proyeccion)
