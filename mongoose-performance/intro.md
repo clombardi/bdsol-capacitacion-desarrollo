@@ -49,7 +49,7 @@ Si se sabe que deben modificarse, agregarse o eliminars varios documentos en una
 
 
 ## Y más
-Hasta acá lo que ya practicamos. Dejamos a continuación "los títulos" de algunas técnicas que veremos a continuación.
+Hasta acá lo que ya practicamos. Dejamos a continuación "los títulos" de algunas técnicas que veremos a continuación (algunas).
 
 ### Lean
 Al hacer una operación, típicamente un `find`, se puede indicar una opción `lean`. El efecto es que Mongoose le "pasa" la operación directamente a Mongo, sin intervenir, lo que provoca que la operación sea más rápida.  
@@ -61,3 +61,6 @@ La definición de _índices_ sobre una BD provoca que algunas búsquedas se haga
 ### No traer todo el documento
 Al hacer un `find`, se puede indicar que sólo se obtengan algunos datos de cada documento.
 
+### Acceder directamente a la interfaz de MongoDB
+Las funcionalidades que agrega Mongoose no son gratuitas, tienen su precio en performance. En algunas ocasiones (¡que deben ser bien meditadas!) puede convenir acceder directamente a la interfaz de MongoDB.  
+Esto sé que se puede hacer, pero no lo probé. Solamente menciono que existe, por si alguna vez hay un problema de performance que lleva a buscar opciones.

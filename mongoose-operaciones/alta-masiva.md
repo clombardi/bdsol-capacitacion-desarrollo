@@ -63,9 +63,11 @@ export const AccountRequestSchema = new mongoose.Schema({
     customer: { type: String, required: true },
     status: { type: String, enum: Object.values(Status) },
     date: Number,
-    requiredApprovals: { type: Number, default: 3 }
+    requiredApprovals: { type: Number, default: 3, max: 1000 }
 })
 ```
+
+(respecto de otras versiones, agregamos la validación de que no se pueden indicar más de 1000 aprobaciones requeridas)
 
 Por lo tanto, el nuestro caso, el `insertMany` espera una lista de `AccountRequestMongooseData`. 
 Hay que definir quién se va a encargar de transformar un `AccountRequestMassiveAdditionDTO`  en esta lista.
@@ -113,3 +115,5 @@ export interface AccountRequestMassiveAdditionResultDTO {
 
 ## Estamos para implementar
 Eso, el desafío es implementar el endpoint, con todo lo que haga falta.
+
+Probar qué pasa si la especificación incluye un documento que no pasa las validaciones, en nuestro caso, una solicitud (o varias) que requieran más de 1000 aprobaciones. Relacionar con las opciones de `Model.insertMany`.
