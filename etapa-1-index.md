@@ -56,3 +56,5 @@ layout: default
 [Performance usando Mongo/Mongoose - resumen de técnicas](./mongoose-performance/intro)
 
 [Lean - Mongoose se corre a un costado](./mongoose-performance/lean)
+
+[Uso de índices de BD para acelerar consultas](./mongoose-performance/indices)
