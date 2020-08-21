@@ -140,7 +140,7 @@ En cada test vamos a simular un request. Para esto tenemos que importar el packa
 import * as supertest from 'supertest';
 ``` 
 
-La idea de SuperTest es proveer una interface para la ejecución de requests HTTP, similar a la del package [Superagent](https://github.com/visionmedia/superagent), pero donde los requests los atiende un HTTP server local. 
+La idea de SuperTest es proveer una interfaz para la ejecución de requests HTTP, similar a la del package [Superagent](https://github.com/visionmedia/superagent), pero donde los requests los atiende un HTTP server local. 
 Superagent es una alternativa a [Axios](https://github.com/axios/axios).
 
 
@@ -201,5 +201,5 @@ En cada caso, incorporar primero el middleware elegido a la aplicación donde se
 Podríamos incorporar el interceptor que agrega la suma de la población de cada país, que definimos [al presentar interceptores](../nestjs-basics/interceptors), al endpoint que obtiene los datos de los países vecinos de un país, y armar un test del mismo.  
 Pero sería interesante agregarle al interceptor, la posibilidad de setearle un nombre de atributo, en este caso va a asumir que la lista de información de países va a estar en ese atributo, en lugar de ser toda la respuesta.  
 De esta forma, podemos modificar el endpoint de países vecinos, para que la response tenga tres atributos: `country` (datos del país del que se pidieron los vecinos), `neighbors` (lo que ahora es la respuesta), `notFoundNeighborCodes` (los códigos de vecinos para los que no se encontró información). El interceptor aplica al atributo `neighbors`.  
-Creo que esto mejora la interface de nuestro servicio de información de países.
+Creo que esto mejora la interfaz de nuestro servicio de información de países.
 

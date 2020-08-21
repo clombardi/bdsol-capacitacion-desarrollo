@@ -7,7 +7,7 @@ layout: default
 
 
 ## API REST
-[De qué se trata - interface de un microservicio](./api-rest/api-rest-intro)
+[De qué se trata - interfaz de un microservicio](./api-rest/api-rest-intro)
 
 [Una descripción de REST](./api-rest/rest)
 
@@ -60,3 +60,7 @@ layout: default
 [Uso de índices de BD para acelerar consultas](./mongoose-performance/indices)
 
 [Proyección - incluir solamente algunos atributos](./mongoose-performance/proyeccion)
+
+
+## Documentación de API - Swagger
+[Qué es Swagger](./swagger/swagger-intro)

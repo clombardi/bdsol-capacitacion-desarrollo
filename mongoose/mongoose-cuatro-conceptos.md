@@ -10,7 +10,7 @@ En esta página, y en las que siguen, nos limitaremos a presentar los elementos 
 
 En un primer momento usaremos JavaScript como lenguaje y haremos pequeños scripts que ejecutaremos usando Node. Luego de adquiridos los elementos básicos, veremos cómo utilizarlos desde una aplicación NestJS en TypeScript.
 
-La interface de Mongoose puede explicarse a partir de cuatro conceptos
+La interfaz de Mongoose puede explicarse a partir de cuatro conceptos
 1. **conexión**: acceso a una BD.
 1. **esquema**: especificación de la forma de un documento.
 1. **modelo**: acceso a una colección.

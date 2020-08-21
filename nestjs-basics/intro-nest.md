@@ -8,7 +8,7 @@ Todas estas herramientas se aplican en proyectos de desarrollo de distintas cara
 
 En lo que viene, vamos a acercarnos a lo "concreto". 
 Nos vamos a concentrar en el desarrollo del backend de un software organizacional, con dos características relevantes
-1. la interface es mayormente API REST por HTTP
+1. la interfaz es mayormente API REST por HTTP
 1. se aplican ideas del desarrollo basado en microservicios.
 
 Cada microservicio atiende uno o varios _endpoints_, para cada invocación le llega un _request_ que puede incluir parámetros de path y/o de query, body, y/o headers. Hay que atender cada uno de estos endpoints, generando la _response_ que corresponde.  

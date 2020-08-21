@@ -22,7 +22,7 @@ Entre las librerías de alto nivel para acceso a bases de datos _relacionales_, 
 Las ORM se encargan específicamente de las transformaciones necesarias para "traducir" una base de datos relacional a un modelo de objetos, y viceversa; lo que resulta complejo dado que los modelos no son similares.
 Estas librerías suelen ser compatibles con distintas bases de datos relacionales, aprovechando el alto grado de estandarización de este modelo de bases de datos.
 
-Por su parte, las librerías ODM (Object Data Modelling) se encargan de la interface con bases de datos _de documentos_. Su tarea es menos compleja que la de los ORM, porque el modelo de una base de datos de documentos es más similar a lo que manejan muchos programas en JS / TS.  
+Por su parte, las librerías ODM (Object Data Modelling) se encargan de la interfaz con bases de datos _de documentos_. Su tarea es menos compleja que la de los ORM, porque el modelo de una base de datos de documentos es más similar a lo que manejan muchos programas en JS / TS.  
 El concepto de ODM es más reciente que el de ORM; aparece junto con la irrupción de las bases de documentos en la industria.  
 Al contrario de los ORM, los ODM suelen ser específicos para una base de datos particular. 
 

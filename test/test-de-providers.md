@@ -11,7 +11,7 @@ Para lograr tests aislados (o sea, que no dependan del contenido que tenga una B
 
 En concreto, vamos a incorporar el package [MongoDB In-Memory Server](https://github.com/nodkz/mongodb-memory-server), que permite definir una base Mongo que reside en memoria, y que por lo tanto es volátil (además de muy rápida).  
 Esta estrategia permite que en los tests se verifique, no solamente la lógica que se aplica a partir del resultado de un query, sino también la forma en que se define el query, y también las definiciones de esquemas de Mongoose.  
-Destacamos que se está ejecutando el mismo código de Mongoose que en producción, solamente reorientándolo a una base en memoria, que tiene la misma interface que una base MongoDB "normal".
+Destacamos que se está ejecutando el mismo código de Mongoose que en producción, solamente reorientándolo a una base en memoria, que tiene la misma interfaz que una base MongoDB "normal".
 
 
 ## El provider a testear
@@ -132,7 +132,7 @@ Tener andando el módulo de solicitudes de cuenta de acuerdo a lo que se describ
 
 ## Estrategia - mock de la base
 Los tests apuntan a verificar el código incluido en los métodos del provider. 
-Este código tiene dos responsabilidades: acceder a la base mediante Mongoose, y realizar las transformaciones de datos de acuerdo a su interface.
+Este código tiene dos responsabilidades: acceder a la base mediante Mongoose, y realizar las transformaciones de datos de acuerdo a su interfaz.
 
 Como lo indicamos al principio, los tests que definamos van a activar una base MongoDB que va a trabajar en memoria, utilizando el package [MongoDB In-Memory Server](https://github.com/nodkz/mongodb-memory-server).  
 Para utilizar este package, se le solicita que cree una base Mongo en memoria; esta base soporta _las mismas operaciones_ que una base Mongo "real" de modificaciones y búsquedas sobre una colección.  
@@ -242,7 +242,7 @@ En muchas situaciones, vamos a querer hacer tests que supongan que ya hay datos 
 Hay que agregar estos datos _en el mock de Mongo_.
 
 Algunas estrategias para lograr esto son
-1. utilizar la interface de Mongo para JS / TS, agregando documentos directamente en las colecciones sin utilizar Mongoose.
+1. utilizar la interfa zde Mongo para JS / TS, agregando documentos directamente en las colecciones sin utilizar Mongoose.
 1. crear una conexión separada de Mongoose a partir de la URI del mock de Mongo.
 1. crear un _provider para test_ que incorporamos a la aplicación Nest. En el constructor de este provider se pueden recibir los modelos de Mongoose de los datos que se quiera agregar.
 1. si el módulo que estamos testeando provee una forma de incorporar la información que necesitamos, entonces podemos usarlo directamente.
@@ -250,10 +250,10 @@ Algunas estrategias para lograr esto son
 De la última podría criticarse que estamos usando para el test lo mismo que queremos testear. Desde otro punto de vista, se puede preferir esta opción porque evita la duplicación de código entre aplicación operativa y test.  
 En este material, nos limitamos a indicar las opciones y puntos de vista, sin tomar partido.
 
-A continuación, vamos a describir brevemente dos estrategias: utilizar la interface de Mongo, y crear un módulo de test.
+A continuación, vamos a describir brevemente dos estrategias: utilizar la interfaz de Mongo, y crear un módulo de test.
 
 
-## Utilizar la interface de Mongo
+## Utilizar la interfaz de Mongo
 Para esto debemos incorporar el package de acceso directo a Mongo, sólo para test. Incorporemos también la información de tipos para TS.
 ```
 npm install mongodb --save-dev

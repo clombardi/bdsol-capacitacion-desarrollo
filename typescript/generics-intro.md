@@ -26,7 +26,7 @@ Esto es muy útil para el _intellisense_, p.ej. si tipeo `applications[0].`, va 
 También para el _chequeo_, probar p.ej. `applications.push("hola")`.
 
 
-### Tipos en la interface "funcional" de Array
+### Tipos en la interfaz "funcional" de Array
 
 Si un Array puede ser Array "de cualquier cosa' ¿cuál es el tipo del método `filter`? Seguro que tiene una flecha, porque `filter` es una función.  
 A su vez, el parámetro de `filter` también es una función. La estructura nos queda así:

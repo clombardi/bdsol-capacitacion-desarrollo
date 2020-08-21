@@ -27,7 +27,7 @@ Para que esto tenga sentido, hay que tener un buen nivel de test. Dentro de la o
 ## Qué testear
 En general, se puede testear a distintos _niveles_
 - desde el nivel más bajo, una función auxiliar
-- hasta el nivel más alto, que es la interface del componente que estemos desarrollando. Para un microservicio, va a ser su API. Para una aplicación Web o Mobile, serán sus pantallas. 
+- hasta el nivel más alto, que es la interfaz del componente que estemos desarrollando. Para un microservicio, va a ser su API. Para una aplicación Web o Mobile, serán sus pantallas. 
 
 Vamos a apuntarle a tests de distintos niveles, e incluso a debatir un poco a qué nivel _conviene_ testear.
 

@@ -166,7 +166,7 @@ WindowSpec { height: 20, width: 15 }
 300
 ```
 
-## Interface "funcional" de los Arrays
+## Interfaz "funcional" de los Arrays
 
 Es posible que no te toque _construir_ funciones que manejen funciones ... pero seguramente si vas a _usar_ código al que le podés pasar funciones.
 

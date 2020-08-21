@@ -12,7 +12,7 @@ Aquí elegiremos una perspectiva que, esperamos, proporcione un buen marco para 
 Para darle sentido a estas ideas, conviene empezar dando un poco de contexto.
 
 En la bruma de los tiempos informáticos, una aplicación se alojaba en un único equipo de cómputo. Para aplicaciones grandes, se destinaban equipos con altas prestaciones, de aquí viene el concepto de _mainframe_. 
-El mainframe puede concentrar todo lo necesario: las bases de datos que se requieran para almacenar información, los programas que procesan esa información, los componentes de interface que permiten la interacción con usuarios, que utilizan _terminales_ controladas por el mismo equipo central.
+El mainframe puede concentrar todo lo necesario: las bases de datos que se requieran para almacenar información, los programas que procesan esa información, los componentes de interfaz que permiten la interacción con usuarios, que utilizan _terminales_ controladas por el mismo equipo central.
 
 A medida que avanzan los tiempos, las tecnologías, el volumen de información que hay que manejar, y los requerimientos, se va desarrollando una tendencia a **distribuir** las responsabilidades de una aplicación en distintos equipos de cómputo.
 Tal vez, uno de los primeros pasos fue la separación de las bases de datos en equipos específicos. 
@@ -56,7 +56,7 @@ A partir de estos objetivos (o _propiedades_ buscadas en una aplicación distrib
 
 **Arquitectura cliente-servidor**  
 Se debe distinguir claramente entre los componentes que proveen información -los _servidores_-, y los componentes que la consumen -los _clientes_-.  
-Los clientes y los servidores deben comunicarse, únicamente, por una interface bien definida, mediante la cual los clientes realizan _pedidos_ que son atendidos por los servidores.
+Los clientes y los servidores deben comunicarse, únicamente, por una interfaz bien definida, mediante la cual los clientes realizan _pedidos_ que son atendidos por los servidores.
 
 Esta definición de arquitectura lleva a _desacoplar_, o sea separar, el mantenimiento de la información de dominio (que manejan los servidores) de la interacción con los usuarios (que es responsabilidad de los clientes).  
 En aplicaciones con interfaz Web, los clientes se ejecutarán en los navegadores, y se comunicarán con los servidores mediante pedidos en protocolo HTTP.
@@ -78,7 +78,7 @@ Esto permite agregar componentes intermedios, como _load balancers_ o _proxies_,
 La respuesta a un pedido puede indicar que la información es cacheable. El cache se puede implementar en el cliente o en componentes intermedios, con el obvio impacto en la eficiencia.
 
 
-**Interface uniforme**  
+**interfaz uniforme**  
 La forma de realizar un pedido debe definirse a partir de reglas sencillas, que definan un formato _uniforme_ para acceder a la información. 
 La intención es simplificar la comunicación entre componentes.  
 REST propone basar los identificadores de cada pedido que define una aplicación, en el concepto de **recurso**, como describimos a continuación.
@@ -111,7 +111,7 @@ La URL para la solicitud cuyo identificador es `5f177780a4178205a49fb308` será.
 /account-requests/5f177780a4178205a49fb308
 ```
 
-Los **procesos** que se quiera poder controlar mediante la interface de un servidor, también pueden ser considerados recursos. Por ejemplo: una generación masiva de resúmenes de cuenta, un envío masivo de mails, pueden ser considerados como recursos. P.ej. para lanzar una generación masiva de resúmenes de cuenta, se podría definir un `POST` sobre la URL
+Los **procesos** que se quiera poder controlar mediante la interfaz de un servidor, también pueden ser considerados recursos. Por ejemplo: una generación masiva de resúmenes de cuenta, un envío masivo de mails, pueden ser considerados como recursos. P.ej. para lanzar una generación masiva de resúmenes de cuenta, se podría definir un `POST` sobre la URL
 ```
 /account-statement-generation
 ```

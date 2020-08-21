@@ -4,7 +4,7 @@ layout: default
 
 # API REST (finalmente)
 En la [página anterior](./rest), describimos los principios que propone REST.  
-Ahora, vamos a estudiar qué propiedades debe cumplir la _interface_ de nuestros servicios, para cumplir con estos principios.
+Ahora, vamos a estudiar qué propiedades debe cumplir la _interfaz_ de nuestros servicios, para cumplir con estos principios.
 
 ## Qué nos brinda la arquitectura elegida
 Analicemos los principios REST en el contexto de una arquitectura como la definida en Banco del Sol, que refleja estas características.
@@ -22,11 +22,11 @@ Respecto de _cacheable_, hay varios elementos que hacen simplifican su implement
 
 Abordaremos con más profunidad el establecimiento de caches en microservicios en una etapa posterior de esta capacitación.
 
-Por lo tanto, para que la  **interface** de nuestros servicios sea _RESTful_ (o sea, cumpla con los principios REST) nos focalizamos en los principios de _comunicación stateless_ e _interface uniforme_, recordando sobre este último que REST recomienda basar la identificación de cada endpoint en el _recurso_ afectado.
+Por lo tanto, para que la  **interfaz** de nuestros servicios sea _RESTful_ (o sea, cumpla con los principios REST) nos focalizamos en los principios de _comunicación stateless_ e _interfaz uniforme_, recordando sobre este último que REST recomienda basar la identificación de cada endpoint en el _recurso_ afectado.
 
 
 ## API HTTP
-El término _API_ se refiere, simplemente, a la interface que presenta una pieza de software (literalmente es "Application Programming Interface"). Dejamos una [pequeña nota histórica](https://nordicapis.com/who-invented-the-api/) para les curioses.
+El término _API_ se refiere, simplemente, a la interfaz que presenta una pieza de software (literalmente es "Application Programming interface"). Dejamos una [pequeña nota histórica](https://nordicapis.com/who-invented-the-api/) para les curioses.
 
 En la arquitectura que describimos, la API de un microservicio está formada por un conjunto de _endpoints HTTP_, donde un endpoint se define como URL + método. 
 P.ej. `GET /account-requests` y `POST /account-requests` son dos endpoints distintos, que representan distintas _acciones_ sobre un mismo _recurso_.
@@ -69,11 +69,11 @@ En resumen, un protocolo como el planteado aumenta la complejidad del server. No
 Y no estamos agregando valor a la funcionalidad que brinda el servicio: usando este protocolo, o definiendo un único endpoint `POST \account-requests` donde se pasan los datos en el body, estamos brindando _la misma_ funcionalidad: agregar una nueva solicitud de cuenta.
 
 **Conclusión**:  
-mantener una interface stateless nos orienta hacia una mayor _simplicidad_ en los distintos componentes que forman una aplicación.
+mantener una interfaz stateless nos orienta hacia una mayor _simplicidad_ en los distintos componentes que forman una aplicación.
 
 
 ### Otro ejemplo
-Otro ejemplo de una interface no stateless sería un endpoint `PUT /account-requests` donde se envían los nuevos datos en el body, pero no se envía el id, confiando en que el servidor va a aplicar los cambios a la última solicitud agregada.
+Otro ejemplo de una interfaz no stateless sería un endpoint `PUT /account-requests` donde se envían los nuevos datos en el body, pero no se envía el id, confiando en que el servidor va a aplicar los cambios a la última solicitud agregada.
 
 
 ### ¿Y si se _necesita_ hacer una operación por pasos?
@@ -98,10 +98,10 @@ En esta propuesta, la complejidad que agrega el hecho de tener que soportar una 
 Además, se obtienen beneficios adicionales.
 - un mismo usuario puede tener varios procesos del mismo tipo abiertos, porque cada uno tiene su identificador específico.
 - agregando un endpoint `GET /account-request-creation/:id`, se pueden obtener los datos cargados hasta el momento.
-- el registro de las operaciones de creación puede mantenerse, para obtener estadísticas sobre el comportamiento de los usuarios (qué datos suelen cargar en una misma sesión, cuántas sesiones ocupa una operación de creación) que permitan pensar mejoras en la interface.
+- el registro de las operaciones de creación puede mantenerse, para obtener estadísticas sobre el comportamiento de los usuarios (qué datos suelen cargar en una misma sesión, cuántas sesiones ocupa una operación de creación) que permitan pensar mejoras en la interfaz.
 
 
-## Interface uniforme basada en recursos
+## interfaz uniforme basada en recursos
 Sobre este tema en particular, hay una plétora (una forma elegante de decir "un montón") de tutoriales en Internet, [este](https://restfulapi.net/rest-api-design-tutorial-with-example/) me pareció prolijo.  
 Nos limitaremos aquí a dar algunas indicaciones.
 

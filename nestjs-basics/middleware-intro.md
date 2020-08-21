@@ -6,8 +6,8 @@ layout: default
 En este repaso de conceptos sobre cómo darle forma a un backend, llega el momento de incorporar la idea de _middleware_.
 
 En rigor, este término tiene un significado muy general: _software que está en el medio_ de dos componentes.  
-Una aplicación típica de esta idea es definir una capa intermedia entre un componente ligado a una interface, y otro ligado a la resolución de lógica de negocio. Este _middleware_ adapta los datos de entrada y salida, realiza validaciones y otras tareas que le pueden simplificar la vida a los dos componentes "de los extremos".  
-Pero p.ej. cualquier implementación del pattern [Adapter](https://refactoring.guru/design-patterns/adapter) también es un middleware, entre un cliente que hace un pedido de acuerdo a una interface, y un servicio que puede responder al pedido, pero tiene una interface distinta. 
+Una aplicación típica de esta idea es definir una capa intermedia entre un componente ligado a una interfaz, y otro ligado a la resolución de lógica de negocio. Este _middleware_ adapta los datos de entrada y salida, realiza validaciones y otras tareas que le pueden simplificar la vida a los dos componentes "de los extremos".  
+Pero p.ej. cualquier implementación del pattern [Adapter](https://refactoring.guru/design-patterns/adapter) también es un middleware, entre un cliente que hace un pedido de acuerdo a una interfaz, y un servicio que puede responder al pedido, pero tiene una interfaz distinta. 
 
 En el desarrollo de un backend basado en atender requests, el middleware se va a ubicar entre los requests y los request handlers. 
 ![Rol del middleware](./images/middleware.jpg)

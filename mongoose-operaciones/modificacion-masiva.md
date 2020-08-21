@@ -98,7 +98,7 @@ La razón es que aunque la búsqueda se le pide a Mongoose, quien resuelve, o se
 En los filtros no se pueden usar atributos agregados mediante `virtual`, `method`, u otras características _de Mongoose_. Sólo se pueden usar los atributos que están explícitamente definidos en el esquema, que son los que se van a corresponder con los atributos de la colección de MongoDB.
 
 > **Atención**  
-> Esto es un reflejo de un fenómeno general: al usar Mongoose, conviene no perder de vista que en realidad es una interface a MongoDB, y que MongoDB no conoce los agregados que se puedan hacer a nivel Mongoose.
+> Esto es un reflejo de un fenómeno general: al usar Mongoose, conviene no perder de vista que en realidad es una interfaz a MongoDB, y que MongoDB no conoce los agregados que se puedan hacer a nivel Mongoose.
 
 
 ### Varios status - cómo resolverlo

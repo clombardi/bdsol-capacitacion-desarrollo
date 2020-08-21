@@ -93,12 +93,12 @@ async getInfo(countryCode: string): Promise<CountryInfoDTO> {
     /* implementation */
 }
 ```
-y (además de que documenté la interface) ahora sí tengo chequeo de tipos
+y (además de que documenté la interfaz) ahora sí tengo chequeo de tipos
 ![Chequeo de propiedad faltante en la respuesta del servicio](./images/lacking-property-detected.jpg)
 
 
 ## Dónde hacer las transformaciones - qué es eso de "DTO" 
-La sigla "DTO" tal vez les suene: _Data Transfer Object_. O sea, un objeto que sirve para una interface, en este caso la response del request.  
+La sigla "DTO" tal vez les suene: _Data Transfer Object_. O sea, un objeto que sirve para una interfaz, en este caso la response del request.  
 Visto así, es lógico que el método _del controller_ tenga com tipo de respuesta `CountryInfoDTO`.
 
 En el _servicio_ ... tal vez no siempre sea así.  

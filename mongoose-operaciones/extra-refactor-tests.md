@@ -79,7 +79,7 @@ Si se van agregando tests y queremos partir este archivo en varios, en principio
 
 
 ## Detectando partes comunes
-En el código que mostramos, hay varias partes que son comunes a **cualquier** test que se implemente usando el mock y la interface de Mongo, sea sobre solicitudes de cuenta o sobre cualquier otro dominio. Son las que marcamos en verde en el gráfico siguiente, en la que comprimimos algunas secciones para que no se hiciera demasiado largo.
+En el código que mostramos, hay varias partes que son comunes a **cualquier** test que se implemente usando el mock y la interfaz de Mongo, sea sobre solicitudes de cuenta o sobre cualquier otro dominio. Son las que marcamos en verde en el gráfico siguiente, en la que comprimimos algunas secciones para que no se hiciera demasiado largo.
 
 ![test de provider - partes comunes](./images/test-mongo-common-parts.jpg)
 
