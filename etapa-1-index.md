@@ -66,3 +66,5 @@ layout: default
 [Qué es Swagger](./swagger/swagger-intro)
 
 [Swagger - pequeña anatomía](./swagger/swagger-anatomia)
+
+[Swagger - herramientas para edición](./swagger/swagger-herramientas)

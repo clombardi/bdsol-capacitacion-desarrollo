@@ -346,27 +346,15 @@ De paso, usamos la notación comprimida para listas YAML.
 y se ve así (destacando donde aparece el tag)
 ![uso de tag](./images/tag-example.jpg)
 
+
 ## Para practicar
+Ver qué pasa si se cambia el nombre de atributo `components`, en forma consistente, o sea en cada `$ref` y en el atributo; y sacar conclusiones.
+
 Definir los endpoints para
 - un endpoint al que se le pasa un código de país, y entrega la información que se indica en el [ejemplo integrador de procesamiento asincrónico](../async/ejercicio-integrador).
+- el endpoint de búsqueda de datos de un país, con opciones de representación de la información, que trabajamos al estudiar [variantes de API REST](../api-rest/api-rest-varios).
 - los endpoints de un CRUD de sucursales con el formato definido al trabajar con [índices en MongoDB/Mongoose](../mongoose-performance/indices). Se puede suponer que la búsqueda se puede especificar un rango de superficies y/o parte de la dirección y/o nombre, como parámetros de query.
 - algunos de los endpoints del [ejercicio de API REST](../api-rest/api-rest-ejercicio).
-
-
-
-
-
-
-
-
-
-
-
-<!-- examples:
-    MongoDB-generated id:
-        value: 5f347eedf461eb20f419633e
-    wrong id:
-        value: jpq -->
 
 
 
