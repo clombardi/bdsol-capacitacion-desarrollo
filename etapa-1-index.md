@@ -64,3 +64,5 @@ layout: default
 
 ## Documentación de API - Swagger
 [Qué es Swagger](./swagger/swagger-intro)
+
+[Swagger - pequeña anatomía](./swagger/swagger-anatomia)

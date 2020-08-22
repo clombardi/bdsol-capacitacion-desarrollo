@@ -151,6 +151,8 @@ El YAML queda un poco más compacto y liviano, porque
 Son necesarias cuando  podría haber confusión con otro tipo de datos, p.ej. los status code van entre comilla para que no los tome como números (lo que es necesario para poder transformar a JSON, donde los nombres de atributo _tienen_ que ser String).
 - no hay que poner las llaves que abren y cierran cada nivel.
 
+Además, al contrario de JSON, YAML _sí_ admite comentarios.
+
 Hay un millón de conversores online, entre los que aparecen primero al googlear me gustó [este](https://codebeautify.org/yaml-to-json-xml-csv).
 
 
@@ -172,7 +174,7 @@ En la descripción de la respuesta, se ven los ejemplos que pusimos para cada pr
 
 
 ## Aclaración antes de seguir
-El material de las páginas que sigue no pretende ser una descripción completa de Swagger, ni mucho menos. Se van a incluir los elementos más usados, que deberían ser suficientes para documentar una API sin características muy particulares. 
+El material de las páginas que sigue no pretende ser una descripción completa de Swagger, ni mucho menos. Se van a incluir los elementos más usados, que deberían ser suficientes para documentar una API a menos que aparezcan características particulares. 
 
-Análogamente, vamos a comentar _algunas_ formas de _manejar_ esta documentación, debe haber muchas más, que este escriba desconoce.  
-Sí vamos a trabajar con el soporte para Swagger incluido en la versión 6 de Nest, que se describe (un poco) en [la doc](https://docs.nestjs.com/v6/recipes/swagger).
+Análogamente, vamos a comentar _algunas_ formas de _manejar_ esta documentación, debe haber muchas más, que este escriba desconoce. 
+Entre las que sí vamos a cubrir, está el soporte para Swagger incluido en la versión 6 de Nest, que se describe (un poco) en [la doc](https://docs.nestjs.com/v6/recipes/swagger).
