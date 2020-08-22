@@ -68,3 +68,5 @@ layout: default
 [Swagger - pequeña anatomía](./swagger/swagger-anatomia)
 
 [Swagger - herramientas para edición](./swagger/swagger-herramientas)
+
+[Markdown - formato para las descripciones](./swagger/swagger-markdown)
