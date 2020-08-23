@@ -74,3 +74,5 @@ layout: default
 [Swagger en NestJS - empezamos](./swagger/swagger-nestjs-empezamos)
 
 [Swagger en NestJS - relación con la especificación](./swagger/swagger-nestjs-spec)
+
+[Swagger en NestJS - más operaciones](./swagger/swagger-nestjs-mas-operaciones)

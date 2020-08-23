@@ -61,3 +61,5 @@ Uno de los detalles que está mencionado al pasar en la doc de NestJS, es que ad
 Este endpoint es (obviamente) un `GET`, el path es `/<path UI>-json`, en el ejemplo de la página anterior queda `/apidoc-json`.
 
 Con la aplicación levantada, se puede acceder p.ej. mediante Postman.
+![endpoint Swagger en JSON, desde Postman](./images/nestjs-postman.jpg)
+
