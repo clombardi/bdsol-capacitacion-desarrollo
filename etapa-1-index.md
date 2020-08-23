@@ -70,3 +70,7 @@ layout: default
 [Swagger - herramientas para edición](./swagger/swagger-herramientas)
 
 [Markdown - formato para las descripciones](./swagger/swagger-markdown)
+
+[Swagger en NestJS - empezamos](./swagger/swagger-nestjs-empezamos)
+
+[Swagger en NestJS - relación con la especificación](./swagger/swagger-nestjs-spec)

@@ -93,11 +93,3 @@ Para mostrar dos características adicionales de Markdown, agregamos una descrip
 
 Aquí vemos: _títulos_ en líneas que comienzan con numerales (de acuerdo a la cantidad, es la jerarquía de título), y _bloques de código_, que se demarcan con líneas que tienen _únicamente_ `` ``` ``, tres backticks.
 
-
-
-
-
-
-
-
-
