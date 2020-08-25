@@ -76,3 +76,7 @@ layout: default
 [Swagger en NestJS - relación con la especificación](./swagger/swagger-nestjs-spec)
 
 [Swagger en NestJS - más operaciones](./swagger/swagger-nestjs-mas-operaciones)
+
+[Swagger en NestJS - saliendo un poco de lo básico](./swagger/swagger-nestjs-plus)
+
+[Swagger en NestJS - ejercicios propuestos](./swagger/swagger-ejercicios)
