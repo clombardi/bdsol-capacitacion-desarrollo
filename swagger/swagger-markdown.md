@@ -91,5 +91,5 @@ Repasamos los elementos de Markdown utilizados
 Para mostrar dos características adicionales de Markdown, agregamos una descripción general al documento.
 ![títulos y bloques de código](./images/markdown-title-code-block.jpg)
 
-Aquí vemos: _títulos_ en líneas que comienzan con numerales (de acuerdo a la cantidad, es la jerarquía de título), y _bloques de código_, que se demarcan con líneas que tienen _únicamente_ `` ``` ``, tres backticks.
+Aquí vemos: _títulos_ en líneas que comienzan con numerales (de acuerdo a la cantidad, es la jerarquía de título), y _bloques de código_, que se demarcan con líneas que tienen _únicamente_ tres backticks.
 
