@@ -27,7 +27,7 @@ layout: default
 
 [Otro ejemplo de tipo genérico](./typescript/generics-application)
 
-[Decoratos - los miramos un poquito](./typescript/decorators-slight-intro)
+[Decorators - los miramos un poquito](./typescript/decorators-slight-intro)
 
 
 ## Procesamiento asincrónico

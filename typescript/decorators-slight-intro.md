@@ -122,9 +122,43 @@ la función que implementa el decorator recibe los datos que se le pasan, y la f
 
 
 ### Desafío
-Definir un decorator de método, que cuente cuántos métodos se decoran en cada clase. Esto nos lleva a mirar y entender un poco de documentación sobre TS.
+Definir un decorator de método, que permita marcar un método como "importante", y obtener un reporte de los métodos importantes en cada clase, o al menos la cantidad de métodos importantes en cada clase.  
+Este decorator nos tiene que permitir marcar métodos de esta forma
+``` typescript
+class TrainLine {
+    constructor(public end1: TrainStation, public end2: TrainStation) { }
+    description(): string {
+        return `${this.end1.description()} to ${this.end2.description()}`
+    }
+
+    @MarkAsImportantMethod
+    isTrivial(): boolean {
+        return this.end1 === this.end2
+    }
+
+    ends(): TrainStation[] {
+        return [this.end1, this.end2]
+    }
+
+    @MarkAsImportantMethod
+    isZeth(): boolean {
+        return this.ends().some(end => end.name[0].toUpperCase() === 'Z')
+    }
+}
+```
+Si pido un reporte de los métodos importantes, tiene que indicar que la clase `TrainLine` tiene dos métodos importantes. Mejor si indica sus nombres.  
+A mí me salió así:
+```
+important methods:
+Map {
+  'TrainLine' => [ 'isTrivial', 'isZeth' ]
+}
+```
+(usé el `Map` que vimos al hablar de Generics).
+
+Esto nos lleva a mirar y entender un poco de documentación sobre TS.
 
 
 ### Conclusión
-Esto es sólo para tener una mínima idea de qué se tratan los decorators. 
+Esto es sólo para tener una _mínima idea_ de qué se tratan los decorators.  
 Creo que es sano sacarle un poco de la característica de magia negra a cada cosa que usamos. Con paciencia y sabiendo cómo leer y a quién preguntarle, todo pasa del lado de lo comprensible.
