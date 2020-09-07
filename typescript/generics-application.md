@@ -6,18 +6,18 @@ layout: default
 
 Este código
 ``` typescript
-enum ApplicationStatus { Pending, Analysing, Accepted, Rejected }
+enum Status { Pending, Analysing, Accepted, Rejected }
 
-interface Application<T> {
+interface Request<T> {
     resource: T,
-    status: ApplicationStatus,
+    status: Status,
     date?: string,
     requiredApprovals?: number
 }
 ```
 
-define un tipo genérico `Application`, que modela un pedido que se hace de un determinado recurso.  
-El tipo `Application` define los datos propios del pedido, más un recurso del cual no conoce nada.
+define un tipo genérico `Request`, que modela un pedido que se hace de un determinado recurso.  
+El tipo `Request` define los datos propios del pedido, más un recurso del cual no conoce nada.
 
 Se está usando la misma forma de tipo genérico que en `Pair`, para un modelo más cercano al negocio.
 
@@ -39,23 +39,23 @@ interface Card {
 
 podemos construir objetos y funciones relacionadas con pedidos, que preservan los tipos de recurso.
 ``` typescript
-const accountApplication: Application<GenericAccount> = { 
+const accountRequest: Request<GenericAccount> = { 
     resource: {customer: "Juana Molina", currency: Currency.ARS},
-    status: ApplicationStatus.Pending,
+    status: Status.Pending,
     date: "2020-02-21"
 }
 
-const visaApplication: Application<Card> = {
+const visaRequest: Request<Card> = {
     resource: {issuer: CardIssuer.Visa, creditLimit: 300000},
-    status: ApplicationStatus.Pending,
+    status: Status.Pending,
     requiredApprovals: 8
 }
 
-type AccountApplication = Application<GenericAccount>
+type AccountRequest = Request<GenericAccount>
 
-function isLocal(req: AccountApplication) { return req.resource.currency === Currency.ARS }
+function isLocal(req: AccountRequest) { return req.resource.currency === Currency.ARS }
 
-function makeMoreStrict<T>(req: Application<T>) { 
+function makeMoreStrict<T>(req: Request<T>) { 
     if (req.requiredApprovals) {
         req.requiredApprovals++
     }
@@ -70,10 +70,10 @@ Dos detalles en este código
 ## Para explorar
 
 ### Función no genérica sobre tipo genérico
-En rigor, no es necesario que `makeMoreStrict` sea una función genérica. Pero `Application` sí es genérico. ¿Qué se podría poner como parámetro en la definición del atributo? Relacionar con el tipo de retorno de la función.
+En rigor, no es necesario que `makeMoreStrict` sea una función genérica. Pero `Request` sí es genérico. ¿Qué se podría poner como parámetro en la definición del atributo? Relacionar con el tipo de retorno de la función.
 
 ### Uso de generics acotados
-Definir una función `isWeak` que recibe un `AccountApplication`, y devuelve `true` si: el valor de `requiredApprovals`  es menor a 3 o no está definido, la moneda es dólares, y el nombre del cliente empieza con minúscula.
+Definir una función `isWeak` que recibe un `AccountRequest`, y devuelve `true` si: el valor de `requiredApprovals`  es menor a 3 o no está definido, la moneda es dólares, y el nombre del cliente empieza con minúscula.
 
 Cambiar la definición de `isLocal` para que sea válida para los pedidos de cualquier recurso que tenga una `currency`.
 
@@ -98,21 +98,21 @@ Algunas preguntas:
 - Si se cambia `isLocal` como se indica en el desafío previo ¿serviría para instancias de `Credit`?
 
 ### Las ventajas de poner los tipos
-Definir varios objetos que cumplan con la interface `Application<GenericAccount>`, verificar que pueden usar las funciones `isWeak` e `isLocal`.  
-Ahora, cambiar la interface `Application`, p.ej. en el nombre del atributo de `requiredApprovals` sacar la `s` final. Ver qué pasa si se especifica el tipo de los objetos, o sea
+Definir varios objetos que cumplan con la interface `Request<GenericAccount>`, verificar que pueden usar las funciones `isWeak` e `isLocal`.  
+Ahora, cambiar la interface `Request`, p.ej. en el nombre del atributo de `requiredApprovals` sacar la `s` final. Ver qué pasa si se especifica el tipo de los objetos, o sea
 ``` typescript
-const juanaApplication: Application<GenericAccount> = {}
+const juanaRequest: Request<GenericAccount> = {}
 ```
 y qué pasa si no se especifica.
 
 ### Listas con elementos genéricos
-Definir la función `applicationsInYear`, que recibe una lista de `Application` y un año, y devuelve una nueva lista con las applications que sean de ese año.
+Definir la función `requestsInYear`, que recibe una lista de `Request` y un año, y devuelve una nueva lista con los pedidos que sean de ese año.
 
-Lograr que si se la invoca con una lista de applications homogéneas, o sea que sean todas del mismo tipo de recurso (p.ej. una lista de `Application<Credit>`), el resultado tipe como una lista de applications de ese mismo tipo.  
+Lograr que si se la invoca con una lista de pedidos homogéneas, o sea que sean todas del mismo tipo de recurso (p.ej. una lista de `Request<Credit>`), el resultado tipe como una lista de pedidos de ese mismo tipo.  
 ¿Qué pasa si la lista no es homogénea, cómo usar la función, qué puedo hacer con lo que devuelve?
 
 ### Uno más
-Definir la función `pendingDescriptions()`, que recibe una lista de `Application` a cuyo recurso se le puede pedir la `description()` (como es el caso de `BankAccount` y `Credit`), y devuelve la lista de las `description()` de los (recursos de los) pedidos cuyo estado es `Pending`.
+Definir la función `pendingDescriptions()`, que recibe una lista de `Request` a cuyo recurso se le puede pedir la `description()` (como es el caso de `BankAccount` y `Credit`), y devuelve la lista de las `description()` de los (recursos de los) pedidos cuyo estado es `Pending`.
 
 Definir el tipo preciso para el parámetro. 
 
@@ -124,4 +124,3 @@ de forma tal que se pueda usar `pendingDescriptions()` sobre una lista de pedido
 
 Yo estuve un rato ... la versión que más me convenció usa `Object.create()`.
 
-... y revisar el script ...
