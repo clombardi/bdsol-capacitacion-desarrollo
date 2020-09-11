@@ -86,3 +86,9 @@ layout: default
 
 ## Git
 [Git - intro](./git/git-intro)
+
+[Los 'lugares' de Git](./git/git-espacios)
+
+[Un repo es una red de commits](./git/git-commits)
+
+

@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Git
 Como la enorme mayoría de los proyectos de desarrollo actuales, en Banco del Sol se usa [Git](https://git-scm.com/) como **repositorio de código**. 
 Por lo tanto, ya están usando Git, y seguramente ya lo conocían antes de entrar en Banco del Sol. Cada vez cuesta más recordar cómo era el mundo del software antes de Git.  
