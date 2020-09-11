@@ -91,4 +91,6 @@ layout: default
 
 [Un repo es una red de commits](./git/git-commits)
 
+["Deshaciendo" cambios - reset, revert](./git/git-reset)
+
 

@@ -139,11 +139,21 @@ Si agregamos un nuevo commit, va a tener como parent a `C4`. Se van a mover `HEA
 
 Aparece una **ramificación** en el repositorio, este fenómeno es el que le da sentido al nombre "branch", o sea _rama_.
 
+
+## Detached HEAD
+Supongamos que ahora queremos ver en qué estado estaba el repo en el commit C2. Fácil: averiguamos el id y hacemos el checkout correspondiente.
+
+![detached HEAD](./images/detached-head.jpg)
+
+¿Qué es eso de `'detached HEAD' state`?  
+Con este mensaje, Git nos está avisando que al apuntar `HEAD` directamente a un commit, en lugar de hacer referencia a un branch, el working tree no tiene un branch actual. Se pueden hacer commits, pero Git los va a considerar como provisorios: se descartan al "pararnos" en un branch usando nuevamente `git checkout`.  
+Si queremos que esos cambios queden registrados, se puede crear un branch (que nace con el tip en donde esté apuntando `HEAD`).
+
 > **Micro desafío**  
 > Crear un nuevo branch `task03` _partiendo desde el commit C3_, y agregarle un commit. Dibujar cómo queda el estado del repositorio y dónde queda el `HEAD`.
 
 
-### Branch tip
+## Branch tip
 Cerramos con un pequeño comentario: aunque técnicamente un branch no es más que la referencia a un commit, conceptualmente se asocia a la secuencia de commits que termina en el referenciado. Por eso a veces se menciona como "branch" a toda la secuencia, y _branch tip_ al commit apuntado.
 
 
