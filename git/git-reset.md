@@ -113,7 +113,10 @@ El commit C4 queda "huérfano", en el sentido que no se puede acceder a partir d
 `git checkout 5425b87`
 el `HEAD` va a apuntar (en modo "detached") al commit C4.
 
-Esto nos sirve para "arrepentirnos" del cambio de nombre y volver a C4. Alcanza con volver a `master` (`git checkout master`) y después hacer
+Por eso pusimos entre commilas las palabras "deshaciendo" y "modificando" en el título de esta página. 
+En principio, **Git no borra ningún commit**. Esto permite reparar errores y volver a cualquier estado en el que el repositorio haya estado en algún momento.
+
+En nuestro caso, contar con el id del commit huérfano nos sirve para "arrepentirnos" del cambio de nombre y volver a C4. Alcanza con volver a `master` (`git checkout master`) y después hacer
 ```
 git reset --hard 5425b87
 ```
@@ -142,5 +145,50 @@ A partir de un repositorio de esta forma
 ![git ejercicio de commit --amend feo - escenario](./images/four-commits-two-branches.jpg)   
 cambiarle el nombre al commit C2 usando `commit --amend`. Verificar usando `git log` que efectivamente cambió el nombre. Después hacer `git checkout master` y luego `git log`. Probablemente haya algo sorprendente en el resultado. Analizarlo y obtener conclusiones sobre el carácter delicado del `commit --amend`.
 
+
+## Revert - la cancelación queda registrada
+Volviendo al objetivo original de "deshacer" Una alternativa a `git reset` es `git revert`. 
+
+_En el working tree_, el efecto de `git revert` es el mismo que `git reset --hard`: se vuelve al commit anterior.  
+Por otro lado, el efecto _en el repositorio_ es distinto: la operación `git revert` _agrega_ un commit, o sea, el `HEAD` y el branch actual avanzan. El nuevo commit **invierte** al último: elimina los archivos agregados, agrega los eliminados, y revierte las modificaciones.  
+Por lo tanto, en la historia del branch van a quedar los dos commits: el original, y el que genera `git revert`. 
+
+Si sobre este repositorio  
+![repositorio antes de revert HEAD](./images/just-four-commits.jpg)  
+ejecutamos `git revert HEAD`, el estado después de la operación es  
+![repositorio después de revert HEAD](./images/revert-simple.jpg)  
+
+Mirémoslo en la consola  
+![revert HEAD en la consola](./images/revert-console.jpg)  
+
+La opción `--no-edit` evita que se abra una ventana para que se pueda cambiar el mensaje del commit que se agrega.
+
+Veamos el efecto en el working tree, usando `git diff` podemos verificar que el commit `Revert "C4"` invierte las acciones del `C4`.  
+![efectos del revert HEAD en el working tree](./images/revert-differences.jpg)  
+
+En este caso, el commit `C4` (que es `HEAD~1`) agrega dos líneas al archivo `verduras.txt`, y el commit `Revert "C4"` (o sea, `HEAD`) las elimina.
+
+En particular, el `git revert` es útil para anular (en el estado del repositorio) los efectos de un commit que ya está subido a un repositorio remoto. Mover un branch usando `git reset` puede causar problemas al sincronizar el repositorio local con el remoto. Agregar un nuevo commit es una operación mucho menos conflictiva.
+
+
+### Variantes que pueden ser de interés
+Se pueden revertir varios commits en una sola ejecución del comando. Genera un commit de reversión por cada commit que se revierte. P.ej. para revertir los últimos dos commits (y que no abra el editor para el mensaje de cada nuevo commit) alcanza con ejecutar
+```
+git revert --no-edit HEAD~2..HEAD
+```
+
+La opción `-n`, o `--no-commit`, inicia una sesión interactiva de `revert`. En lugar de generar el o los commits, deja los cambios en el stage area. Con `git revert --continue` se completa el revert, también está la opción de `git revert --abort`. Para ver la lista de posibilidades en cada momento, `git status`.
+
+En rigor, se puede revertir _cualquier_ commit o conjunto de commit. Si se revierte un commit que no es el último, pueden surgir conflictos similares a los de merge, y el `revert` queda abierto para que se resuelvan los conflictos.
+
+### Ejercicios finales
+Para probar el `revert` de un commit que no es el último, armar un repositorio con esta forma  
+![repositorio antes de revert HEAD](./images/just-four-commits.jpg)  
+donde C1 crea tres archivos, y los commits C2, C3 y C4 modifican cada uno, un archivo distinto.  
+Sobre este repositorio ejecutar `git revert --no-edit HEAD~1`, y observar los efectos.
+
+Sobre un repositorio en este estado
+![git ejercicio de revert - escenario](./images/four-commits-two-branches.jpg)   
+pensar cómo queda el repositorio si se hace `git revert --no-edit HEAD`. Verificar probando.
 
 
