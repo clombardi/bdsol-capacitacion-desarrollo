@@ -25,8 +25,8 @@ Podemos ver varias diferencias.
 - El log muestra los branches y HEAD remotos en color rojo, asociándolos con la palabra "origin", p.ej. `origin/master`. 
 - La respuesta a `git remote` ahora indica que hay un repositorio remoto llamado `origin`. Ejecutando `git remote show origin`, se puede acceder a información sobre el repo remoto, incluyendo la URL.
 
-Los commits en los repos local y remoto se relacionan porque mantienen los mismos id. Esta es la vista de los commits del repo remoto del que mostramos el clone recién.
-
+Los commits en los repos local y remoto se relacionan porque mantienen los mismos id. Esta es la vista de los commits del repo remoto del que mostramos el clone recién, los ids de cada commit se ven a la derecha.  
+![commits remotos](./images/remote-commits.jpg)  
 
 
 ### Varios remotos
@@ -101,21 +101,24 @@ El repo local termina así:
 El repo remoto igual, con los nombres de branch `task01` / `task02` en lugar de `tarea01` / `tarea02`.
 
 
-## Sincronización - casos sencillos y complejos
+## Sincronización - casos sencillos
 Cada operación de sincronización, o sea cada vez que se ejecuta `git pull` o `git push`, hay un repositorio origen y uno destino: cada operación va _en un solo sentido_. El objetivo de la sincronización es que el destino incorpore las novedades incorporadas en el origen. 
 - En `git pull`, el repo destino es el local, el objetivo es que tome las novedades del remoto.
 - En `git push`, el repo destino es el remoto, el objetivo es que los cambios registrados en el repo local pasen al remoto. 
 
-La sincronización es sencilla cuando alcanza con agregar commits y branches, y mover los branches hacia adelante, como en este caso.  
+Como ya dijimos, la sincronización aplica sólo al branch actual, con una sutileza en el `git pull` de la que hablaremos más adelante.
+
+La sincronización es sencilla cuando los branches existentes en el origen están en el mismo lugar, o más adelante, que en el destino.
+En este caso:
 ![sincronización sin conflicto](./images/safe-synchronization.jpg)  
-Como resultado de esta sincronización, el destino va a quedar igual que el origen.
+se puede sincronizar cualquier branch existente en el destino sin problema, quedando igual que en el origen.
 
 > **Pregunta**  
-> Esta operación ¿parecería ser más bien un pull o un push?
+> Esta situación ¿corresponde más bien un pull o un push?
 
 Incluso si el origen tiene esta forma  
 ![sincronización sin conflicto, variante de origen](./images/safe-synchronization-other-origin.jpg)  
-también la sincronización va a poder hacerse sin problemas. 
+también la sincronización va a poder hacerse sin problemas, la diferencia con el caso anterior es que `master` también se mueve hacia adelante. 
 
 También podemos variar el destino  
 ![sincronización sin conflicto, variante de destino](./images/safe-synchronization-other-target.jpg)  
@@ -150,3 +153,88 @@ Ahora probamos el `push`. Sobre la copia 3:
 - agregar un commit en `task01`, 
 - hacer `git push` para subir al remoto las novedades sobre el branch `task01`.
 - ver cómo quedan los repos local y remoto.
+
+
+## Sincronización - casos conflictivos
+Cuando en el origen hay un branch que no está en el mismo commit, o más adelante, que en el destino, se genera un conflicto.
+
+Vamos con un caso sencillo, un `git commit --amend` sobre el último commit, seguido por un `git push`. Si el último commit no estaba en el repositorio remoto, no hay conflicto.  
+![commit amend + push - caso no conflictivo](./images/push-commit-amend-1.jpg)  
+El tip de `master` en el origen, C4.1, tiene como parent a C3, el tip del mismo branch en el destino.
+
+Si el commit que "modificamos" sí estaba en el remoto, se genera un conflicto.  
+![commit amend + push - caso conflictivo](./images/push-commit-amend-2.jpg)  
+El commit C4.1 no está adelante del C4; podríamos decir que está "al costado", ninguno es antecesor del otro.
+
+Por esto es que se recomienda que los `git commit --amend` y los `git reset` no involucren a commits que ya están pusheados.
+
+Si el branch en el origen está _detrás_ del tip en el destino, entonces el comportamiento depende de la operación
+- si es un `git pull`, no se considera un conflicto, y no se mueve el branch en el repo local. Se considera que se está haciendo un pull de un branch en el que se avanzó local, por lo que resulta correcto no moverlo.
+- si es un `git push`, sí se considera un conflicto.
+
+
+### Para ver qué pasa
+Generar una copia local de un repositorio remoto de esta forma  
+![ejercicio de reset y revert - situación inicial](./images/just-four-commits.jpg)  
+y hacer las siguientes pruebas
+1. retroceder `master` mediante `git reset --hard`, y luego pushear.
+1. revertir el último commit usando `git revert`, y luego pushear.
+
+El comportamiento del push ¿es el mismo en los dos casos?
+
+
+## Qué pasa en caso de conflicto
+El manejo de conflictos es distinto para push que para pull.
+
+### Conflictos en git push
+Si hay conflicto en el `git push`, la operación se rechaza indicando que los conflictos deben resolverse.  
+Es importante entender que **toda resolución de conflictos es local**; a los repositorios remotos les llega _el resultado_.
+
+Una alternativa es hacer `git push -f`, o sea **forzar** a que el branch en el repo remoto quede en el estado en que esté en el repo local. 
+Pero esto tiene un alto riesgo de complicarle la vida a todas las personas que estén trabajando sobre el mismo branch. 
+
+Volvamos al ejemplo del `git commit --amend`. Supongamos que la situación actual es esta  
+![force push - situación inicial](./images/just-four-commits.jpg)  
+
+y que un desarrollador realiza un `git push -f` que deja al repositorio así.  
+![force push - estado después del push -f](./images/change-commit-name-real.jpg)  
+
+Si hay otras dos desarrolladoras que avanzaron sobre el mismo branch  
+![force push - otras desarrolladoras](./images/emilia-macarena.jpg)  
+
+entonces les estoy generando un conflicto cuando ellas quieran hacer `pull`.
+
+Por eso el `push -f` es una operación que hay que usar con mucha precaución.
+Eso ¿quiere decir que no debe usarse _nunca jamás_? Personalmente, creo que conviene analizar el caso.
+- sobre un branch sobre el que está trabajando una única persona, el `push -f` no le causa problemas a nadie.
+- sobre un branch sobre el que se está desarrollando una tarea en que trabajan, digamos, dos o tres personas que tienen comunicación fluida, puede ser más sencillo coordinarse para recuperarse rápido de los efectos del un push forzado. El `pull --rebase` puede ayudar.
+- sobre un branch de integración, ahí sí que en principio no hay que hacer `push -f` jamás de los jamases.
+
+Muchas veces, la alternativa a los push forzados es un merge, que implica un merge commit. Si siempre elegimos la opción que nos lleva a un merge, corremos el riesgo de que el repo se nos llene de merge commits y que sea difícil entender la historia.  
+Vamos a volver a hablar sobre esto al tratar las operaciones de merge y rebase con un poco más de detalle.
+
+
+### Conflictos en git pull
+Si se detectan conflictos en el `git pull`, el mismo comando ejecuta un `merge`, que genera un merge commit en el que se replican en el repo local, los cambios que sólo están en el remoto.  
+![merge al hacer un pull](./images/merge-in-pull.jpg)  
+
+En GitKraken se ve así  
+![merge al hacer un pull - en GitKraken](./images/merge-in-pull-git-kraken.jpg)  
+
+El merge commit tiene dos parents.
+
+Si surgen conflictos en el merge (tema del que hablaremos más adelante), deben ser resueltos para cerrar el pull.
+
+
+### Preguntas y ejercicios
+Si en la situación previa al merge se quiere hacer un `push` ¿lo va a permitir? ¿Cambia la situación después del merge? Explicarlo comparando dónde están los tip del branch en cada caso.
+
+A partir de un repositorio remoto de esta forma.  
+![ejercicio sobre force push - situación inicial](./images/just-four-commits.jpg)  
+hacer tres copias locales. Con las tres copias inicializadas, hacer lo siguiente.
+- en una copia, hacer `commit --amend` para cambiar el nombre del último commit, y luego `push -f`.
+- en la segunda, agregar un commit que agregue un par de líneas al final de un archivo, y luego hacer `git pull`.
+- en la tercera, agregar un commit igual al de la segunda, y hacer `git pull --rebase`.
+
+Comparar cómo quedaron las copias 2 y 3.
+
