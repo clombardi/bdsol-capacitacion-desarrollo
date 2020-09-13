@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # Los "lugares" de Git
 El uso de Git arranca relacionando una carpeta de un disco local, con un repositorio. Eso define varios "lugares":
 - el directorio de trabajo o "working tree", o sea, la carpeta local.

@@ -91,6 +91,7 @@ layout: default
 
 [Un repo es una red de commits](./git/git-commits)
 
-["Deshaciendo" cambios - reset, revert](./git/git-reset)
+["Deshaciendo" o "modificando" cambios - reset, commit --amend, revert](./git/git-reset)
 
+[Repositorios remotos](./git/git-remote)
 
