@@ -238,3 +238,55 @@ hacer tres copias locales. Con las tres copias inicializadas, hacer lo siguiente
 
 Comparar cómo quedaron las copias 2 y 3.
 
+
+## Git fetch y un espacio adicional de Git
+Entre la gran cantidad de comandos de Git, son pocos los que interactúan con repositorios remotos. 
+En esta página aparecieron cuatro: `git pull`, `git push`, `git remote`, y ... ¿cuál es el cuarto?
+
+Otro comando relacionado con repositorios remotos es `git fetch`. Este comando obtiene el estado actual de un repositorio remoto, actualizando localmente  ... ¿qué precisamente?   
+Para responder a esta pregunta, hagamos un experimento. Consideremos un repositorio local sencillo  
+![git fetch - situación inicial](./images/just-four-commits.jpg)  
+que está sincronizado con su único remoto, `origin`.  
+![git fetch - situación inicial - consultas](./images/fetch-status-log-before-remote-changes.jpg)  
+
+Notemos la variante `git log --oneline --all`. Con `--oneline` obtenemos una vista consolidada del log. A su vez, `--all` hace que aparezcan todos los commits, no solamente los ligados con el branch actual. Por ahora esto no hace diferencia, pero ya la va a hacer.
+
+Supongamos que otro usuario del mismo repositorio remoto agrega un commit a `master`. Por lo tanto el repositorio remoto queda así.  
+![git fetch - situación inicial](./images/just-five-commits-no-head.jpg)  
+
+Si ahora ejecutamos los comandos de consulta, o sea `git status` y `git log`, van a dar el mismo resultado que antes. 
+Esto muestra que estas operaciones **no consultan al repositorio remoto**.
+
+Ejecutamos ahora `git fetch` y luego volvemos a hacer las consultas. Ahora sí vamos a ver diferencias.  
+![git fetch - situación final - consultas](./images/fetch-status-log-after-remote-changes.jpg)  
+
+Ahora informa correctamente que el branch `master` local está un commit más atrás que su upstream, y que hay un nuevo commit C5, que es el tip del branch remoto.
+
+Por lo tanto, `git fetch` actualiza _un "espejo" local del repositorio remoto_. El repositorio local incluye (o al menos se comporta como si incluyera) los branches remotos además de los locales. Con la diferencia, claro, que los branches locales se pueden mover, mientras que los remotos sólo cambian al hacer `git fetch` o `git pull`.  
+Conceptualmente, podemos pensar en un ["espacio" de Git](./git-espacios) adicional:  
+![espacios de Git con agregado](./images/git-spaces-diagram-with-addition.jpg)  
+
+Los branches remotos son referencias, pueden ser utilizados en los comandos que reciben un id de commit o nombre de branch.
+
+El `git pull` incluye un `fetch` como paso inicial, por eso no es necesario hacer un fetch antes de cada pull.
+
+
+### Otra tanda de ejercicios
+Sobre el repositorio local como quedó al final del ejemplo, utilizar el commit `origin/master` en comandos de Git, p.ej. `checkout` o `reset`.
+
+Probar también `git diff master origin/master`. El comando `git diff` compara el estado de dos commits, todo o para un archivo específico.
+
+Sobre el mismo repositorio, agregar un commit local. Luego ejecutar las consultas `git status` y `git log`, el segundo con esta variante
+```
+git log --oneline --all --graph
+```
+El `--graph` arma un gráfico similar al que muestran las herramientas gráficas como GitKraken; con las limitaciones de una consola de texto, claro.
+
+A partir de la información que brindan las consultas, anticipar qué haría `git pull`.
+
+
+## Comentario final
+Notamos que `git fetch` actúa sobre _todos_ los commits. Por lo tanto, **cada repo local incluye una copia completa del remoto**, actualizada ante cada `fetch` o `pull`.
+Esto muestra el carácter masivamente distribuido de Git, y la bajísima posibilidad de perder información en forma irrecuperable, dada la cantidad de copias.
+
+
