@@ -42,7 +42,7 @@ El endpoint que nos va a servir es `https://free.currconv.com/api/v7/convert?q=U
 El `currency_code` es uno de los datos que se obtiene en el endpoint de REST Countries.
 
 - **COVID19API**, [https://covid19api.com/](https://covid19api.com/) .  
-El endpoint `https://api.covid19api.com/countries/<slug>` da la info sobre un país. Tomar los de la última fecha.  
+El endpoint `https://api.covid19api.com/total/country/<slug>` da la info sobre un país. Tomar los de la última fecha.  
 Para obtener el slug hay que usar `https://api.covid19api.com/countries` y buscar por el ISO-2 code, que es uno de los datos que da el endpoint de REST Countries.
 
 Con dos `Promise.all` debería alcanzar.
