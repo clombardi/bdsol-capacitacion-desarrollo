@@ -270,7 +270,7 @@ y el log aparece en la consola
 
 ## Filtros específicos
 Un backend REST puede incluir varios módulos y controllers, y cada controller puede incluir varios request handlers.  
-NestJS permite definir que un filtro se aplica sólo a un controller, o sólo a un request handler. Aunque no lo encontré en la doc de NestJS, tal vez también se pueda configurar exception filters a nivel de módulo.
+NestJS permite definir que un filtro se aplica sólo a un controller, o sólo a un request handler. Hasta donde entiendo, no se pueden configurar exception filters a nivel de módulo.
 
 Vamos a suponer que para un endpoint específico de información de país, queremos que no se pueda acceder a la información para Corea del Norte (código PRK). Queremos responder con Forbidden (status code 403) en este caso.
 
@@ -347,7 +347,7 @@ Este caso, de acuerdo a lo que se pide, calza justo para el uso de herencia. Pue
 
 ## ¿**Dónde** hacer el manejo de errores, en el provider o en el controller?
 
-Al principio trabajamos con el manejo de un 404 en el servicio externo, recién el caso de un país que queremos rechazar.  
+Al principio trabajamos con el manejo de un 404 en el servicio externo y con el caso del país "teapot"; recién tratamos el caso de un país que queremos rechazar.  
 Hay una diferencia importante entre cómo manejamos estos dos casos de error: en el primero el manejo se hace _en el provider_, en el de recién, _en el controller_.
 
 El **nivel** en el que se hace el manejo de errores puede ser un tema de debate, y en donde convenga tomar decisiones que se mantengan en forma coherente dentro del código de un microservicio, o incluso para todo un proyecto.  

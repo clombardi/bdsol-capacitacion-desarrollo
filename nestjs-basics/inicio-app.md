@@ -25,12 +25,12 @@ En el método del controller tenemos que poder acceder al valor del parámetro d
 Para acceder a los parámetros de un request hay varios decorators de parámetro, que están listados en la sección "Request object" en la [página sobre controllers en la doc](https://docs.nestjs.com/controllers#request-object).  
 En este caso podría ser
 ``` typescript
-    @Get(':countryCode/info')
+    @Get(':countryCode')
     getInfo(@Param("countryCode") countryCode: string) // ...
 ```
 o
 ``` typescript
-    @Get(':countryCode/info')
+    @Get(':countryCode')
     getInfo(@Param() params: { countryCode: string }) // ...
 ```
 (en esta variante, para acceder al valor hay que usar `params.countryCode`)
@@ -59,7 +59,7 @@ ahora sí (micro-desafío: ¿cómo harían para mergear la segunda línea con la
 
 Recordemos que en el controller, si **lo único** que hacemos es llamar al servicio, podemos ahorrarnos el `async` y el `await`
 ``` typescript
-@Get(':countryCode/info')
+@Get(':countryCode')
 getInfo(@Param("countryCode") countryCode: string) {
     return this.service.getInfo(countryCode)
 }
@@ -137,7 +137,7 @@ async getInfo(countryCode: string): Promise<CountryInfo> {
 
 Les dejo para resolver cómo sería el método del controller, que tendría esta forma
 ``` typescript
-@Get(':countryCode/info')
+@Get(':countryCode')
 async getInfo(@Param("countryCode") countryCode: string): Promise<CountryInfoDTO> {
     const serviceData: CountryInfo = await this.service.getInfo(countryCode)
     return  /* esta parte se las dejo */
