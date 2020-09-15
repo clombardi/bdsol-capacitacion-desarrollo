@@ -38,6 +38,7 @@ El endpoint `https://restcountries.eu/rest/v2/alpha/<codigo>` provee bastante de
 
 - **Free Currency Converter API**, [https://free.currencyconverterapi.com/](https://free.currencyconverterapi.com/) .  
 Hay que obtener una API Key para usar gratis el servicio.  
+**¡¡OJO!!** una vez que te llega el mail con la API key, hay un link al que **hay que acceder**, si no se accede, no activa la key.  
 El endpoint que nos va a servir es `https://free.currconv.com/api/v7/convert?q=USD_<currency_code>&compact=ultra&apiKey=<key>` .  
 El `currency_code` es uno de los datos que se obtiene en el endpoint de REST Countries.
 
