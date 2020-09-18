@@ -123,10 +123,11 @@ export interface CountryInfo {
     names: { en: string, es: string },
     population: number,
     internetDomain: string,
-    currencyCode: string
+    currency: { code: string, name: string },
+    borders: string[]
 }
 ```
-O sea: de los dos dos nombres que incluye la respuesta del servicio queremos exponer uno solo (pongamos, en español), y no nos interesa el `currencyCode`.  
+O sea: de los dos dos nombres que incluye la respuesta del servicio queremos exponer uno solo (pongamos, en español), y no nos interesan ni los datos de la moneda, ni los países limítrofes.  
 Cambió el tipo de retorno del servicio
 ``` typescript
 async getInfo(countryCode: string): Promise<CountryInfo> {
