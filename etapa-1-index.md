@@ -95,3 +95,5 @@ layout: default
 
 [Repositorios remotos](./git/git-remote)
 
+[Sincronización de branches - merge y rebase](./git/git-synchro-merge-rebase)
+

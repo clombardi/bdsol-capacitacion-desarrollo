@@ -86,6 +86,10 @@ Pregunta: a partir de la situación posterior al `git reset --hard`, ¿se puede 
 A partir de la misma situación inicial, hacer las operaciones necesarias para "invertir" los tips de los branches `task01` y `task02`. O sea, que el repo quede así.
 ![Inversión de branches - objetivo](./images/exercise-four-commits-three-branches-goal.jpg)  
 
+A partir de la misma situación inicial, 
+- borrar el branch `task02`, quedan solamente `task01` en C2 y `master` en C4.
+- pararse en `master`, agregar dos commits, digamos C5 y C6. 
+- En ese momento "darse cuenta" de que esos dos commits corresponden a un nuevo branch `task03`. Lograr que `task03` esté en C6, y que `master` "vuelva" a C4.
 
 ## Correcciones sencillas al último commit - commit --amend
 Volvamos al escenario con el que arrancamos esta página: se armó mal el último commit. Puede ser p.ej. que nos hayamos olvidado de agregar un cambio, y/o que querramos cambiar el mensaje.

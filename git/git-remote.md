@@ -81,7 +81,7 @@ Lo mismo pasa para `git pull` ... con una sutileza de la que hablaremos más ade
 ### Algunas preguntas/desafíos adicionales
 Cuando se _crea_ un branch local ¿está vinculado a algún branch remoto? ¿Cómo se hace en general para establecer el vínculo?
 
-A partir de una copia local de un repositorio remoto de esta forma  
+A partir de un repositorio remoto de esta forma  
 ![repo inicial del ejercicio](./images/master-task01-task02.jpg)  
 1. Generar una copia local.
 1. Verificar usando `git branch` si se generaron branches locales para cada branch remoto.
@@ -286,7 +286,7 @@ A partir de la información que brindan las consultas, anticipar qué haría `gi
 
 
 ## Comentario final
-Notamos que `git fetch` actúa sobre _todos_ los commits. Por lo tanto, **cada repo local incluye una copia completa del remoto**, actualizada ante cada `fetch` o `pull`.
+Notamos que `git fetch` actúa sobre _todos_ los branches. Por lo tanto, **cada repo local incluye una copia completa del remoto**, actualizada ante cada `fetch` o `pull`.
 Esto muestra el carácter masivamente distribuido de Git, y la bajísima posibilidad de perder información en forma irrecuperable, dada la cantidad de copias.
 
 
