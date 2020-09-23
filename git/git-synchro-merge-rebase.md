@@ -107,7 +107,7 @@ Pensemos ahora en un caso distinto, usando el mismo escenario inicial.
 ![merge y rebase - escenario base](./images/merge-rebase-scenario-1.jpg)
 
 Ahora, queremos volcar en `master` los cambios hechos en `dev`.  
-En este caso, no hay nada que fusionar, porque no hay en `master` cambios posteriores a C3, el commit desde donde surgió `dev`.
+En este caso, no hay nada que fusionar, porque no hay en `master` cambios posteriores a C2, el commit desde donde surgió `dev`.
 
 En estos casos, Git realiza lo que llama **fast-forward**, que consiste simplemente en mover el tip del branch base a donde está el branch con cambios. En este caso _no se genera un merge commit_.
 El output de `git merge` indica que esta situación.  
