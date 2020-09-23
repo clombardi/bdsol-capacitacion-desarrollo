@@ -33,7 +33,7 @@ Un PR permite visualizar cada evento de integración: le da una interfaz que per
 
 Un PR representa al proceso descripto antes, en el que una persona se baja un branch con cambios, lo revisa y, o bien lo aprueba y mergea (o rebasea) los cambios sobre el branch de integración, o bien lo rechaza, con lo cual el branch con los cambios "muere ahí".  
 Las **únicas** diferencias de un PR son
-1. que en lugar de ser un procso local en el equipo de la persona que integra, queda registrado, y varias personas pueden ver los cambios propuestos y opinar sobre ellos. Incluso, se puede indicar que para aceptar un PR, debe haber una cantidad mínima de revisores que aprueben los cambios.
+1. que en lugar de ser un proceso local en el equipo de la persona que integra, queda registrado, y varias personas pueden ver los cambios propuestos y opinar sobre ellos. Incluso, se puede indicar que para aceptar un PR, debe haber una cantidad mínima de revisores que aprueben los cambios.
 1. que el merge, o el rebase, se hacen _directamente_ sobre un repositorio remoto; la operación nunca pasa por un repo local. Obviamente que una vez mergeado un PR, se puede hacer `pull` para ver los resultados en un repo local. Si se hace merge para la integración, se va a generar el merge commit en el repo remoto, y mediante el `pull` se copia en el repo local.
 
 El nombre "pull request" se refiere a que las personas encargadas del branch con los cambios, les piden a los responsables de integrar, que se _pulleen_ el branch con cambios, lo miren, y si están de acuerdo, lo mergeen. El pull es el paso 2 del proceso local descripto más arriba.
@@ -61,7 +61,7 @@ Por eso da la sensación de que al agregar commits en el branch origen, el PR se
 ## Información y eventos asociados a un PR
 Al crearse un PR, se puede agregar información de distinto tipo, además de indicar los branches origen y destino. Entre esta información agregada encontramos:
 - una _descripción_ en la que se explica de qué se tratan, y/o se dan detalles sobre, los cambios que se está pidiendo integrar.
-- una propuest de _revisores_, miembros del equipo a quienes se pide que revisen los cambios y den su opinión.
+- una propuesta de _revisores_, miembros del equipo a quienes se pide que revisen los cambios y den su opinión.
 - uno o varios _issues_ relacionados con el branch origen, esto si el issue tracker es el del mismo repo, o de un producto asociado (recientemente leí que Atlassian integró BitBucket con Jira a este respecto).
 - un _label_ que permite ver rápidamente si es una funcionalidad agregada, una corrección de bug, u otro tipo de cambio.
 
@@ -95,7 +95,7 @@ En la configuración del repo se puede indicar que para algunos branches, sólo 
 > Además de la pregunta en la imagen, entrar a esta parte de los settings. Más abajo hay una opción llamada "Require linear history". ¿Qué querrá decir esto?
 
 
-## Resolución de un PR
+## Resolución de un PR, squash de commits
 Lo más probable es que llegue el momento en que se decida que los cambios están para integrar. En este punto, se puede finalizar el PR desde la misma interfaz Web.  
 ![opciones de finalización de un PR](./images/pr-resolution-options.jpg)
 
@@ -119,5 +119,5 @@ En cualquier caso, si decido no borrar el branch origen ¿en qué estado queda?
 
 Si quiero simular el comportamiento de "rebase and merge", o sea, rebasear los cambios del branch origen sobre el destino, y mover el branch destino _pero no el origen_ ¿cómo se puede hacer?
 
-
+¿Cómo se hace para indicar una descripción extendida al agregar un commit mediante un `git commit`?
 
