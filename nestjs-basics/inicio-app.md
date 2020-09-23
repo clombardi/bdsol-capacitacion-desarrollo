@@ -146,3 +146,21 @@ async getInfo(@Param("countryCode") countryCode: string): Promise<CountryInfoDTO
 ```
 para poder hacerlo en una expresión y sin poner los atributos uno por uno, usé la función `pick` que viene en Lodash. Si se cargan `@types/lodash`, tipa de una forma in-cre-í-ble.
 
+
+### Último comentario
+**Atención**:  
+en este caso, lo que devuelve el servicio externo es a su vez, _distinto_ a lo que definimos como representación que va a manejar el controller. Esta interface 
+``` typescript
+interface RestCountryData {
+    alpha2Code: string,
+    alpha3Code: string,
+    translations: { es: string, en: string, br: string },
+    population: number,
+    currencies: { code: string, name: string }[],
+    topLevelDomain: string[],
+    borders: string[]
+}
+```
+define los datos que vamos a usar, entre todos los que provee REST Countries.
+
+Por lo tanto, vamos a tener que hacer _dos_ transformaciones: una en el provider, otra en el controller.
