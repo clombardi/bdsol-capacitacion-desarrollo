@@ -18,6 +18,7 @@ Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
 | [MDN JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) | Documentación sobre JavaScript dentro de MDN. <br/> Hasta donde sé es un standard-de-facto, al menos para el funcionamiento de JavaScript en browsers. |
 | [ECMAScript 2019 specification](https://www.ecma-international.org/ecma-262/10.0/index.html) | Especificación oficial de ECMAScript, un standard al que adhiere JavaScript. |
 | [Nest.js](https://nestjs.com/) | Sitio de NestJS. |
+| [Tutoriales de Git de Atlassian](https://www.atlassian.com/git/tutorials) | Mi serie de tutoriales sobre Git preferida. |
 
 
 
