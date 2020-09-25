@@ -100,3 +100,5 @@ layout: default
 [Pull requests](./git/pull-requests)
 
 [Modelos de branches](./git/branch-models)
+
+[Git - algunos extras](./git/git-extras)
