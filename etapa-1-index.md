@@ -98,3 +98,5 @@ layout: default
 [Sincronización de branches - merge y rebase](./git/git-synchro-merge-rebase)
 
 [Pull requests](./git/pull-requests)
+
+[Modelos de branches](./git/branch-models)

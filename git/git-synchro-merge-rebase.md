@@ -122,7 +122,7 @@ Respecto del código, el efecto del fast-forward es el buscado: `master` incorpo
 Pero, si consideramos _la historia_ del branch, no queda ningún registro de cuándo se hizo esta incorporación. Esta es la situación del repositorio después del fast-forward de `dev` sobre `master`.  
 ![repo después del fast-forward en GitKraken](./images/merge-fast-forward-git-kraken.jpg)
 
-Si después se agrega un commit a `dev`, y se integra `task01` sobre `master, llegamos a esta situación  
+Si después se agrega un commit a `dev`, y se integra `task01` sobre `master`, llegamos a esta situación  
 ![varias operaciones después del fast-forward, en GitKraken](./images/several-commits-after-merge-git-kraken.jpg)
 
 Mirando este repo ¿cómo saber si la integración de `dev` en `master` se hizo p.ej. en C4 o en C5?
