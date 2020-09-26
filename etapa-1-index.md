@@ -102,3 +102,9 @@ layout: default
 [Modelos de branches](./git/branch-models)
 
 [Git - algunos extras](./git/git-extras)
+
+
+## Codificación 
+[Hablemos un poco sobre refactoring](./codificacion/refactoring-intro)
+
+[Factorizando "clase-interfaces"](./codificacion/factorizacion-clase-interfaces)

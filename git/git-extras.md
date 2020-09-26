@@ -11,7 +11,7 @@ El concepto de **tag** es anterior a Git. Un tag es una "foto" del código en un
 
 Para representar este concepto, Git define tags, que son _referencias a commits_. Sí, exactamente igual que los branches. 
 La diferencia es conceptual: un tag es (en principio) fijo: una vez que se definió un tag que señala un determinado commit, ese tag no debería moverse salvo imprevistos.  
-Haciendo una analogía con lenguajes de programación, los commits forman el espacio de memoria, un branch es análogo a una variable, un tag es análogo a una constane.
+Haciendo una analogía con lenguajes de programación, los commits forman el espacio de memoria, un branch es análogo a una variable, un tag es análogo a una constante.
 
 Para definir tags, Git define el comando `git tag`, que _actúa sobre el repo local_. Para pasar tags definidos localmente a un repo remoto, hay que usar la opción `--tags` de `git push`. 
 

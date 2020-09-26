@@ -1,0 +1,638 @@
+people-hub
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+    const doc = new Document()
+    doc.number = document.number
+    doc.procedure = document.procedure
+    doc.type = document.type
+    doc.verified = document.verified
+    doc.createdAt = document.createdAt
+    doc.expirationDate = document.expirationDate
+----
+usar lodash.pick
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+  async getPerson(id: string): Promise<Person> {
+    const person = await this.personRepository.findOne(id, {
+      loadEagerRelations: true,
+      relations: [
+        'document',
+        'addresses',
+        'profile',
+        'profile.keycloak',
+        'profile.affidavit',
+        'profile.affidavit.pep',
+        'profile.affidavit.obligatedSubject',
+        'profile.affidavit.uif',
+        'profile.merlin',
+      ],
+    })
+
+    if (isEmpty(person)) {
+      throw new NotFoundException(ErrorCode.PERSON_NOT_FOUND)
+    }
+
+    return person
+  }
+
+
+  async getPersonByCoreClientId(coreClientId: string): Promise<Person> {
+    const profile = await this.profileRepository.findOne({
+      where: { coreClientId },
+    })
+
+    const person = await this.personRepository.findOne({
+      where: { profile },
+      loadEagerRelations: true,
+      relations: [
+        'document',
+        'addresses',
+        'profile',
+        'profile.keycloak',
+        'profile.affidavit',
+        'profile.affidavit.pep',
+        'profile.affidavit.obligatedSubject',
+        'profile.affidavit.uif',
+      ],
+    })
+
+    if (isEmpty(person)) {
+      throw new NotFoundException(ErrorCode.PERSON_NOT_FOUND)
+    }
+
+    return person
+  }
+
+
+  async deletePerson(id: string): Promise<void> {
+    /**
+     * ONLY FOR DEVELOPMENT PURPOSES
+     * Throw 404 status if not development to avoid
+     * discoverable endpoint
+     */
+    // if (isEqual(process.env.ENVIRONMENT, 'prod')) {
+    //   throw new NotFoundException()
+    // }
+
+    const person = await this.personRepository.findOne(
+      { id: parseInt(id, 10) },
+      {
+        relations: ['profile', 'addresses', 'signUpRequest', 'document', 'contact', 'social'],
+      }
+    )
+
+    if (isEmpty(person)) {
+      throw new NotFoundException(ErrorCode.PERSON_NOT_FOUND)
+    }
+
+    // ... etc ...
+  }
+
+
+  async getPersonDevices(personId: string): Promise<Device[]> {
+    const person = await this.personRepository.findOneOrFail(
+      { id: parseInt(personId, 10) },
+      {
+        relations: ['profile'],
+      }
+    )
+
+    if (isEmpty(person)) {
+      throw new NotFoundException(ErrorCode.PERSON_NOT_FOUND)
+    }
+
+    return this.deviceRepository.find({
+      where: { profile: person.profile },
+    })
+  }
+
+----
+Dos cosas acá
+
+1. await findOneOrFail ¿no lanza excepción? ¿para qué está el código de abajo?
+   ¿no debería ser findOne como los otros?
+2. un pequeño DRY - esto está tb en customer.service.ts
+    checkValidPerson(person) {
+        if (isEmpty(person)) {
+            throw new NotFoundException(ErrorCode.PERSON_NOT_FOUND)
+        }
+    }
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+    if (!isNil(person.signUpRequest)) {
+      await this.signUpRequestRepository.delete({
+        id: person.signUpRequest.id,
+      })
+    }
+    if (!isNil(person.document)) {
+      await this.documentRepository.delete({
+        id: person.document.id,
+      })
+    }
+    if (!isNil(person.contact)) {
+      await this.contactRepository.delete({
+        id: person.contact.id,
+      })
+    }
+    if (!isNil(person.social)) {
+      await this.socialRepository.delete({
+        id: person.social.id,
+      })
+    }
+
+----
+function deleteByIdIfExists(repository, objectWithId) {
+    if (!isNil(objectWithId)) {
+        await repository.delete({
+            id: objectWithId.id,
+        })
+    }
+}
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+    if (!isNil(profile) && !isNil(profile.facePhi)) {
+      await this.facePhiRepository.delete({
+        id: profile.facePhi.id,
+      })
+    }
+
+    if (!isNil(profile.keycloak)) {
+      await this.keycloakRepository.delete({
+        id: profile.keycloak.id,
+      })
+    }
+----
+al de abajo ¿no le falta un chequeo?
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+  async savePersonDevice(id: string, payload: SavePersonDeviceDto): Promise<Device> {
+    const person = await this.personRepository.findOneOrFail(
+      { id: parseInt(id, 10) },
+      {
+        relations: ['profile'],
+      }
+    )
+
+    const previousDevice = await this.deviceRepository.findOne({ uid: payload.uid })
+    if (previousDevice) {
+      previousDevice.offlineToken = payload.offlineToken
+
+      return this.deviceRepository.save(previousDevice)
+    }
+
+    const device = new Device()
+    device.uid = payload.uid
+    device.ipAddress = payload.ipAddress
+    device.model = payload.model
+    device.name = payload.name
+    device.offlineToken = payload.offlineToken
+    device.profile = person.profile
+
+    return this.deviceRepository.save(device)
+  }
+
+
+persons.controller.ts
+
+  savePersonDevice(@Body() payload: SavePersonDeviceDto, @Param('personId') personId: string): Promise<Device> {
+    return this.personsService.savePersonDevice(personId, payload)
+  }
+----
+- ¿no estaría faltando algo de manejo de error? Digo por el findOneOrFail
+- comentarios en el servicio, hay un return en el medio, medio escondido
+- otra vez, lodash.pick
+-----------------------------------------------------------------------------
+
+
+
+
+-----------------------------------------------------------------------------
+persons.controller.ts
+
+  async deletePersonDevice(@Param('uid') uid: string): Promise<void> {
+    try {
+      return this.personsService.deletePersonDevice(uid)
+    } catch (error) {
+      throw error
+    }
+  }
+----
+- ¿qué pasa si no se pone el catch? 
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+
+    if (email) {
+      const profile = await this.profileRepository.find({ relations: ['person'], where: { username: email } })
+
+      return Promise.all(
+        profile.map(
+          (p: Profile): Promise<Person> =>
+            this.personRepository.findOne(p.person.id, { relations: ['profile', 'signUpRequest'] })
+        )
+      )
+    }
+
+    if (dni) {
+      const document = await this.documentRepository.find({
+        relations: ['person'],
+        where: { number: parseInt(dni, 10) },
+      })
+
+      return Promise.all(
+        document.map(
+          (p: Document): Promise<Person> =>
+            this.personRepository.findOne(p.person.id, { relations: ['profile', 'signUpRequest'] })
+        )
+      )
+    }
+----
+function findPersons<T extends {person: Person}>(repository: Repository<T>, whereClause: any): Promise<Person[]> {
+    const relatedObjects = await repository.find({
+        relations: ['person'],
+        where: whereClause
+    })
+    return Promise.all(
+        relatedObjects.map(
+            (obj: T): Promise<Person> =>
+                this.personRepository.findOne(obj.person.id, { relations: ['profile', 'signUpRequest'] })
+        )
+    )
+}
+
+    if (email) {
+        return findPersonsThroughRelatedObjects(this.profileRepository, { username: email })
+    } else if (dni) {
+        return findPersonsThroughRelatedObjects(this.documentRepository, { number: parseInt(dni, 10) })
+    } else if (deviceId) {
+        return findPersonsThroughRelatedObjects(this.signUpRequestRepository, { deviceId })
+    }
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+(versión de febrero)
+
+    if (!isEmpty(electoralAddress)) {
+      const address = new Address()
+      const newAddress = { ...address, ...electoralAddress }
+      newAddress.person = person
+
+      await this.addressRepository.save(newAddress)
+    }
+
+    if (!isEmpty(workAddress)) {
+      const address = new Address()
+      const newAddress = { ...address, ...workAddress }
+      newAddress.person = person
+
+      await this.addressRepository.save(newAddress)
+    }
+
+    if (!isEmpty(fiscalAddress)) {
+      const address = new Address()
+      const newAddress = { ...address, ...fiscalAddress }
+      newAddress.person = person
+
+      await this.addressRepository.save(newAddress)
+    }
+
+    if (!isEmpty(unknownAddress)) {
+      const address = new Address()
+      const newAddress = { ...address, ...unknownAddress }
+      newAddress.person = person
+
+      await this.addressRepository.save(newAddress)
+    }
+
+----
+async addAddressWithExtension<T>(addressExtension: T extends AddressExtension, person: Person): Promise<Address> {
+    if (!isEmpty(addressExtension)) {
+        const address = new Address()
+        const newAddress = { ...address, ...addressExtension }
+        newAddress.person = person
+
+        await this.addressRepository.save(newAddress)
+    }
+}
+
+    await this.addAddressWithExtension(electoralAddress, person)
+    await this.addAddressWithExtension(workAddress, person)
+    await this.addAddressWithExtension(fiscalAddress, person)
+    await this.addAddressWithExtension(unknownAddress, person)
+
+o mejor
+    for (const addressExtension of [electoralAddress, workAddress, fiscalAddress, unknownAddress]) {
+        await this.addAddressWithExtension(addressExtension, person)
+    }
+
+a menos que sea correcto hacerlo en paralelo
+    await Promise.all([electoralAddress, workAddress, fiscalAddress, unknownAddress].map(
+        addressExtension => this.addAddressWithExtension(addressExtension, person)
+    ))
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+persons.service.ts
+(versión de septiembre)
+
+    if (!isEmpty(electoralAddress) && isEqual(electoralAddress.type, AddressType.MERLIN_ELECTORAL)) {
+      const address = new Address()
+      const newAddress = { ...address, ...electoralAddress }
+      newAddress.person = person
+
+      const actualElectoralAddress = await this.addressRepository.findOne({
+        where: {
+          person: person.id,
+          type: AddressType.MERLIN_ELECTORAL,
+        },
+      })
+
+      if (!isEmpty(actualElectoralAddress)) {
+        await this.addressRepository.update(actualElectoralAddress.id, { ...newAddress })
+      } else {
+        await this.addressRepository.save(newAddress)
+      }
+    }
+
+    if (!isEmpty(workAddress) && isEqual(workAddress.type, AddressType.MERLIN_WORK)) {
+      const address = new Address()
+      const newAddress = { ...address, ...workAddress }
+      newAddress.person = person
+
+      const actualWorkAddress = await this.addressRepository.findOne({
+        where: {
+          person: person.id,
+          type: AddressType.MERLIN_WORK,
+        },
+      })
+
+      if (!isEmpty(actualWorkAddress)) {
+        await this.addressRepository.update(actualWorkAddress.id, { ...newAddress })
+      } else {
+        await this.addressRepository.save(newAddress)
+      }
+    }
+
+    if (!isEmpty(fiscalAddress) && isEqual(fiscalAddress.type, AddressType.MERLIN_FISCAL)) {
+      const address = new Address()
+      const newAddress = { ...address, ...fiscalAddress }
+      newAddress.person = person
+
+      const actualFiscalAdress = await this.addressRepository.findOne({
+        where: {
+          person: person.id,
+          type: AddressType.MERLIN_FISCAL,
+        },
+      })
+
+      if (!isEmpty(actualFiscalAdress)) {
+        await this.addressRepository.update(actualFiscalAdress.id, { ...newAddress })
+      } else {
+        await this.addressRepository.save(newAddress)
+      }
+    }
+
+    if (!isEmpty(unknownAddress) && isEqual(unknownAddress.type, AddressType.UNKNOWN)) {
+      const address = new Address()
+      const newAddress = { ...address, ...unknownAddress }
+      newAddress.person = person
+
+      const actualUnknownAddress = await this.addressRepository.findOne({
+        where: {
+          person: person.id,
+          type: AddressType.UNKNOWN,
+        },
+      })
+
+      if (!isEmpty(actualUnknownAddress)) {
+        await this.addressRepository.update(actualUnknownAddress.id, { ...newAddress })
+      } else {
+        await this.addressRepository.save(newAddress)
+      }
+    }
+----
+async addAddressWithExtension<T>(
+    addressExtension: T extends AddressExtension, person: Person, addressType: string
+): Promise<Address> {
+    if (!isEmpty(addressExtension) && isEqual(addressExtension.type, addressType)) {
+      const address = new Address()
+      const newAddress = { ...address, ...addressExtension }
+      newAddress.person = person
+
+      const actualAddressExtension = await this.addressRepository.findOne({
+        where: { person: person.id, type: addressType },
+      })
+
+      if (!isEmpty(actualAddressExtension)) {
+        await this.addressRepository.update(actualAddressExtension.id, { ...newAddress })
+      } else {
+        await this.addressRepository.save(newAddress)
+      }
+    }
+}
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+/persons/dto/index.ts
+
+----
+Mirar las cuatro Address ... son ¡¡idénticas!!
+
+De última, type o class extends y no agregás nada
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+address.controller.ts
+
+  addAddress(@Param('personId') personId, @Body() address: NewAddressRequestDto): Promise<Person> {
+    return this.addressService.addAddress(personId, address)
+  }
+
+
+address.service.ts
+
+  async addAddress(personId: string, address: NewAddressRequestDto): Promise<Person> {
+    const person = await this.personRepository.findOneOrFail(personId, { relations: ['addresses'] })
+
+    const newAddress = await this.addressRepository.save(address)
+
+    person.addresses.push(newAddress)
+
+    return this.personRepository.save(person)
+  }
+----
+Qué onda acá con el error de findOneOrFail
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+customer.service.ts
+
+    lo mismo-mismo-mismo en tres métodos
+    const person = await this.personRepository.findOneOrFail(
+      { id },
+      {
+        relations: ['profile'],
+      }
+    )
+
+    otros parecidos, otros con findOne en lugar de findOneOrFail, ¿estará bien
+----
+findPersonOrFail(id) {
+    return this.personRepository.findOneOrFail(
+      { id },
+      { relations: ['profile'] }
+    ).catch(err => new NotFoundException(err))
+}
+
+    const person = await this.findPersonOrFail(id)
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+customer.service.ts
+
+    esto dos veces idéntico en dos métodos distintos
+    if (real) {
+      await Promise.all(
+        addresses.map(
+          async (element: Address): Promise<void> => {
+            const newElement = { ...element, real: false }
+
+            await this.addressRepository.save(newElement)
+          }
+        )
+      )
+    }
+----
+método auxiliar
+-----------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------
+profile.service.ts
+
+  async addProfile(personId: string, payload: NewProfileRequestDto): Promise<Person> {
+    const person = await this.personRepository.findOne(personId, { relations: ['profile'] })
+
+    if (!person) {
+      throw new NotFoundException()
+    }
+
+    if (person.profile) {
+      throw new BadRequestException({ errors: [{ code: 'PERSON_WITH_PROFILE' }] })
+    }
+
+    const { username, coreClientId } = payload
+
+    const newProfile = await this.profileRepository.save({
+      username,
+      coreClientId,
+    })
+
+    person.profile = newProfile
+
+    return this.personRepository.save(person)
+  }
+----
+si agrega un profile ¿qué sería más lógico que devolviera? 
+¿cómo hago para que devuelva eso?
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+sign-up.request.service.ts
+
+    try {
+      await Promise.all([
+        await this.signUpRequestRepository.save(signUpRequest),
+        await this.profileRepository.save(profile),
+        await this.contactRepository.save(contact),
+
+        await this.personRepository.save(person),
+      ])
+    } catch (err) {
+      await this.personRepository.delete(person)
+      await this.contactRepository.save(contact)
+      await this.signUpRequestRepository.delete(signUpRequest)
+      await this.profileRepository.delete(profile)
+
+      throw new BadRequestException(err)
+    }
+----
+los await del Promise.all son superfluos
+en el catch ¿no hay algo mal?
+en el catch ¿por qué no hacer otro await Promise.all?
+cómo hacer para que borre sólo los que grabó (un poco de sobrediseño que puede venir bien en otros casos)
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+sign-up.request.service.ts
+
+método update
+----
+*hay* que buscar formas de organizar este código
+¿dónde va el chequeo de persona existente?
+vale absolutamente dividirlo en pedazos, definir métodos auxiliares
+
+----
+busquemos ".street" -> tres veces lo mismo
+- ¿está bien que las validaciones sean distintas?
+- se puede definir una operación
+
+----
+busquemos "new ObligatedSubject()" -> dos veces lo mismo
+- ¿están bien las diferencias?
+- otra vez, operación aparte
+----
+transferIfValid(person.signUpRequest, payload, "onboardingState")
+
+y de acá
+
+-- tratemos de tiparlo ...
+const signUpRequestProperties = ["onBoardingState", "onboardingFurthestState", "faceUrl", "deviceId"]
+signUpRequestProperties.forEach( property => transferIfValid(person.signUpRequest, payload, property) )
+-----------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------
+sign-up.request.service.ts
+
+updateFacephiTimeOutCount y las tres siguientes: hacer una sola, llamarlas desde el controller
+
+y de hecho muchas más
+- aislar la operación
+- definir una clasecita
+-----------------------------------------------------------------------------
