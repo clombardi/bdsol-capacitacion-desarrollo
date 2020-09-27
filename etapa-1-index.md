@@ -110,3 +110,5 @@ layout: default
 [Factorizando "clase-interfaces"](./codificacion/factorizacion-clase-interfaces)
 
 [Validaciones](./codificacion/validaciones)
+
+[Funciones de búsqueda](./codificacion/busqueda)
