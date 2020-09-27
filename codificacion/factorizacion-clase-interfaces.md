@@ -80,7 +80,7 @@ export class InternationalAccountDTO {
 }
 ```
 
-Estas definiciones tienen que ser `class`, porque incluyen las decoraciones de `class-validator`. Podrían tener además otras, p.ej. las de Swagger.
+Estas definiciones tienen que ser `class`, porque incluyen los decorators de `class-validator`. Podrían aparecer también otros decorators, p.ej. los de Swagger.
 
 Los tres tipos de cuenta incluyen las `accountNumber`, `branchNumber`, y `cbu`. Cada tipo incluye sus properties particulares.  
 Este es un ejemplo excelente para buscar cómo aplicar DRY: nuestro código está diciendo tres veces que las cuentas tienen número de cuenta, número de sucursal y CBU; quedaría mejor si esta información estuviera una sola vez. 

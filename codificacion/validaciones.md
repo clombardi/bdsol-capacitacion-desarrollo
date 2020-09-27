@@ -3,7 +3,7 @@ layout: default
 ---
 
 # Validaciones
-Pensemos en un servicio que incluye varias operaciones relacionadas con sucursales, entre ellas, agregar una cuenta y confirmar una reunión. El servicio incluye un módulo de cuentas y otro de reuniones.  
+Pensemos en un servicio que incluye varias operaciones relacionadas con sucursales, entre ellas, agregar una cuenta y confirmar una reunión. El servicio incluye (tal vez entre otros) un módulo de cuentas y otro de reuniones.  
 En ambos casos, y eventualmente en otras operaciones relacionadas con sucursales, hay que validar que la sucursal esté activa. Si no, hay que salir con un status code `400 - Bad Request`.
 
 En el servicio de cuentas encontramos este código.
@@ -42,7 +42,7 @@ if (isEmpty(branch)) {
     throw new BadRequestException(ErrorCode.BRANCH_NOT_ENABLED);
 }
 ```
-y esto hay que cambiarlo en cada lugar donde se hace la validación de sucursal.
+y esto hay que cambiarlo _en cada lugar_ donde se hace la validación de sucursal.
 
 
 ## Concentrar las validaciones en una función
