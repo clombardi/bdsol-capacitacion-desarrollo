@@ -108,3 +108,5 @@ layout: default
 [Hablemos un poco sobre refactoring](./codificacion/refactoring-intro)
 
 [Factorizando "clase-interfaces"](./codificacion/factorizacion-clase-interfaces)
+
+[Validaciones](./codificacion/validaciones)
