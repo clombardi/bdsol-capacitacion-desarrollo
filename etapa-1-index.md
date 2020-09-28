@@ -112,3 +112,5 @@ layout: default
 [Validaciones](./codificacion/validaciones)
 
 [Funciones de búsqueda](./codificacion/busqueda)
+
+[Tomando datos del payload](./codificacion/datos-del-payload)

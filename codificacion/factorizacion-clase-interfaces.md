@@ -125,7 +125,7 @@ El código quedó más compacto, pero a mí personalmente, no es lo que más me 
 
 Respecto de las consecuencias, notemos dos cosas
 - no hubo que cambiar _nada_ en el controller.
-- la composición de definiciones usando herencia respeta los decorators. P.ej. la clase `SavingsAccountDTO` incluye la property `cbu`, con los decorators `@IsString`, `@Length` e `@IsNotEmpty`, _igual_ que si la property estuviera definida en la misma clase en lugar de incorporada por la herencia.
+- la composición de definiciones usando herencia respeta los decorators. P.ej. la clase `SavingsAccountDTO` incluye la property `cbu`, con los decorators `@IsString`, `@Length` e `@IsNotEmpty`, _igual_ que si la property estuviera definida en la misma clase en lugar de incorporada por la herencia. La documetación de `class-validation` aclara esto explícitamente [acá](https://github.com/typestack/class-validator#inheriting-validation-decorators).
 
 
 ## A veces hay que mirar varios archivos
@@ -193,6 +193,9 @@ Por ejemplo, no se puede crear una definición a partir de otra, cambiando o agr
 
 Las limitaciones de los decoratos también nos impiden usar [mixines](https://www.typescriptlang.org/docs/handbook/mixins.html), que son un mecanismo poderoso para organizar definiciones.
 
+En conclusión, usando únicamente la herencia, vamos a poder evitar solamente _algunos_ casos de repetición de definiciones, otros van a quedar. Típicamente, si tengo una versión de una interface en la que quiero que todas las properties sean opcionales, 
+
+Por el lado de `class-validator`, para permitir mayor flexibilidad en las formas de definir los DTO (incluyendo que sean interfaces y no clases), se puede ver [esta parte de la documentación](https://github.com/typestack/class-validator#defining-validation-schema-without-decorators) donde se describe cómo configurar las validaciones sin usar decorators. No sé si esto se podrá usar desde Nest, en una mirada rápida parecería que no. Y lo mismo para los decorators de Swagger.
 
 
 ## Vale definir tipos auxiliares
