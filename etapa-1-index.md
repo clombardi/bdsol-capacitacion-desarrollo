@@ -114,3 +114,5 @@ layout: default
 [Funciones de búsqueda](./codificacion/busqueda)
 
 [Tomando datos del payload](./codificacion/datos-del-payload)
+
+[Buscando similitudes y diferencias](./codificacion/similitudes-diferencias)
