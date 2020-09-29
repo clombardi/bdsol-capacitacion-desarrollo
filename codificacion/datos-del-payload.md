@@ -153,7 +153,7 @@ En la función `copyProperties`, se usa `keyof (T | U)`, porque se permite que `
 Al usar la función `copyProperties`, toma los tipos `T` y `U` a partir de los objetos que se le pasan, y verifica que los strings sean efectivamente keys de ambos. En nuestro caso, tenemos
 ``` typescript
 const newAccount = new CurrentAccount();
-copyProperties<UpdateCurrentAccountDTO>(
+copyProperties(
     newAccount, payload, ['accountNumber', 'allowedOverdraft', 'cbu']
 );
 ```

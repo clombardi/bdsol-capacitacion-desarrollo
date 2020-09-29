@@ -118,3 +118,5 @@ layout: default
 [Buscando similitudes y diferencias](./codificacion/similitudes-diferencias)
 
 [Operaciones similares](./codificacion/operaciones-similares)
+
+[Picadito de comentarios](./codificacion/picadito-final)
