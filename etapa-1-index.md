@@ -116,3 +116,5 @@ layout: default
 [Tomando datos del payload](./codificacion/datos-del-payload)
 
 [Buscando similitudes y diferencias](./codificacion/similitudes-diferencias)
+
+[Operaciones similares](./codificacion/operaciones-similares)
