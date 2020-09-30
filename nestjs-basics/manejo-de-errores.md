@@ -384,7 +384,10 @@ Lograr para una URL específica para la que hay definido un GET request handler,
 En todos los response body de errores, incluir el valor del header `userId`, si viene en el request.
 
 ### Rechazar un request si no viene userId
-En un endpoint a elección (uno solo), salir con 401 (Unauthorized) si el request no incluye un endpoint `userId`.
+En un endpoint a elección (uno solo), salir con 401 (Unauthorized) si el request no incluye un header `userId`.
+
+### Incluir el host
+En el response correspondiente a errores, incluir el host, que se le pide al request.
 
 ### País insignificante
 En un endpoint que brinda datos de país, salir con 400 (Bad request) si la población del país es menor a 100000 habitantes. El mensaje que sea "Country too small".
