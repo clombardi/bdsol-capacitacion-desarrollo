@@ -15,10 +15,13 @@ OK, tenemos andando un endpoint que da datos sobre un país. Ahora queremos agre
         "confirmed": 7134,
         "active": 4396,
         "recovered": 2385,
-        "deaths": 353
+        "deaths": 353,
+        "deathRate": 8.08
     }
 }
 ```
+El `deathRate` es la cantidad de fallecidos por millón de habitantes.
+
 Para resolver este endpoint, necesitamos datos de dos fuentes distintas: la que ya veníamos usando de datos generales de un país, y una para los datos específicos de COVID.
 
 Podemos resolver todas las consultas en un mismo provider ... o también podemos **definir un provider separado** para que resuelva las consultas sobre COVID.  
