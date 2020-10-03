@@ -223,10 +223,16 @@ y en la validación:
 ## Desafíos
 
 ### Valores en un `enum`
-Definir un `enum` para los valores posibles de `responsible`. Usar la validación `@IsEnum` para validar que el valor que llega en el request es correcto.
+Agregar un atributo `kind` a las expenses, que sea de tipo `ExpenseKind`. Usar la validación `@IsEnum` para validar que el valor que llega en el request es correcto.
+
+### Validar longitud del código de país
+En el endpoint de datos de un país, validar que el código de país (path param) tenga exactamente tres caracteres usando pipes. Hay (al menos) dos opciones
+1. Lograr que `ValidationPipe` aplique al path param.
+1. Definir un custom pipe.
 
 ### Descuento menor al importe
-Agregar un atributo `discount`, que si está, su valor tiene que ser menor al de `amount`. Definir un custom validator para esto.
+Agregar un atributo `discount`, que si está, su valor tiene que ser menor al de `amount`. Definir un custom validator para esto. Para obtener el valor de `amount`, mirar los `ValidationArguments` que son el segundo parámetro de la función de validación, ahí hay un atributo `object`.
 
 ### Procesar los errores que lanza el ValidationPipe
 Configurar un `ExceptionFilter` que maneje los errores que lanza el `ValidationPipe`, para que el response sea más resumido, p.ej. que incluya sólo los `constraints` de cada mensaje.
+
