@@ -12,7 +12,7 @@ Un _Interceptor_ es un middleware que responde a la idea que describimos en la [
 Los interceptors actúan en combinación con el package [RxJS](https://github.com/ReactiveX/rxjs). En particular, esto facilita la realización de distintas manipulaciones a la salida.
 
 En esta página nos vamos a limitar a mostrar algunos ejemplos para ilustrar distintas formas de usar Interceptors. 
-Los detalles completos sobre esta forma de middleware pueden consultarse en [la página de Guards en la documentación de NestJS](https://docs.nestjs.com/interceptors).  
+Los detalles completos sobre esta forma de middleware pueden consultarse en [la página de Interceptors en la documentación de NestJS](https://docs.nestjs.com/interceptors).  
 
 
 ## Agregado de totales

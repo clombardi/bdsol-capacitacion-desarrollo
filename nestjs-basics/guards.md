@@ -98,7 +98,7 @@ Pasar esta validación a un Guard, y habilitarlo para todos los endpoints de una
 
 ### Cuotas de acceso por usuarios
 Otro de los desafíos en la página sobre manejo de errores, es establecer cuotas de acceso para usuarios a un determinado endpoint.  
-Hacer este control mediante un Guard. Que la cuota sea específica para un endpoint determinado, que se obtiene mediante el request.
+Hacer este control mediante un Guard, que se configura a nivel de controller. Que la cuota sea específica para un endpoint determinado, que se obtiene mediante el request.
 
 ### Configurar la lista de países peligrosos
 Permitir que se pueda configurar la lista de países peligrosos del Guard `ForbidDangerousCountries` _mediante accesos a la aplicación_ (o sea, sin tocar código).  
