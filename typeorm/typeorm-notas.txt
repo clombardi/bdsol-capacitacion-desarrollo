@@ -1,0 +1,59 @@
+Para arrancar con pruebas-type-orm
+- npm install --global ts-node
+
+
+Gran diferencia entre TypeORM y Mongoose
+TypeORM es TS-aware, por lo tanto lee las definiciones de tipo de las clases (interfaces no, porque no llegan al código ejecutable) ... y de alguna forma puede acceder al tipo de cada atributo (imagino que haciendo typeof y/o instanceof, porque otra no le queda).
+
+
+Qué se usa en el banco (miro people-hub)
+- claves numéricas autogeneradas
+- enums
+- columnas createdAt y updatedAt
+- repositories para una tabla específica
+- relaciones (@ManyToOne / @OneToMany / @OneToOne)
+  no hay @ManyToMany
+  se declaran en los dos extremos, en los @OneToOne en un extremo dice @JoinColumn
+  (para preguntarles ¿por qué no hace falta especificar @JoinColumn en una @ManyToOne / @OneToMany?)
+  algunas de estas relaciones tienen {cascade: true}, otras no.
+  Las que tienen {cascade:true} son todas @OneToOne.
+  De la doc de TypeORM sobre cascade "great power comes with great responsibility".
+- columnas nullables y no nullables
+- columnas con type = "integer"
+- columnas con valor por defecto
+- onDelete CASCADE
+- loadEagerRelations (pero no tiene ninguna relación definida como eager)
+- fechas: mirá mirá este mapeo
+  @Column({ nullable: true, type: 'date' })
+  birthdate: string
+  ... y en otro lugar ...
+  @Column({ nullable: true, type: 'date' })
+  customerCreatedAt: Date
+  ¿andan las dos? ¿dependerá de la base? (en el banco usan mysql)
+
+
+(se puede comentar que justo la data de people-hub podría quedar mejor modelada en una base de documentos,
+ porque básicamente tenés una sola colección de personas con muchos atributos complejos)
+
+
+Chiches/variantes que voy viendo, y que no parecen usarse en el banco
+- entity manager
+- tree 
+  https://typeorm.io/#/tree-entities
+- softRemove
+- queryBuilder
+- migrations
+
+
+Dije que iba a meter
+- índices
+
+
+Dudas para algún momento
+- por qué el primer parámetro en la definición de relaciones, p.ej. @ManyToOne, es una función.
+  O sea, por qué es
+    @ManyToOne(() => Agency, agency => agency.accountApplications, { nullable: true })
+    agency: Agency
+  en lugar de
+    @ManyToOne(Agency, agency => agency.accountApplications, { nullable: true })
+    agency: Agency

@@ -9,6 +9,8 @@ La intención de este sitio es acompañar a la capacitación sobre temas de prog
 
 [Etapa 1](./etapa-1-index)
 
+[Etapa 2](./etapa-2-index)
+
 
 ## Referencias
 Sitios de referencia general sobre lenguajes, tecnologías y herramientas.
