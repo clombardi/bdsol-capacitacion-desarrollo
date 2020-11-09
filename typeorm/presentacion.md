@@ -4,7 +4,7 @@ layout: default
 
 # Presentamos a TypeORM
 
-Para ampliar el material sobre cómo interactuar con una base de datos desde un backend, llega el momento de experimentar con una librería del tipo ORM, o sea, que está orientada a la interacción con una base de datos relacional.
+Para ampliar el material sobre cómo interactuar con una base de datos desde un backend, llega el momento de experimentar con una librería del tipo _ORM_, o sea, que está orientada a la interacción con una base de datos relacional.
 
 Para esto vamos a usar [TypeORM](https://typeorm.io/), un ORM que está bien preparado para incorporarlo a un proyecto TypeScript, aunque también se puede usar en JavaScript.  
 Hay muchos otros ORM para JS/TS, entre ellos mencionamos [Sequelize](https://sequelize.org/), que es anterior y más popular ... pero a juicio de este redactor, más incómodo para usar, o tal vez menos claro, que TypeORM.
@@ -67,11 +67,11 @@ Un ORM ayuda a interactuar con una BD relacional, sin que sea necesario desviarn
 TypeORM propone una descripción de la interacción con una BD basada fuertemente en conceptos y elementos de JS/TS.
 
 Para describir el **modelo de datos** se utilizan clases JS/TS (como lo indicamos para otras herramientas, no se pueden usar interfaces porque no están presentes en el código que se ejecuta) a las que se aplican decorators, en forma muy similar a la de `class-validator`. Básicamente, `@Entity` representa una tabla, y `@Column` una columna.  
-Como TypeORM está orientado al modelo relacional, tiene muy en cuenta las relaciones entre tablas: define decorators específicos para estas relaciones (en concreto, `@OneToOne`, `@OneToMany`, `@ManyToOne` y `@ManyToMany`), e incluye herramientas que generan y manejan automáticamente las FK.
+Como TypeORM está orientado al modelo relacional, _tiene muy en cuenta las relaciones entre tablas_: define decorators específicos para estas relaciones (en concreto, `@OneToOne`, `@OneToMany`, `@ManyToOne` y `@ManyToMany`), e incluye herramientas que generan y manejan automáticamente las FK.
 
 Para describir las **operaciones**, se utilizan varios objetos que provee la biblioteca. En particular, en este material vamos a acceder a las entidades mediante los llamados `Repository`, que proveen el acceso a una tabla, o sea, un `Repository` va a estar asociado a una clase que hayamos decorado como `@Entity`.
 
-P.ej. una de las formas que provee TypeORM para describir un query es la operación `findOne` que soportan los `Repository`.
+P.ej. una de las formas que provee TypeORM para describir un query es la operación `findOne` que soportan los `Repository`.  
 El modelo con el que vamos a trabajar, incluye solicitudes de cuenta, sucursales y análisis de riesgo crediticio; cada solicitud corresponde a una sucursal y puede motivar la realización de un análisis. Para obtener la información acerca de la solicitud de Ana Bolena, en SQL debemos realizar un query de esta forma.
 
 ``` sql
@@ -156,3 +156,23 @@ Estos problemas realmente aparecen al usar ORM, y se han propuesto distintas est
 
 ## Algunas consideraciones adicionales
 
+TypeORM también ofrece variantes para los casos en que nos convenga estar "más cerca" de la sintaxis de SQL. P.ej. la misma query se puede describir en TypeORM de esta forma.
+``` typescript
+const query = await accountApplicationRepository.createQueryBuilder('aa');
+query.where('aa.customer = :customer', { customer });
+query.leftJoinAndSelect('aa.agency', 'ag');
+query.leftJoinAndSelect('aa.creditAssessment', 'ca');
+const applications = await query.getOne();
+```
+Es interesante destacar que el _resultado_ de esta query sí es un objeto del modelo que se describe mediante decorators.
+
+Otro ejemplo de este reflejo más directo de SQL en las operaciones descriptas mediante TypeORM son los operadores de búsqueda, p.ej. 
+``` typescript
+const application = await accountApplicationRepository.findOneOrFail(
+    { customer: Like('% Bolena') }, { relations: ["agency", "creditAssessment"] }
+);
+```
+En general, los operadores de las búsquedas en TypeORM se corresponden bastante directamente con los que pueden aparecer en una consulta SQL.
+
+Finalmente, mencionemos que TypeORM incluye algunas características que van más allá de la relación directa con una BD relacional. 
+Mencionamos: una variante más potente del concepto de cascada que incluye operaciones de alta, el soporte para cache en los resultados de una búsqueda, y el soporte para migraciones.
