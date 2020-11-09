@@ -6,6 +6,6 @@ layout: default
 
 ## TypeORM - manejo de bases relacionales
 
-[Presentamos a TypeORM](./typeorm/presentacion)
+[Presentamos a TypeORM](./typeorm/typeorm-presentacion)
 
 
