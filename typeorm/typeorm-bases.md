@@ -164,3 +164,104 @@ A diferencia de p.ej. Mongoose, TypeORM no incorpora validaciones. Las definicio
 A partir de estas restricciones, la BD puede detectar datos erróneos. En tal caso la operación de BD sale con una excepción, que TypeORM transforma en una `QueryFailedError`.
 
 La doc de TypeORM incluye una [página sobre validaciones](https://typeorm.io/#/validation) ... en la que se recomienda el uso de `class-validator`, sin dar un soporte específico (como el de `ValidationPipe` de Nest), es el programa quien tiene que invocar a la función `validate` y procesar su resultado.
+
+
+
+## Operaciones
+TypeORM ofrece distintas alternativas para realizar operaciones sobre la BD. En algunos casos se debe a una cuestión de estilo, en otros, hay variantes que están más cerca de la BD, que pueden ser más incómodas para usar pero dan más performance, y otras más cómodas que pueden resultar más lentas.
+
+En esta página vamos a describir _una_ forma de especificar operaciones, que va en la línea de cómo se usa TypeORM en servicios del banco. Más adelante veremos algunas de las alternativas ... para verlas todas, nos remitimos a la documentación.
+
+
+### Repository - acceso a una entidad
+Una de las herramientas que ofrece TypeORM para realizar operaciones son los llamados _repositorios_. Un repositorio permite interactuar con una entidad, que en el modelo es una clase que tiene el decorator `@Entity`, incluyendo todas las operaciones CRUD.
+
+Para obtener un repositorio, hay que pedírselo a la conexión.
+```typescript
+const applicationRepository = connection.getRepository(AccountApplication);
+```
+A partir del `applicationRepository`, podremos crear, obtener, modificar y eliminar solicitudes de cuenta.
+
+A continuación describimos _algunas_ operaciones que se pueden hacer con un repositorio, a modo de ejemplo. Se puede consultar toda la interfaz [en la página correspondiente de la doc](https://typeorm.io/#/repository-api).
+
+
+### Retrieval - traernos datos de la base
+Para obtener información de la base, en nuestro ejemplo las solicitudes de cuenta que estén persistidas, usamos la operación `find` de los repositorios.
+```typescript
+const applications: AccountApplication[] = await repository.find();
+```
+... obviamente, todas las operaciones de BD son asincrónicas ... indicamos el tipo de `applications` para que
+
+La operación `find` admite parámetros para especificar condiciones de búsqueda y entidades relacionadas que se quieran incorporar a la consulta. Trataremos cada uno de estos dos temas, más adelante.
+
+También hay operaciones que son variantes del `find`: `findByIds`, `findOne`, `findOneOrFail`, `findAndCount`.
+
+
+### Save - alta o modificación
+La operación `save` de los repositorios realiza lo que se conoce como "upsert": si la entidad ya existe en la base la modifica, si no existe la agrega. 
+
+Esta es una forma sencilla de hacer un alta.
+```typescript
+const newApplication = new AccountApplication();
+newApplication.customer = "Perdita Durango";
+newApplication.status = Status.REJECTED;
+newApplication.requiredApprovals = 4;
+const savedApplication = await applicationRepository.save(newApplication);
+```
+
+Este es un caso sencillo de modificación: obtenemos el objeto a modificar (en este caso suponemos que conocemos el id), cambiamos lo que querramos, `save`. En este caso, aumentamos en uno la cantidad de aprobaciones requeridas para aceptar la solicitud.
+```typescript
+const application = await repository.findOneOrFail({ id: 3 });
+application.requiredApprovals++;
+await repository.save(application);
+```
+
+Los repositorios también ofrecen operaciones para abreviar el código de creación del objeto al que se le va a hacer `save`. P.ej. tenemos `create`, lo mostramos con un ejemplo que es una forma alternativa de hacer la misma alta que mostramos recién.
+```typescript
+const newApplication = applicationRepository.create(
+    { customer: "Perdita Durango", status: Status.REJECTED, requiredApprovals: 4 }
+);
+const savedApplication = await applicationRepository.save(newApplication);
+```
+Esta variante puede ser cómoda p.ej. cuando los datos vienen en el body de un request. Otras operaciones que pueden verse [en la doc](https://typeorm.io/#/repository-api) son `merge` y `preload`.
+
+
+
+---
+**Nota**  
+
+¿Cómo se da cuenta el repositorio si la entidad existe o no?  
+Respuesta: por el valor de la PK. Si ya hay una entidad con esa PK la modifica, si no la agrega.
+O sea ... que tiene que hacer un `SELECT` para decidir si va un `INSERT` o un `UPDATE` ... más cómodo, pero más lento.  
+Por suerte, si la entidad _no tiene seteado_ valor para la PK, entonces TypeORM decide hacer un `INSERT`, sin necesidad de hacer un `SELECT` previo.
+
+---
+
+
+### Comentario final 1
+En principio, todas las operaciones que realicemos mediante un repositorio van a interactuar con una única tabla en la BD ... aunque esto puede cambiar de acuerdo a cómo modelemos las _relaciones_.
+
+
+### Comentario final 2 - ActiveRecord o DataMapper
+Comparemos el alta como la implementamos en TypeORM
+```typescript
+const newApplication = new AccountApplication();
+// ... se completan los datos ...
+const savedApplication = await applicationRepository.save(newApplication);
+```
+con la misma operación en Mongoose
+```typescript
+const newApplication = new AccountApplicationModel();      
+// ... se completan los datos ...
+newApplication.save();
+```
+
+En Mongoose, algunas operaciones, en particular `save`, se le piden al documento. En cambio, de la forma en que estamos usando TypeORM, las operaciones siempre se le piden al repositorio.  
+Esto muestra dos formas de trabajar con una BD desde una aplicación, a las que se asocian los nombres **active record** y **data mapper**. Mongoose trabaja con active records.
+
+En rigor TypeORM _puede trabajar en cualquiera de los dos modos_, como lo cuenta en [una página específica de la doc](https://typeorm.io/#/active-record-data-mapper). En los servicios del banco, y en este material, se trabaja con data mappers. Los repositorios son data mappers.
+
+Una consecuencia de esta diferencia en cómo trabajamos en Mongoose y en TypeORM, es que los documentos de Mongoose son objetos que además de los datos de la BD, incluyen mucha más información. Por eso está la operación `toObject()` que permite obtener el objeto plano. 
+Trabajando con data mappers, en TypeORM directamente obtenemos objetos planos, no tiene sentido un `toObject()`.
+
+
