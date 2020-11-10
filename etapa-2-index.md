@@ -8,4 +8,5 @@ layout: default
 
 [Presentamos a TypeORM](./typeorm/typeorm-presentacion)
 
+[Las bases de TypeORM](./typeorm/typeorm-bases)
 
