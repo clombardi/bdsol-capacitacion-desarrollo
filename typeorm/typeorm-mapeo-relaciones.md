@@ -190,7 +190,7 @@ export class Agency {
 ```
 Obviamente, es responsabilidad nuestra mantener la coherencia entre este atributo, y el valor del atributo `agency` en cada solicitud.
 
-Para que TypeORM pueda manejar la relación en forma bidireccional, tenemos que agregarle a este atributo el decorator `@OneToMany`, y agregar en los cada uno de los extremos, la forma de acceder a la relación en el otro. Se ve más fácil en el código.
+Para que TypeORM pueda manejar la relación en forma bidireccional, tenemos que agregarle a este atributo el decorator `@OneToMany`, y agregar _en cada uno de los extremos_, la forma de acceder a la relación en el otro. Se ve más fácil en el código.
 ```typescript
 @Entity({ name: 'account_applications' })
 export class AccountApplication {
@@ -208,3 +208,58 @@ export class Agency {
     accountApplications: AccountApplication[]
 }
 ```
+
+¿Por qué _OneToMany_? Porque vista desde la sucursal, la relación es _uno-a-muchos_.
+- puede haber _una sola_ sucursal que se relaciona con una solicitud, y
+- para cada sucursal, puede haber _muchas_ solicitudes relacionadas.
+
+--- 
+**Nota**  
+Para pensar la _cardinalidad_ de una relación, me "paro" en uno de los extremos, y hago el razonamiento que trato de describir en este gráfico.  
+![n-to-n](./n-to-n.jpg)
+
+En el último ejemplo, "los míos" son las sucursales, "los otros" son las solicitudes.
+
+---
+
+Estas definiciones permiten acceder a la relación desde cualquiera de sus extremos: desde las solicitudes hacia las sucursales como ya vimos, y también desde las sucursales hacia las solicitudes.  
+```typescript
+await agencyRepository.findOneOrFail(
+    { where: { code: '022' }, relations: ["accountApplications"] }
+);
+```
+
+El resultado es el que esperamos.
+```typescript
+Agency {
+  id: 5,
+  code: '022',
+  name: 'Yavi',
+  address: 'Av. San Martín 42',
+  area: null,
+  accountApplications: [
+    AccountApplication {
+      id: 1,
+      customer: 'Juana Molina',
+      status: 'Pending',
+      date: null,
+      requiredApprovals: 8
+    },
+    AccountApplication {
+      id: 8,
+      customer: 'Felicitas Guerrero',
+      status: 'Pending',
+      date: null,
+      requiredApprovals: 3
+    }
+  ]
+}
+```
+
+Notamos que el atributo `accountApplications` en `Agency` **no se corresponde con ninguna columna** en la tabla `agencies`. TypeORM obtiene la información para darle valor al atributo, a partir de la columna `agencyId` que está en la tabla `account_applications`. _La misma columna_ permite manejar el atributo en `Agency` y también el atributo `agency` en `AccountApplication`.
+
+Por lo tanto, vemos que no siempre vamos a encontrar una columna por cada atributo mapeado. Las excepciones siempre van a estar relacionadas con relaciones. 
+En las relaciones `@OneToMany` / `@ManyToOne` que se mapean en forma bidireccional, va a haber una columna _solamente en la tabla del extremo "many"_, en este ejemplo en la tabla correspondiente a las solicitudes.
+
+Por esta misma razón, se puede mapear en forma unidireccional una relación `@ManyToOne` (es como estaba esta relación antes de agregar y mapear el atributo en `Agency`), pero no una `@OneToMany`. Siempre que mapee una relación `@OneToMany`, _es necesario_ hacerlo en forma bidireccional.
+
