@@ -75,7 +75,7 @@ newApplication.agency = agency22;
 const savedApplication = await applicationRepository.save(newApplication);
 ```
 
-En la nueva fila de `account_applications`, el valor de `agencyID` es el `id` de la sucursal asignada.
+En la nueva fila de `account_applications`, el valor de `agencyId` es el `id` de la sucursal asignada.
 
 
 ## Relaciones al obtener datos
@@ -262,4 +262,89 @@ Por lo tanto, vemos que no siempre vamos a encontrar una columna por cada atribu
 En las relaciones `@OneToMany` / `@ManyToOne` que se mapean en forma bidireccional, va a haber una columna _solamente en la tabla del extremo "many"_, en este ejemplo en la tabla correspondiente a las solicitudes.
 
 Por esta misma razón, se puede mapear en forma unidireccional una relación `@ManyToOne` (es como estaba esta relación antes de agregar y mapear el atributo en `Agency`), pero no una `@OneToMany`. Siempre que mapee una relación `@OneToMany`, _es necesario_ hacerlo en forma bidireccional.
+
+
+## Relaciones one-to-one
+Para estudiar relaciones con características distintas a las que vimos, agreguemos a nuestro modelo un nuevo tipo de entidad, los análisis crediticios.
+```typescript
+@Entity({ name: 'credit_assessments' })
+export class CreditAssessment {
+    @PrimaryGeneratedColumn()
+    id: number
+
+    @Column({ length: 120 })
+    customer: string
+
+    @Column({ type: "decimal", precision: 15, scale: 2})
+    creditLimit: number
+}
+```
+
+Supongamos que para cada solicitud de cuenta se hace un análisis crediticio, no más de uno. Por lo tanto, existe una relación entre las solicitudes y los análisis. 
+
+Esta relación es _uno-a-uno_ vista desde cualquier extremo: para cada solicitud hay un análisis relacionado, para cada análisis hay una solicitud. Por eso, vamos a describirla mediante el decorator `@OneToOne`. 
+Para establecer la relación en forma bidimensional, agregamos los atributos en las dos entidades, y le ponemos a ambas el decorator con los datos de la entidad relacionada. Queda así.
+
+```typescript
+@Entity({ name: 'account_applications' })
+export class AccountApplication {
+    // ... otros atributos ...
+
+    @OneToOne(() => CreditAssessment, assessment => assessment.accountApplication)
+    creditAssessment: CreditAssessment
+}
+
+@Entity({ name: 'credit_assessments' })
+export class CreditAssessment {
+    // ... otros atributos ...
+
+    @OneToOne(() => AccountApplication, app => app.creditAssessment)
+    accountApplication: AccountApplication
+}
+```
+
+Como vimos con las relaciones muchos-a-uno, para describir esta relación en la BD alcanza con agregar una columna en _una_ de las tablas involucradas. 
+En una relación uno-a-uno, la columna se puede agregar en cualquiera de las dos tablas. En el ejemplo, se puede agregar `creditAssesmentId` en `account_application`, o bien `accountApplicationId` en `credit_assessment`. 
+TypeORM exige que la decisión la tomemos nosotros. Para indicar en cuál de las tablas agregar la columna, hay que agregar el decorator `@JoinColumn()` en la clase correspondiente.
+Si decidimos que la columna va en `account_application`, entonces tenemos que ajustar la definición en `AccountApplication` de esta forma.
+```typescript
+@Entity({ name: 'account_applications' })
+export class AccountApplication {
+    // ... otros atributos ...
+
+    @OneToOne(() => CreditAssessment, assessment => assessment.accountApplication)
+    @JoinColumn()
+    creditAssessment: CreditAssessment
+}
+
+@Entity({ name: 'credit_assessments' })
+export class CreditAssessment {
+    // ... otros atributos ...
+
+    @OneToOne(() => AccountApplication, app => app.creditAssessment)
+    accountApplication: AccountApplication
+}
+```
+
+Las relaciones se pueden usar en consultas, igual que como lo vimos con las relaciones muchos-a-uno.
+
+
+## Relaciones muchos-a-muchos
+En el diseño de BD relacionales pueden aparecer relaciones _muchos-a-muchos_. Un ejemplo podría ser la relación entre clientes y sucursales respecto del registro de firmas: un cliente puede tener registrada la firma en muchas sucursales (p.ej. porque tiene cajas de seguridad, o cuentas, en varias), una sucursal mantiene el registro de firmas de muchos clientes.
+
+No vamos a entrar en los detalles de este tipo de relaciones; les interesades pueden consultar [la página al respecto en la doc](https://typeorm.io/#/many-to-many-relations).
+
+
+## Preguntas y consignas
+En una relación muchos-a-uno / uno-a-muchos ¿se puede agregar la columna que describe la relación en la BD en cualquiera de las dos tablas, o solamente puede estar en una de ellas?
+
+Al diseñarse la BD de solicitudes de cuenta, se definió darle a los campos de texto una longitud de 120 caracteres. Por eso se repite la indicación `{length: 120}` en varios decorators `@Column`.
+¿Cómo se puede hacer para no repetir este dato, que en el código diga una sola vez que los campos de texto tienen longitud 120?  
+Hay (al menos) dos formas: en una se evita que se repita el número 120, en otra se evita que se repita la opción `{length: 120}` completa.
+
+Otra definición es que todas las PK son identificadores numéricos autoincrementales, y que el nombre de atributo es siempre `id`. ¿Cómo se puede hacer para que esta definición esté una sola vez en el código?  
+**Hint**: usar _herencia_.  
+Para averiguar más sobre el tratamiento que hace TypeORM de herencia entre entidades, se puede leer [esta página en la doc](https://typeorm.io/#/entity-inheritance).
+
+Agregar al modelo las evaluaciones de solicitudes de cuenta. Para cada evaluación se sabe quién la hizo (es un string con el nombre), y si la decisión de esta persona es aprobar la solicitud o no (un booleano). Esta entidad tiene una relación "cantada" con otra, definirla haciéndola bidimensional.
 
