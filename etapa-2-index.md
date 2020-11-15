@@ -13,3 +13,5 @@ layout: default
 [Mapeo de relaciones](./typeorm/typeorm-mapeo-relaciones)
 
 [Operaciones en cascada](./typeorm/typeorm-cascada)
+
+[Opciones de búsqueda](./typeorm/typeorm-busqueda)
