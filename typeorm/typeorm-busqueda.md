@@ -24,7 +24,7 @@ Podemos pensar que los `find...` nos permiten expresar `SELECT` de SQL, con una 
 
 La [página de la doc sobre opciones de búsqueda](https://typeorm.io/#/find-options) describe las opciones disponibles. En lo que sigue, vamos a describir algunas a modo de síntesis.  
 Veremos que en algunos casos, en particular cuando se quiere expresar condiciones sobre entidades relacionadas, las operaciones `find...` nos "quedan cortas". 
-En tales casos, conviene recurrir a otro mecanismo que provee TypeORM para describir búsquedas, los `QueryBuilder`, que permiten una sintaxis aún más parecida a la de un `SELECT` SQL.
+En tales casos, conviene recurrir a otro mecanismo que provee TypeORM para describir búsquedas, los `QueryBuilder`, que permiten una sintaxis aún más parecida a la de un `SELECT` SQL, mucho más potentes en las consultas que se pueden expresar, y al mismo tiempo más complicados.
 
 
 ## Una aclaración antes de arrancar
@@ -138,7 +138,7 @@ await agencyRepository.find({ where: { area: IsNull() } });
 ## Condiciones sobre entidades relacionadas - QueryBuilder
 Hasta ahora, todas las condiciones están asociadas a atributos de la misma entidad sobre la que se hace find. Veamos ahora cómo hacer algunas consultas relativas a _entidades relacionadas_. En estos ejemplos, vamos a usar la relación entre solicitudes y análisis crediticios, mencionada en la página sobre relaciones. 
 
-Utilizando el operador `IsNull`, se pueden obtener las solicitudes que _no_ tengan asociado un análisis crediticio.
+Utilizando el operador `IsNull`, se pueden obtener las solicitudes que _no tengan asociado_ un análisis crediticio.
 ```typescript
 await applicationRepository.find({ where: { creditAssessment: IsNull() } });
 ```
@@ -171,12 +171,12 @@ Para agregar la entidad relacionada (en este caso los análisis crediticios) a l
 ```typescript
 query.leftJoinAndSelect('aa.creditAssessment', 'ca');
 ```
-Después de hacer el join, se pueden expresar condiciones sobre la entidad relacionada. Para describir las condiciones se utiliza la operación `where` que puede aplicarse a los `QueryBuilder`s.
+Después de hacer el join, se pueden expresar condiciones sobre la entidad relacionada. Para describir las condiciones se utiliza la operación `where`.
 ```typescript
 query.where('ca.creditLimit = 240000');
 ```
 
-Esta es la definición completa del QueryBuilder, seguida por el pedido de que haga la búsqueda mediante la operación `getMany()`.
+Esta es la definición completa del QueryBuilder, seguida por el pedido de que ejecute la búsqueda mediante la operación `getMany()`.
 ```typescript
 const query = await applicationRepository.createQueryBuilder('aa');
 query.leftJoinAndSelect('aa.creditAssessment', 'ca');
@@ -193,7 +193,7 @@ WHERE ca.creditLimit = 240000
 
 El resultado es una lista de objetos `AccountApplication`, que van a incluir el `CreditAssessment` de cada una, o sea un resultado análogo a hacer un 
 ```typescript
-applicationRepository.find({ where: /* condicion */, relations: ['creditAssessment']});
+applicationRepository.find({ where: /* condicion */, relations: ['creditAssessment']}); 
 ```
 
 Este es un ejemplo de posible resultado, en el que hay una sola solicitud que cumple la condición.
@@ -226,7 +226,7 @@ Este formato del `where` es útil cuando estos valores vienen p.ej. en un reques
 
 **No incluir los objetos relacionados**  
 La operación `leftJoinAndSelect` hace que la tabla asociada a una entidad se incorpore a la query mediante un `LEFT JOIN`, y además, que esta entidad se incluya en el resultado. Esto es lo que se especifica mediante "andSelect".  
-Si se usa `leftJoin` en lugar de `leftJoinAndSelect`, se incorpora el `LEFT JOIN`, pero la entidad no se incluye en el resultado. Esto sirve para poder incluir condiciones en el `where`.  
+Si se usa `leftJoin` en lugar de `leftJoinAndSelect`, se incorpora el `LEFT JOIN`, pero la entidad no se incluye en el resultado. Esto sirve p.ej. si queremos incluir condiciones en el `where` pero no nos interesa incluir la entidad relacionada en el resultado.  
 Si en el ejemplo anterior cambiamos `leftJoinAndSelect` por `leftJoin`, este es el resultado que se obtiene.
 ```typescript
 [
