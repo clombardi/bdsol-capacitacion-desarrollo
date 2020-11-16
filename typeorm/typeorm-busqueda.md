@@ -286,6 +286,15 @@ queryStatusComoBolena.setParameters(queryBolena.getParameters());
 Hay que definir el `select` de la subquery, para que incluya únicamente el atributo `status`.
 
 
+## Otras características
+Mencionamos dos herramientas adicionales que pueden utilizarse en las búsquedas, los detalles pueden verse en la documentación de TypeORM.
+
+1. Entre las opciones del `find` encontramos `skip` y `take`, que sirven para manejar datos en forma paginada. Los QueryBuilder incluyen las operaciones `skip(n)` y `take(n)`, que tienen el mismo comportamiento.
+
+2. Entre los operadores de búsqueda (o sea, al nivel de `MoreThan`, `IsNull` o `Not`), encontramos uno llamado `Raw`, que permite introducir SQL dentro de las búsquedas con `find`, sin tener que pasar a QueryBuilder. No sirve para manejar datos de entidades relacionadas, pero sí para algunas condiciones especiales en búsquedas que involucran un solo tipo de entidad.
+
+
+
 ## Para practicar 
 Obtener las solicitudes que tengan asociado un `CreditAssessment`. ¿Aparece el `CreditAssessment` asociado a cada una?
 

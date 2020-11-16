@@ -15,3 +15,5 @@ layout: default
 [Operaciones en cascada](./typeorm/typeorm-cascada)
 
 [Opciones de búsqueda](./typeorm/typeorm-busqueda)
+
+[Usando TypeORM en un proyecto NestJS](./typeorm/typeorm-nest)
