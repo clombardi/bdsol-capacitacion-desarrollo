@@ -74,8 +74,8 @@ Comparemos con la misma especificación, en las opciones de conexión del script
         "src/entity/**/*.ts"
     ]   
 ```
-Una consecuencia es que respecto de los parámetros de conexión, no da ninguna ventaja agrupar estas clases en una carpeta separada, se pueden ubicar en la carpeta del módulo relacionado a cada clase o donde cada equipo de desarrollo prefiera. Con una definición como la del script, hay que poner las clases que modelan entidades en `src/entity`.  
-Otra consecuencia de este cambio en la indicación de cuáles son las entidades, es que una definición de este estilo no podría ir en un JSON. Aunque la documentación de NestJS habilita a usar el archivo `ormconfig.json`, el hecho de indicar rutas en ese archivo podría complicar la ejecución del servicio NestJS en algunos ambientes. Por eso parece ser más seguro indicar las opciones de conexión en el código del módulo principal. 
+Una consecuencia es que respecto de los parámetros de conexión, no da ninguna ventaja agrupar estas clases en una carpeta separada, se pueden ubicar en la carpeta del módulo relacionado a cada entidad o donde cada equipo de desarrollo prefiera. Con una definición como la del script, hay que poner las clases que modelan entidades en `src/entity`.  
+Otra consecuencia de este cambio en la configuración, es que una definición de este estilo no podría ir en un JSON. Aunque la documentación de NestJS habilita a usar el archivo `ormconfig.json`, el hecho de indicar rutas en ese archivo podría complicar la ejecución del servicio NestJS en algunos ambientes. Por eso parece ser más seguro indicar las opciones de conexión en el código del módulo principal. 
 
 Otra diferencia es que el soporte de NestJS define algunas opciones adicionales a las de TypeORM. En particular, en el ejemplo se está usando `keepConnectionAlive`, que es necesario para que funcione el hot reload de NestJS, como se indica al final en la [página de la doc de NestJS sobre hot reload](https://docs.nestjs.com/recipes/hot-reload).
 
