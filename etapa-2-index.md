@@ -17,3 +17,5 @@ layout: default
 [Opciones de búsqueda](./typeorm/typeorm-busqueda)
 
 [Usando TypeORM en un proyecto NestJS](./typeorm/typeorm-nest)
+
+[Algunas técnicas para mejorar la performance](./typeorm/typeorm-performance)
