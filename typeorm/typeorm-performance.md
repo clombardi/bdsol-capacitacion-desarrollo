@@ -165,9 +165,113 @@ La operación `insert` se describe [en la API de Repository de la doc de TypeORM
 **Atención**  
 La operación `insert` no tiene en cuenta las [cascadas](./typeorm-cascada) que pudieran estar definidas en la entidad. P.ej. si se usa `insert` para hacer un alta masiva de solicitudes de cuenta, no va a agregar los análisis crediticios, por más que se especifiquen en los objetos que se le envían al `insert`.
 
+
+## Cache de query
+TypeORM maneja el concepto de _cache de query_, o sea, que los resultados de una consulta se guarden temporariamente en algún lugar (la _cache_) que se supone de acceso más rápido que el tiempo que tarda repetir la query.  
+De esta forma, para consultas que se realicen de forma muy frecuente, la mayor parte de las veces va a mejorar la eficiencia, porque va a resolver la consulta accediendo a la cacche.
+
+Para activar la cache para un `find`, alcanza con incluir la opción `cache`. Hagámoslo para la consulta de sucursales, que ordenamos por código.
+```typescript
+async getAgencies(): Promise<Agency[]> {
+    return await this.agencyRepository.find({ 
+        cache: 120000,
+        relations: ["city"],
+        order: { code: "ASC" }
+    });
+}
+```
+Estamos suponiendo un escenario en que la cantidad de sucursales no pasa de unos cientos, lejos de los millones de sucursales que manejamos al trabajar con índices. 
+Para consultas con millones de resultados no tiene sentido la cache, porque estaríamos recargando un mecanismo pensado para manejar volúmenes acotados de datos. Además ... si hay que realizar una consulta con esta cantidad de resultados en forma muy frecuente, estamos en problemas.
+
+En las consultas que se describen mediante un QueryBuilder, se puede activar la cache mediante la operación `cache` de los mismos.
+```typescript
+const query = await agenciesRepository.createQueryBuilder('ag');
+query.cache(120000);
+/* ... definición de condiciones, joins y otros ... */
+```
+
+El valor `120000` que asociamos a la propiedad `cache`, es su _tiempo de expiración_, que se define en milisegundos. Cuento rápidamente cómo funciona esto
+- Cuando se hace la consulta por primera vez, se agrega una entrada en la cache que incluye la consulta, el resultado, y un timestamp. 
+- Cuando se repite la consulta, si se encuentra una entrada para la consulta en la cache, se compara el timestamp actual con el registrado. si el tiempo transcurrido es mayor al de expiración, entonces se _invalida_ la entrada. Se vuelve a hacer la consulta "real" y se almacena el resultado obtenido en la entrada de la cache, actualizando el timestamp.
+
+El manejo de un tiempo de expiración es necesario para que la consulta incorpore las eventuales modificaciones, en nuestro caso p.ej. que se agregue una sucursal, o se le cambie el nombre a alguna. Se puede definir un valor de tiempo de expiración global en las opciones de conexión, y también indicar explícitamente que se invalide una entrada de cache (en nuestro caso, p.ej. cuando se agrega una sucursal). Los detalles están en la [página de la doc de TypeORM sobre cache](https://typeorm.io/#/caching/).
+
+En la configuración por defecto, la cache se almacena en una tabla separada en la misma base de datos. Con lo cual el acceso mediante cache, también implica hacer una consulta a la base.  
+Entonces ¿por qué tardaría menos? Porque se guarda el resultado en una sola fila de la tabla de cache, y por lo tanto se ahorra el trabajo necesario para resolverla, que incluye: obtener todas las filas (que podrían no estar contiguas en el disco), resolver los joins a otras tablas (en este caso la correspondiente a la entidad `City`), ordenar los resultados.  
+TypeORM también permite que se configure el dispositivo de almacenamiento de la cache, para habilitar variantes que no necesiten acceder a la misma BD. En particular, TypeORM ya viene preparado para que la cache se almacene en Redis. Los detalles, en la [página de la doc de TypeORM sobre cache](https://typeorm.io/#/caching/).
+
+
+## Traer sólo algunos datos de cada entidad
+Para entidades/tablas que tengan muchos atributos/columnas, se puede indicar que el resultado de una consulta incorpore solamente algunos. Para eso se usa la opción (de `find`) / operación (de `QueryBuilder`) llamada `select`. 
+
+Este es un ejemplo de búsqueda usando `find`, en el que queremos obtener, de las solicitudes pendientes, id y cliente.
+```typescript
+const applications = await applicationRepository.find({ 
+    where: { status: Status.PENDING }, 
+    select: ["id", "customer"]
+});
+```
+El resultado es una lista de entidades que tienen valores únicamente para los atributos indicados.
+```typescript
+AccountApplication { id: 1, customer: 'Juana Molina' }
+AccountApplication { id: 8, customer: 'Felicitas Guerrero' }
+AccountApplication { id: 14, customer: 'Ana Bolena' }
+AccountApplication { id: 15, customer: 'Inés Lasalle' }
+```
+Mostramos también la consulta SQL que genera TypeORM, donde se ve la relación directa entre la opción `select` del `find`, y la cláusula `SELECT` de la consulta.
+```sql
+SELECT "AccountApplication"."id" AS "AccountApplication_id", 
+       "AccountApplication"."customer" AS "AccountApplication_customer" 
+FROM "account_applications" "AccountApplication" 
+WHERE "AccountApplication"."status" = $1 -- PARAMETERS: ["Pending"]
+```
+
+Veamos un ejemplo con QueryBuilder, de la misma consulta agregando el código de sucursal.
+```typescript
+const query = await applicationRepository.createQueryBuilder('aa');
+query.leftJoin("aa.agency", "ag");
+query.select(["aa.id", "aa.customer", "ag.code"])
+query.where("aa.status = :status", { status: Status.PENDING })
+const applications = await query.getMany();
+```
+El resultado respeta la estructura de entidades, incluyendo solamente los datos solicitados.
+```typescript
+[
+  AccountApplication {
+    id: 1, customer: 'Juana Molina', agency: Agency { code: '022' }
+  },
+  AccountApplication {
+    id: 8, customer: 'Felicitas Guerrero', agency: Agency { code: '022' }
+  },
+  AccountApplication {
+    id: 14, customer: 'Ana Bolena', agency: Agency { code: '077' }
+  },
+  AccountApplication {
+    id: 15, customer: 'Inés Lasalle', agency: Agency { code: '078' }
+  }
+]
+```
+
+Si es conveniente manejar objetos planos en lugar de respetar la estructura de las entidades, simplemente podemos pedirle a TypeORM `getRawMany()` en lugar de `getMany()`
+```typescript
+const applications = await query.getRawMany();
+```
+obteniendo un resultado de esta forma
+```typescript
+[
+  { aa_id: 1, aa_customer: 'Juana Molina', ag_code: '022' },
+  { aa_id: 8, aa_customer: 'Felicitas Guerrero', ag_code: '022' },
+  { aa_id: 14, aa_customer: 'Ana Bolena', ag_code: '077' },
+  { aa_id: 15, aa_customer: 'Inés Lasalle', ag_code: '078' }
+]
+```
+
+Usando la operación `select` y las opciones `getRawOne` o `getRawMany`, también podemos incluir operadores de agregación, como se indicó al describir las [opciones de búsqueda](./typeorm-busqueda).
+
+
 ## Para practicar
 Agregar un endpoint `PATCH` que pase todas las solicitudes con menos de 3 `requiredApprovals` y que estén en estado `Analysing`, al estado `Accepted`.
 
 Agregar un endpoint `POST` que reciba en el body una lista `[{ customer, creditLimit }]` y haga el alta masiva de los análisis crediticios correspondientes, usando la operación `.insert(/* ... */)` del repositorio correspondiente.
 
-
+Agregar (tal vez en un nuevo módulo de ciudades) un endpoint `GET` que devuelva, dado el nombre de una provincia, las ciudades de esa provincia, para cada una id, nombre, cantidad de sucursales, y superficie total de las sucursales.
