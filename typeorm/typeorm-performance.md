@@ -168,9 +168,9 @@ La operación `insert` no tiene en cuenta las [cascadas](./typeorm-cascada) que 
 
 ## Cache de query
 TypeORM maneja el concepto de _cache de query_, o sea, que los resultados de una consulta se guarden temporariamente en algún lugar (la _cache_) que se supone de acceso más rápido que el tiempo que tarda repetir la query.  
-De esta forma, para consultas que se realicen de forma muy frecuente, la mayor parte de las veces va a mejorar la eficiencia, porque va a resolver la consulta accediendo a la cacche.
+De esta forma, para consultas que se realicen de forma muy frecuente, la mayor parte de las veces va a mejorar la eficiencia, porque va a resolver la consulta accediendo a la cache.
 
-Para activar la cache para un `find`, alcanza con incluir la opción `cache`. Hagámoslo para la consulta de sucursales, que ordenamos por código.
+Para activar la cache para un `find`, alcanza con incluir la opción `cache`. Hagámoslo para la consulta de sucursales, ordenándola por código.
 ```typescript
 async getAgencies(): Promise<Agency[]> {
     return await this.agencyRepository.find({ 
@@ -181,24 +181,24 @@ async getAgencies(): Promise<Agency[]> {
 }
 ```
 Estamos suponiendo un escenario en que la cantidad de sucursales no pasa de unos cientos, lejos de los millones de sucursales que manejamos al trabajar con índices. 
-Para consultas con millones de resultados no tiene sentido la cache, porque estaríamos recargando un mecanismo pensado para manejar volúmenes acotados de datos. Además ... si hay que realizar una consulta con esta cantidad de resultados en forma muy frecuente, estamos en problemas.
+Para consultas con millones de resultados no tiene sentido la cache, porque estaríamos recargando un mecanismo pensado para manejar volúmenes acotados de datos. Además ... si hay que realizar una consulta con esta cantidad de resultados _en forma muy frecuente_, estamos en problemas.
 
-En las consultas que se describen mediante un QueryBuilder, se puede activar la cache mediante la operación `cache` de los mismos.
+En las consultas que se describen mediante un QueryBuilder, se puede activar la cache mediante la operación `cache`.
 ```typescript
 const query = await agenciesRepository.createQueryBuilder('ag');
 query.cache(120000);
 /* ... definición de condiciones, joins y otros ... */
 ```
 
-El valor `120000` que asociamos a la propiedad `cache`, es su _tiempo de expiración_, que se define en milisegundos. Cuento rápidamente cómo funciona esto
+El valor `120000` que asociamos a la propiedad/operación `cache`, es su _tiempo de expiración_, que se define en milisegundos. Cuento rápidamente cómo funciona esto
 - Cuando se hace la consulta por primera vez, se agrega una entrada en la cache que incluye la consulta, el resultado, y un timestamp. 
-- Cuando se repite la consulta, si se encuentra una entrada para la consulta en la cache, se compara el timestamp actual con el registrado. si el tiempo transcurrido es mayor al de expiración, entonces se _invalida_ la entrada. Se vuelve a hacer la consulta "real" y se almacena el resultado obtenido en la entrada de la cache, actualizando el timestamp.
+- Cuando se repite la consulta, si se encuentra una entrada para la consulta en la cache, se compara el timestamp actual con el registrado. Si el tiempo transcurrido es mayor al de expiración, entonces se _invalida_ la entrada. En tal caso, se vuelve a hacer la consulta "real" y se almacena el resultado obtenido en la entrada de la cache, actualizando el timestamp.
 
 El manejo de un tiempo de expiración es necesario para que la consulta incorpore las eventuales modificaciones, en nuestro caso p.ej. que se agregue una sucursal, o se le cambie el nombre a alguna. Se puede definir un valor de tiempo de expiración global en las opciones de conexión, y también indicar explícitamente que se invalide una entrada de cache (en nuestro caso, p.ej. cuando se agrega una sucursal). Los detalles están en la [página de la doc de TypeORM sobre cache](https://typeorm.io/#/caching/).
 
 En la configuración por defecto, la cache se almacena en una tabla separada en la misma base de datos. Con lo cual el acceso mediante cache, también implica hacer una consulta a la base.  
 Entonces ¿por qué tardaría menos? Porque se guarda el resultado en una sola fila de la tabla de cache, y por lo tanto se ahorra el trabajo necesario para resolverla, que incluye: obtener todas las filas (que podrían no estar contiguas en el disco), resolver los joins a otras tablas (en este caso la correspondiente a la entidad `City`), ordenar los resultados.  
-TypeORM también permite que se configure el dispositivo de almacenamiento de la cache, para habilitar variantes que no necesiten acceder a la misma BD. En particular, TypeORM ya viene preparado para que la cache se almacene en Redis. Los detalles, en la [página de la doc de TypeORM sobre cache](https://typeorm.io/#/caching/).
+TypeORM también permite que se configure el dispositivo de almacenamiento de la cache, para habilitar variantes que no necesiten acceder a la misma BD. En particular, TypeORM incorpora el soporte necesario para que la cache se almacene en Redis, para esto alcanza con configurar el dispositivo de cache en las opciones de conexión. Los detalles, en la [página de la doc de TypeORM sobre cache](https://typeorm.io/#/caching/).
 
 
 ## Traer sólo algunos datos de cada entidad

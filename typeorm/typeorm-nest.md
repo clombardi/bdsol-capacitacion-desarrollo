@@ -132,6 +132,59 @@ export class AccountApplicationService {
 Para saber cuál es la clase, el compilador debería ser capaz de _ejecutar_ la función `getEntity()` ... justamente lo que los editores o compiladores no saben hacer, ejecutar código. Por eso es que no se puede especificar `Repository<getEntity()>` como tipo del repositorio.
 
 
+### Variante - repositories custom
+TypeORM también brinda la posibilidad que que definamos nuestros propios repositorios, que extiendan de `Repository` agregando operaciones propias de una determinada entidad.  
+Estos "custom repositories" tienen que ser clases que extiendan de `Repository` con el tipo especificado a la entidad correspondiente, y que lleven el decorator `@EntityRepository`. P.ej. con esta definición
+```typescript
+@EntityRepository(Agency)
+export class AgencyRepository extends Repository<Agency> {
+    async findByCode(code: string) {
+        return await this.findOne({
+            where: { code },
+            relations: ["city"]
+        });
+    }   
+}
+```
+estamos definiendo un custom repo para `Agency`, al que le agregamos el método específico `findByCode`. 
+
+Para que Nest use este repo en lugar del standard, hay que cambiar la forma en que se importa en el módulo, y se inyecta en cada provider. 
+```typescript
+/* Módulo */
+@Module({
+    imports: [TypeOrmModule.forFeature([AgencyRepository])],
+    controllers: [AgencyController],
+    providers: [AgencyService]
+})
+export class AgencyModule {}
+
+/* Provider */
+@Injectable()
+export class AgencyService {
+    constructor(@InjectRepository(AgencyRepository) private agencyRepository: AgencyRepository) {}
+
+    async getAgencies(): Promise<Agency[]> {
+        return await this.agencyRepository.find({ 
+            cache: 120000,
+            relations: ["city"],
+            order: { code: "ASC" }
+        });
+    }
+
+    async getAgencyByCode(code: string): Promise<Agency> {
+        return await this.agencyRepository.findByCode(code);
+    }
+}
+```
+En el provider, vemos que el custom repo soporta las operaciones de los `Repository` de TypeORM, más las que se hayan agregado para el repositorio particular.
+
+**Comentario personal**  
+Vemos que _técnicamente_, definir un repositorio custom es muy fácil.  
+Personalmente, me pregunto hasta qué punto, o en qué casos, **vale la pena** definir un repositorio custom. Si transladamos toda la lógica al repo, podría quedarnos un provider que sólo es un pasamanos ... que se agrega al controller que en el código es un pasamanos al provider. Seguimos agregando capas.  
+En mi opinión, agregar capas conviene cuando la complejidad del módulo lo requiere. Para módulos sencillos, no veo mal que los providers resuelvan la interacción con la BD. Obviamente, si hay una definición a nivel proyecto, hay que seguirla.
+
+
+
 ## Para practicar
 Les dejo algunos ejercicios que pueden servir para mirar un poco la documentación de TypeORM, y usar en una app NestJS algunas de las cosas que vimos sobre el script.
 
