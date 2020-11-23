@@ -24,3 +24,5 @@ layout: default
 ## Más sobre MongoDB/Mongoose - documentos compuestos, relaciones
 
 [Panorama - más allá de los documentos planos](./mongoose-structure-related/mongoose-structure-related-panorama)
+
+[Documentos compuestos 1 - arrays de valores simples](./mongoose-structure-related/array-simple)
