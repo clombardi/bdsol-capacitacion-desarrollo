@@ -19,3 +19,8 @@ layout: default
 [Usando TypeORM en un proyecto NestJS](./typeorm/typeorm-nest)
 
 [Algunas técnicas para mejorar la performance](./typeorm/typeorm-performance)
+
+
+## Más sobre MongoDB/Mongoose - documentos compuestos, relaciones
+
+[Panorama - más allá de los documentos planos](./mongoose-structure-related/mongoose-structure-related-panorama)
