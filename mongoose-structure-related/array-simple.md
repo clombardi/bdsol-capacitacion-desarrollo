@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# MongoDB/Mongoose - arrays de documentos simples
+# MongoDB/Mongoose - arrays de valores simples
 En esta sección vamos a agregar al modelo de oficiales, los idiomas que habla cada oficial, que se describen como listas de strings, p.ej. `["frances", "japones", "tailandes"]`.
 
 Para indicarle a Mongoose que el valor de un atributo es un array de valores simples (strings, números, booleanos), alcanza con encerrar el tipo entre corchetes en la definición de atributo. P.ej. `{ type: [String] }` para arrary de string, lo mismo para números o booleanos. El esquema de `Agents` queda así.
@@ -79,7 +79,7 @@ Para obtener los oficiales que hablen exactamente dos idiomas, se puede utilizar
 ```typescript
 await agentModel.find({ languagesSpoken: { $size: 2 } })
 ```
-y **OJO** otra vez
+y **OJO** otra vez  
 Este operador sirve solamente por consultas por _tamaño exacto_. Lamentablemente, para obtener p.ej. los oficiales que hablan 3 ó más idiomas, no se puede hacer con una consulta de esta forma.
 ```typescript
 await agentModel.find({ languagesSpoken: { $size: { $gte: 2 } } })

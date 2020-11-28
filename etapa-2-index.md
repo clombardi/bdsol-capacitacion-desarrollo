@@ -26,3 +26,5 @@ layout: default
 [Panorama - más allá de los documentos planos](./mongoose-structure-related/mongoose-structure-related-panorama)
 
 [Documentos compuestos 1 - arrays de valores simples](./mongoose-structure-related/array-simple)
+
+[Documentos compuestos 2 - arrays de objetos](./mongoose-structure-related/array-objects)
