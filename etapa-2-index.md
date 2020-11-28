@@ -28,3 +28,5 @@ layout: default
 [Documentos compuestos 1 - arrays de valores simples](./mongoose-structure-related/array-simple)
 
 [Documentos compuestos 2 - arrays de objetos](./mongoose-structure-related/array-objects)
+
+[Referencias](./mongoose-structure-related/references)

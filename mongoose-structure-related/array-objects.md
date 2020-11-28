@@ -3,7 +3,7 @@ layout: default
 ---
 
 # MongoDB/Mongoose - arrays de objetos
-En esta sección, vamos a agregar al modelo de sucursales, las fiestas de oficina que hayan tenido lugar en cada sucursal. De cada fiesta se registran dos datos numéricos: la cantidad de asistentes, y el presupuesto. Recordemos (y simplifiquemos, quitando la fecha de cada fiesta) el ejemplo que presentamos en [la presentación de esta sección](./)
+En esta página, vamos a agregar al modelo de sucursales, las fiestas de oficina que hayan tenido lugar en cada sucursal. De cada fiesta se registran dos datos numéricos: la cantidad de asistentes, y el presupuesto. Recordemos (y simplifiquemos, quitando la fecha de cada fiesta) el ejemplo que presentamos en [la presentación de esta sección](./)
 ```typescript
 {
     id: "5fbb0e9495ba0d307cd21374"
@@ -173,7 +173,7 @@ Notar que la sucursal aparece _completa_ en la respuesta, las condiciones se ref
 ### Condiciones sobre _todos_ los elementos del array
 Veamos ahora un ejemplo distinto: queremos que el resultado de la consulta sean las sucursales en las en que _todas_ las fiestas, hayan ido menos de 40 personas.
 
-Lamentablemente, este humilde redactor no encontró (ni siquiera googleando) cómo expresar esta condición de manera directa en un `find`. La única opción que llevó a una solución es "dar vuelta" la condición: queremos las sucursales en las en que _ninguna_ fiesta haya habido 40 personas o más. Esta condición "dada vuelta" sí se puede expresar, usando el operador `$not`
+Lamentablemente, este humilde redactor no encontró (ni siquiera googleando) cómo expresar esta condición de manera directa en un `find`. La única opción que llevó a una solución es "dar vuelta" la condición: queremos las sucursales en las en que _ninguna_ fiesta haya habido 40 personas o más. Esta condición "dada vuelta" sí se puede expresar, usando el operador `$not`.
 ```typescript
 await agencyModel.find(
     { "parties.peopleAttending": { $not: { $gte: 40 } } }
@@ -197,7 +197,9 @@ El resultado (resumido) que se obtiene es este.
     }
 ]
 ```
-La sucursal `009` "se coló" en el resultado: si no tiene ninguna fiesta, es verdad que ninguna tiene 40 o más participantes.  
+La idea de cómo armar este query la saqué de [este post en Stack Overflow](https://stackoverflow.com/questions/23595023/check-if-every-element-in-array-matches-condition).
+
+Volviendo al resultado, vemos que la sucursal `009` "se coló" en el resultado: si no tiene ninguna fiesta, es verdad que ninguna tiene 40 o más participantes.  
 Si queremos eliminar las sucursales sin fiestas, tenemos que agregar una condición adicional. Para entender cuál, hay que considerar que el atributo `parties: []` en la primera sucursal es cortesía de Mongoose, en la BD el documento _no tiene_ el atributo `parties`. Veamos el resultado de la misma consulta en la CLI de MongoDB.
 ```
 > db.agencies.find(
