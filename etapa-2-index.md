@@ -33,3 +33,6 @@ layout: default
 
 [Referencias incluidas en objetos](./mongoose-structure-related/references-in-objects)
 
+[Índices sobre arrays](./mongoose-structure-related/indexes-on-arrays)
+
+
