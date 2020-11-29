@@ -274,7 +274,7 @@ El resultado tiene esta forma
 ```
 Vemos que en el `$project`, se pueden incluir atributos del documento, y también agregar atributos (en este caso `totalPartyBudget`) indicando cómo calcularlos.
 
-Obviamente, estos objetos ya no responden al modelo de sucursales, por eso el resultado del `aggregate` es de tipo `any[]`.
+Los resultados de una operación `aggregate` no son documentos Mongoose, sino objetos planos. Esto implica en particular que no pueden aplicarse ni virtuals ni methods, que no tiene sentido ni puede aplicarse la operación `toObject`, y también, que el resultado del `aggregate` es de tipo `any[]`.
 
 Una aclaración sobre la definición `totalPartyBudget: { $sum: "$parties.budget" }`: el nombre de un atributo (en este caso `parties.budget`) aparece _en el valor_ del atributo `$sum`. Para indicar un atributo del documento en un valor dentro del objeto de la búsqueda, hay que ponerle un `$` adelante, si no lo toma como el string fijo, no como el nombre de un atributo en el documento.
 
