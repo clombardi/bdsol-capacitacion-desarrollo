@@ -15,7 +15,7 @@ export enum EvaluationDecision {
 }
 
 export const AccountApplicationEvaluationSchema = new Schema({
-    agentId: { type: Schema.Types.ObjectId, ref: 'agents' },
+    agent: { type: Schema.Types.ObjectId, ref: 'agents' },
     decision: { type: String, enum: Object.values(EvaluationDecision) }
 });
 
@@ -28,7 +28,7 @@ export const AccountApplicationSchema = new Schema({
 });
 ```
 
-Para las operaciones de alta, baja y modificación, se utilizan los mecanismos descriptos [al tratar sobre listas de objetos](./array-objects), dando valor al atributo `agentId` de cada evaluación según las opciones indicadas en [la página sobre referencias](./references).
+Para las operaciones de alta, baja y modificación, se utilizan los mecanismos descriptos [al tratar sobre listas de objetos](./array-objects), dando valor al atributo `agent` de cada evaluación según las opciones indicadas en [la página sobre referencias](./references).
 
 P.ej. este método de provider agrega una evaluación sobre una solicitud existente
 ```typescript
@@ -38,7 +38,7 @@ async addEvaluation(
     const { agentId, decision } = newEvaluationData;
     const application = await this.accountApplicationModel.findById(applicationId);
     const newEvaluation: AccountApplicationEvaluation = { 
-        agentId: Types.ObjectId(agentId), decision 
+        agent: Types.ObjectId(agentId), decision 
     }
     application.evaluations.push(newEvaluation);
     application.save();
@@ -142,7 +142,7 @@ Veamos un posible resultado, acotado a una solicitud.
 ```
 Para asociar el oficial con cada evaluación, hay que buscar en `agentData` el oficial que coincida por `id`, con el `id` de la evaluación. Esta asociación viene resuelta en el resultado del `populate`.
 
-En lugar de hacer esta asociación por código, se puede armar un `aggregate` que nos brinde la información con el mismo formato que el `populate`, en objetos planos en lugar de documentos Mongoose (y sin los virtual). Pero ... el `aggregate` queda _bastante_ complejo.
+En lugar de hacer esta asociación por código, se puede armar un `aggregate` que nos brinde la información con el mismo formato que el `populate`, en objetos planos en lugar de documentos Mongoose (y sin los virtuals). Pero ... el `aggregate` queda _bastante_ complejo.
 ```typescript
 await accountApplicationModel.aggregate([
     { $unwind: { path: "$evaluations", preserveNullAndEmptyArrays: true } },
