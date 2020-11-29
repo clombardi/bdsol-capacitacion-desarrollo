@@ -170,6 +170,10 @@ La respuesta va a incluir sólo a la primera sucursal
 Notar que la sucursal aparece _completa_ en la respuesta, las condiciones se refieren a qué condición debe cumplir _una sucursal_, en este caso, que incluya una fiesta para 180 personas con un presupuesto de 320000 pesos. Veremos más adelante cómo poder seleccionar sólo algunas fiestas de una sucursal.
 
 
+### Los objetos internos son documentos
+Notamos que Mongoose trata los objetos embebidos, en este caso cada una de las fiestas, como un documento. Por eso es que le incluye `_id` (aunque no versión), y también incluye las operaciones que se pueden hacer sobre documentos, entre ellas `toObject`.
+
+
 ### Condiciones sobre _todos_ los elementos del array
 Veamos ahora un ejemplo distinto: queremos que el resultado de la consulta sean las sucursales en las en que _todas_ las fiestas, hayan ido menos de 40 personas.
 

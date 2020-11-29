@@ -30,3 +30,6 @@ layout: default
 [Documentos compuestos 2 - arrays de objetos](./mongoose-structure-related/array-objects)
 
 [Referencias](./mongoose-structure-related/references)
+
+[Referencias incluidas en objetos](./mongoose-structure-related/references-in-objects)
+
