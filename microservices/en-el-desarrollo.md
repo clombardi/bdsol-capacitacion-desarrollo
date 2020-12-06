@@ -32,7 +32,8 @@ Muchas veces, dado el alto seniority que requieren estas tareas de consultoría 
 ### Objetivos de este enfoque
 Mencionamos dos de los objetivos que se buscan con esta propuesta de organización de equipos de proyecto.
 
-Uno es que fomenta la _identificación_ de las personas que trabajan en un proyecto con los resultados de su trabajo. Formar parte de un equipo de dimensiones acotadas que tiene una responsabilidad clara respecto de la funcionalidad, tiende a generar un mayor vínculo de cada persona con lo que produce, y a partir de este vínculo, un mayor grado tanto de satisfacción como de compromiso. Aleja las sensaciones de alienación y ajenidad asociadas a los equipos grandes de trabajo en los que las responsabilidades están menos definidas.
+Uno es que fomenta la _identificación_ de las personas que trabajan en un proyecto con los resultados de su trabajo. Formar parte de un equipo de dimensiones acotadas que tiene una responsabilidad clara respecto de la funcionalidad, tiende a generar un mayor vínculo de cada persona con lo que produce, y a partir de este vínculo, un mayor grado tanto de satisfacción como de compromiso. Aleja las sensaciones de alienación y ajenidad asociadas a los equipos grandes de trabajo en los que las responsabilidades están menos definidas.  
+En este sentido, las prácticas de división por funcionalidades y de autonomía de cada equipo se relacionan con otras ideas como [Collective Code Ownership](https://www.agilealliance.org/glossary/collective-ownership).
 
 El otro objetivo que se busca con la división por funcionalidad, es una _mayor cercanía de les desarrolladorxs con el negocio_, que reduce el riesgo de errores por una deficiente comprensión de los requerimientos, y favorece que desde el equipo de desarrollo se puedan proponer mejoras o variantes.
 
@@ -59,12 +60,19 @@ Esto evita la necesidad de una planificación detallada de los cambios a realiza
 Esta es, tal vez, la fortaleza más relevante de la organización por funcionalidades.
 
 
+## Se favorece la experimentación
+La combinación de componentes desplegables por separado y con evolución independiente, heterogeneidad de tecnologías, y equipos con alto grado de autonomía, genera un escenario propicio para la experimentación con nuevas tecnologías, lenguajes, librerías, o técnicas de codificación.
 
+Se puede elegir un microservicio para llevar a cabo una _implementación experimental_ aplicando la faceta que se quiera probar, en esta tarea pueden colaborar el equipo responsable del microservicio con un equipo de arquitectura o consultoría/revisión de código.  
+- Los tests de integración dan una primera medida del comportamiento de la implementación alternativa. De existir tests que midan la performance u otros atributos arquitecturales, pueden suministrar información adicional.  
+- Esta implementación puede ser deplegada en un entorno operativo con un número de versión diferenciado, para poder comprobar su funcionamiento en producción. Inclusive, se pueden desplegar (también con números de versión diferenciados) otros componentes que interactúen con el que se está probando, para comprobar la interacción.
+- Finalmente, se puede dejar en firme la nueva versión, a la que se acoplarán los otros microservicios a medida que reconfiguren la versión a utilizar. 
 
+Notamos que el _uso de interfaces sencillas_ entre componentes, facilita en gran medida la implementación y puesta en producción de una nueva versión de un microservicio, implementada aplicando elementos novedosos. En rigor, los detalles de implementación de cada componente no tienen influencia en su rol dentro del ecosistema de microservicios, mientras se respete la interfaz.
+
+Subrayamos que también en el aspecto técnico, el desarrollo basado en microservicios mitiga el riesgo de anquilosamiento de un proyecto.
 
 
 ## Se simplifican los tests de integración
-
-
-## Se favorece la experimentación
 Finalmente ...
+
