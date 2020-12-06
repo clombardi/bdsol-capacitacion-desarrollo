@@ -71,3 +71,10 @@ Mencionamos dos de estos riesgos: puede resultar complicado realizar revisiones 
 Un camino intermedio es la definición, por parte de un equipo de arquitectura, de varias opciones de stack tecnológico que pueden utilizarse en el proyecto, de forma tal de permitir que cada equipo elija la variante más adecuada a sus necesidades y background, sin que esto atente contra la mantenibilidad.
 
 
+## Datos descentralizados
+Para cerrar esta página, señalemos que un ecosistema formado por microservicios con un alto grado de autonomía, fomenta la descentralización de las bases de datos. 
+
+Esta situación evita un riesgo que está presente en muchos proyectos donde los datos están centralizados: que la base de datos sea el cuello de botella para la performance.  
+Por otro lado, se presenta un desafío para el trabajo de operaciones: el de generar copias de resguardo y mecanismos de recuperación ante fallos para datos que están distribuidos en una multitud de bases, que pueden tener características distintas.
+
+En principio, cada microservicio maneja su propia base de datos. También puede organizarse un proyecto de forma tal que el manejo de ciertos datos críticos esté centralizado en un único microservicio "responsable" de los mismos, y que los servicios que requieran obtener y/o actualizar estos datos, tengan que recurrir al "responsable" enviándole los pedidos necesarios.
