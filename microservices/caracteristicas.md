@@ -38,3 +38,18 @@ Debe generarse una estructura que realmente haga más sencillo el proceso que va
 
 Esta pauta vincula al desarrollo basado en microservicios con la iniciativa popularizada como _DevOps_, que consiste en acercar los ámbitos de desarrollo y operaciones, y aplicar técnicas y herramientas de desarrollo en los procesos de operaciones.
 
+
+## Evolución independiente
+En un entorno de componentes que se despliegan por separado y en forma frecuente, tener que sincronizar el despliegue de nuevas versiones de todos los componentes produce efectos contrarios a los deseados: se pierde la rapidez en la reacción, y se agrega complejidad al proceso de despliegue al requerir que todos los componentes se actualicen al mismo tiempo.
+
+Por lo tanto, en la lógica del desarrollo basado en microservicios, se asume que los mismos tienen _historias independientes_. 
+El despliegue de una nueva versión de un componente no implica, al menos en principio, 
+En un determinado momento, podrían coexistir en un mismo proyecto, componentes que hayan pasado por varias versiones (por falta de precisión en la comprensión inicial del problema, requerimientos agregados o mejoras técnicas, entre otros factores) con otros más estables.
+
+Al mismo tiempo que quita presiones y agrega agilidad al proceso de desarrollo, la evolución independiente de cada microservicio genera un nuevo requerimiento sobre los entornos operativos: la necesidad de manejar la historia de _versiones de cada componente_. 
+En particular, puede resultar necesario tener operativas, en un mismo momento, distintas versiones de un mismo componente.  
+Para describir un ejemplo, supongamos un entorno con cuatro componentes A, B, C y D, donde los componentes B, C y D le hacen pedidos al componente A. En un momento determinado, el componente A tiene que cambiar su interface, tal vez de forma no retrocompatible, por una necesidad vinculada con la funcionalidad que resuelve el componente D. Digamos que el componente A pasa de la versión 1.2.0 a la 2.0.0.
+Se deberá desplegar la versión 2.0.0 de A, junto con una versión actualizada de D que utilice esta nueva versión de A.  
+Para mantener la idea de evolución independiente, los componentes B y C se actualizarán a la versión 2.x de A cuando necesiten sacar una nueva versión por razones intrínsecas, y no antes. Por lo tanto, hasta que B y C (y en general, todos los clientes de A) se adapten a la versión 2.x de A, la versión 1.2.0 tiene que seguir estando operativa.
+
+En este escenario, todos los pedidos a un microservicio deben especificar la versión (o rango de versiones, p.ej. usando [SemVer](https://semver.org/)). A su vez, para redireccionar los pedidos de acuerdo a la versión, se puede implementar un punto de entrada, p.ej. en un container adicional en el mismo pod en el que se despliegan las distintas versiones.
