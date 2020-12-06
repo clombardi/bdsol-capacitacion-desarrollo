@@ -92,6 +92,7 @@ Una alternativa que se aplica en varios casos, en particular en el Banco del Sol
 
 También, al menos en principio, resulta más sencillo aplicar las ideas de microservicios en el backend, en donde resulta fácil desplegar distintos componentes por separado, que en el frontend, sobre todo si se apunta a single-page applications.
 
+Otro aspecto a considerar es que en aplicaciones _muy_ grandes, se puede llegar a un ecosistema con cientos, o incluso más de mil, microservicios. En un escenario de esta naturaleza, la complejidad que agrega la configuración y el monitoreo del ecosistema, puede ser mayor a la que se ahorra por la división en componentes de despliegue separado. Ver p.ej. [este artículo](http://highscalability.com/blog/2020/4/8/one-team-at-uber-is-moving-from-microservices-to-macroservic.html) donde describe una "vuelta atrás" parcial en Uber.
 
 ## Esta sección
 En las páginas siguientes, vamos a describir algunas características del desarrollo basado en microservicios que juzgamos relevantes, y luego enunciaremos varias consecuencias en la organización del equipo y del desarrollo. 
