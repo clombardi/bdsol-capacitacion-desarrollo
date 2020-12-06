@@ -43,8 +43,28 @@ Finalmente destacamos que esta organización favorece la contratación de _desar
 
 
 ## Proceso de cambio más ágil
+Suponiendo un escenario de equipo organizado por tecnologías o tareas, y no por funcionalidades de negocio, pensemos brevemente cómo podria reaccionar ante una necesidad de adaptar o ampliar una funcionalidad existente.  
+- Después de un análisis exhaustivo por parte de analistas de negocio, el pedido de cambio debe pasar por una instancia de coordinación del desarrollo, que desglose las tareas correspondientes a cada equipo: las modificaciones necesarias en la estructura de la base ( las bases) de datos, los agregados o cambios a implementar en la lógica de negocio y en los servicios de datos que brinda el backend, y los ajustes que se requieren en la UI. Esto puede requerir de consultas previas con los equipos encargados de cada tarea, para obtener un alcance preciso de los cambios necesarios.  
+- El resultado de esta etapa es un conjunto de tareas a ser asignadas a cada equipo, que probablemente deban ejecutarse en cascada: primero los cambios en las bases de datos, luego las modificaciones en la lógica de negocio, y finalmente las adaptaciones de la UI.  
+- Si alguno de los equipos descubre alguna inconsistencia, p.ej. si el equipo de lógica de negocio descubre mientras está implementando que se requiere de un atributo no previsto en la base de datos, esto requiere de una coordinación entre equipos dedicados a distintas tareas, que eventualmente debe estar mediada por la instancia de coordinación.
+- Cuando se concluye con las tareas planificadas, se realiza un testeo de las modificaciones. Si se encuentran defectos, debe dilucidarse cuál/es de los equipos de tareas deben realizar los ajustes necesarios, y definirse nuevas tareas para los mismos.
 
-porque no tenés que tratar con mil equipos.
+Este proceso ha provocado, en muchos proyectos, que la implementación de cambios requeridos desde el negocio lleve tiempos enormes, incluso para modificaciones sencillas.  
+Se corre el grave riesgo de que un proyecto con este patrón de comportamiento se perciba como _anquilosado_, al igual que cualquier organismo que tiene tiempos demasiado prolongados para adaptarse a los cambios en su entorno.  
+La consecuencia es una distancia creciente entre la funcionalidad construida y la que realmente necesita el negocio, lo que puede llevar a una obsolescencia temprana.
+
+Una organización del equipo por funcionalidades permite un tratamiento mucho más ágil de los pedidos de modificaciones, adaptaciones y/o agregados que atañen a una funcionalidad, dado que la responsabilidad por los mismos recae en un único equipo, que además está familiarizado con el aspecto de negocio al que aplican los cambios pedidos. 
+Esto evita la necesidad de una planificación detallada de los cambios a realizar, mitiga mucho la coordinación requerida entre distintos equipos, y agiliza el tratamiento de eventuales defectos detectados en el testeo.
+
+Esta es, tal vez, la fortaleza más relevante de la organización por funcionalidades.
+
+
+
+
 
 
 ## Se simplifican los tests de integración
+
+
+## Se favorece la experimentación
+Finalmente ...
