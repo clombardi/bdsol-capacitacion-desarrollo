@@ -3,8 +3,8 @@ layout: default
 ---
 
 # Microservicios - algunas características
-En esta página, vamos a repasar algunas de las características de los desarrollos basados en microservicios.
-
+En esta página, vamos a repasar algunas de las características de los desarrollos basados en microservicios.  
+Veremos que aunque estas características se describan por separado, se complementan formando un escenario coherente para el desarrollo de aplicaciones de mediana o gran escala. También mencionaremos brevemente algunas relaciones del desarrollo basado en microservicios con otras iniciativas dentro del ámbito IT.
 
 ## Varios desplegables, que se comunican entre sí con interfaces sencillas
 La pauta inicial para el desarrollo basado en microservicios es que 
