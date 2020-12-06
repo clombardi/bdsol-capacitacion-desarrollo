@@ -4,6 +4,17 @@ layout: default
 
 # Etapa 2
 
+## Desarrollo basado en microservicios
+
+[Introducción - la movida de microservicios](./microservices/intro-movida)
+
+[Algunas características](./microservices/caracteristicas)
+
+[Consecuencias en el desarrollo](./microservices/en-el-desarrollo)
+
+[El día a día en un entorno de microservicios](./microservices/dia-a-dias)
+
+
 ## TypeORM - manejo de bases relacionales
 
 [Presentamos a TypeORM](./typeorm/typeorm-presentacion)
