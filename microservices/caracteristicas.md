@@ -53,3 +53,21 @@ Se deberá desplegar la versión 2.0.0 de A, junto con una versión actualizada 
 Para mantener la idea de evolución independiente, los componentes B y C se actualizarán a la versión 2.x de A cuando necesiten sacar una nueva versión por razones intrínsecas, y no antes. Por lo tanto, hasta que B y C (y en general, todos los clientes de A) se adapten a la versión 2.x de A, la versión 1.2.0 tiene que seguir estando operativa.
 
 En este escenario, todos los pedidos a un microservicio deben especificar la versión (o rango de versiones, p.ej. usando [SemVer](https://semver.org/)). A su vez, para redireccionar los pedidos de acuerdo a la versión, se puede implementar un punto de entrada, p.ej. en un container adicional en el mismo pod en el que se despliegan las distintas versiones.
+
+
+## Ecosistemas heterogéneos
+Otra consecuencia de la decisión de "romper el monolito" y pasar a un ecosistema de componentes, es que también se "rompe" la necesidad de mantener la homogeneidad en un proyecto, o sea, de manejar un único lenguaje de programación, stack tecnológico, o motor de BD.  
+En principio, el equipo responsable del desarrollo de cada microservicio puede realizar las elecciones tecnológicas que le resulten adecuadas de acuerdo a las condiciones específicas del mismo, entre otras:
+- necesidad de conectarse con servicios externos que hacen conveniente utilizar cierta librería, que está disponible sólo para algunos lenguajes de programación.
+- organización de los datos que hay que persistir, que puede influir en el tipo de base de datos (SQL, de documentos, orientada a grafos, etc.) a utilizar.
+- requerimientos particulares de performance.
+- el background de los integrantes del equipo, y/o la facilidad de sumar integrantes adicionales de ser necesario.
+
+Desde el punto de vista de la interacción, el uso de interfaces livianas hace que las decisiones tecnológicas de cada componente sean transparentes. Queda claro que hay un aspecto en que resulta altamente conveniente mantener homogeneidad, que es el mecanismo de comunicación entre microservicios. P.ej. es incómodo que en un mismo proyecto coexistan  servicios que usan JSON para los payloads de requests y responses, con otros que usan XML.  
+
+Por otro lado, una heterogeneidad excesiva en un proyecto puede traer problemas en el ciclo de desarrollo.
+Mencionamos dos de estos riesgos: puede resultar complicado realizar revisiones de código por parte de miembros externos al equipo, p.ej. de un equipo de arquitectura o de consultoría, y puede dificultarse la integración en un equipo, de un integrante del proyecto proveniente de otro equipo en el que se usan tecnologías muy distintas.
+
+Un camino intermedio es la definición, por parte de un equipo de arquitectura, de varias opciones de stack tecnológico que pueden utilizarse en el proyecto, de forma tal de permitir que cada equipo elija la variante más adecuada a sus necesidades y background, sin que esto atente contra la mantenibilidad.
+
+
