@@ -12,7 +12,7 @@ layout: default
 
 [Consecuencias en el desarrollo](./microservices/en-el-desarrollo)
 
-[El día a día en un entorno de microservicios](./microservices/dia-a-dia)
+[El día a día en un entorno de microservicios ... y una pequeña conclusión](./microservices/dia-a-dia)
 
 
 ## TypeORM - manejo de bases relacionales

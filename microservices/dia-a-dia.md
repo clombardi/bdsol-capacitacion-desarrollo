@@ -67,5 +67,21 @@ De acuerdo a la criticidad de la información que brinda cada servicio, podemos 
 - o bien una respuesta incompleta, indicando cuál es la información faltante, lo que se puede hacer con valores particulares en los atributos correspondiente, o bien listando la información faltante en un atributo adicional.
 
 
-## Final word
-Complejidad.
+## A modo de conclusión
+Con esto concluimos nuestra _pequeña_ excursión a los desarrollos basados en microservicios.
+
+Esta es una más de las iniciativas surgidas desde el ámbito del desarrollo, para lidiar con la **complejidad** del los proyectos de construcción de software.  
+En nuestra actividad, debemos lidiar con dominios extensos, hardware complejo, interacción compleja entre componentes, grandes volúmenes de datos, requerimientos complejos en la interface de usuario, actualmente teniendo que considerar una variedad de dispositivos.  
+En proyectos de gran envergadura (cientos de años-hombre o más), se suman dos factores adicionales de complejidad: la misma escala del proyecto, y el cansancio natural cuando un mismo desarrollo se prolonga en el tiempo.
+
+Cuando varios de estos factores se reúnen en un mismo proyecto, el talento individual de sus integrantes, siendo una condición necesaria para el éxito, no resulta suficiente.  
+Se requiere de conceptos y pautas de _organización_ que mantengan a un proyecto vivo, ágil, y cercano a las problemáticas que (se supone) debería resolver.  
+
+La idea de desarrollo basado en microservicios es una de las respuestas que fue generando la misma industria ante repetidas historias de fracasos de proyectos en los cuales el peso de la estructura terminó hundiéndolos.  
+Creo que es en este sentido en que conviene entenderla, y considerarla para que sea un factor de éxito en nuestras iniciativas: como una herramienta más en nuestra continua lucha contra la complejidad.
+
+
+
+
+
+
