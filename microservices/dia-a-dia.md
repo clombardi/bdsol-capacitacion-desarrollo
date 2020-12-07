@@ -15,7 +15,7 @@ En este sentido, seguir algunas pautas sugeridas por los [principios REST](../ap
 
 Un punto en particular es cómo cada microservicio informa, en las respuestas de sus endpoints, los _casos de error_.  
 En algunos proyectos, se respetan los [códigos de error HTTP](https://www.restapitutorial.com/httpstatuscodes.html). En otros, se prefiere mandar siempre el código de "OK" (200 o 201 según la operación) y enviar la información sobre los errores en un atributo especial del payload.  
-La decisión que se tome, debe ser uniforme en todo el proyecto.
+La decisión que se tome, _debe ser uniforme en todo el proyecto_.
 
 
 ### Identificadores
@@ -57,9 +57,15 @@ Para potenciar este medio adicional de comunicación, se puede establecer algún
 
 
 ## Invocaciones entre microservicios
+Mencionamos dos puntos a tener en cuenta cuando para resolver la funcionalidad de un servicio se requiera información que proveen otros servicios dentro de nuestro ecosistema. Este es en particular el caso de los _servicios BFF_, que reúnen y compaginan información de varios servicios del backend para simplificar la lógica de un frontend.
 
-Promise.all
+El primero es que, para mitigar la latencia al hacer varias invocaciones HTTP, podemos lanzar estas operaciones en paralelo utilizando [Promise.all](../async/promise-all), temática que trabajamos en la Unidad 0.
 
-Errores
+El segundo es que debe analizarse qué respuesta brindar si al invocar a varios servicios, algunos brindan la información esperada y otros _responden con códigos de error_. Este punto fue debatido al trabajar con un servicio que [combina datos de distintas fuentes](nestjs-basics/distintas-fuentes).  
+De acuerdo a la criticidad de la información que brinda cada servicio, podemos dar como resultado de nuestro servicio consolidador: 
+- o bien un código de error que refleje que no se cuenta con información suficiente para brindar una respuesta aceptable.
+- o bien una respuesta incompleta, indicando cuál es la información faltante, lo que se puede hacer con valores particulares en los atributos correspondiente, o bien listando la información faltante en un atributo adicional.
+
+
 ## Final word
 Complejidad.

@@ -11,7 +11,7 @@ La descentralización en el producto (componentes separados y autónomos con int
 Los desarrollos basados en microservicios fomentan la organización en equipos con un alto grado de autonomía en su trabajo, tanto en las tecnologías que utiliza (como ya mencionamos) como en su forma de organización.  
 Esta autonomía puede estar mediada por la existencia de estándares que deban ser respetados por todos los participantes de un proyecto. Pero estos estándares son, al menos en principio, pautas a respetar o guías que ayudan en la organización, y no estructuras rígidas de cumplimiento obligatorio; cada equipo tiene un amplio grado de libertad para definir su forma de trabajo.  
 
-A su vez, la organización en equipos autónomos fomenta la _descentralización_ del  desarrollo, resultando menos relevante la reunión en un mismo lugar físico de todo el equipo que participa en un proyecto. Incluso pueden formarse equipos que colaboran en un mismo proyecto, en distintas ubicaciones geográficas.
+A su vez, la organización en equipos autónomos fomenta la _descentralización_ del  desarrollo, resultando menos relevante la reunión en un mismo lugar físico de todo el equipo que participa en un proyecto. Incluso pueden formarse equipos radicados en distintas ubicaciones geográficas, que colaboran en un mismo proyecto.
 
 Otra consecuencia de esta forma de organización dentro de un proyecto, es que al relacionarse cada integrante del proyecto con una cantidad acotada de colegas (los integrantes de su mismo equipo), se facilita la modalidad de _trabajo remoto_.
 
