@@ -73,6 +73,11 @@ Notamos que el _uso de interfaces sencillas_ entre componentes, facilita en gran
 Subrayamos que también en el aspecto técnico, el desarrollo basado en microservicios mitiga el riesgo de anquilosamiento de un proyecto.
 
 
-## Se simplifican los tests de integración
-Finalmente ...
+## Se simplifica el testing
+Finalmente, señalamos que la separación de una gran masa de código en microservicios, sumada a la definición de interfaces sencillas, simplifica la creación y ejecución de tests.
+
+Por un lado, al quedar cada componente "físicamente" separado del resto, está claro cuál es el alcance de los tests internos al componente, y resulta natural ejecutar esos tests sin interferencias del resto del proyecto.  
+Para los tests que incorporen la interacción de un microservicio con otros, las interfaces sencillas facilitan la generación de mocks de los servicios a los que se invoca.
+
+Una alternativa que puede evaluarse es que cada microservicio (o al menos, los microservicios más "populares" en términos de otros servicios que les hacen pedidos) publique, en un entorno de desarrollo, una "versión mock" con comportamiento bien definido y acotado, para el uso en tests de los microservicios que lo invoquen.
 
