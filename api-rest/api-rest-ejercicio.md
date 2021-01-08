@@ -33,7 +33,7 @@ Se debe poder hacer un CRUD completo de oficiales.
 De cada solicitud se debe registrar: fecha, cantidad de aprobaciones necesarias, cliente (nombre y apellido), estado que puede ser: en análisis, aprobada, rechazada, ejecutada, archivada.
 Se debe poder hacer 
 - alta de solicitudes, el estado inicial es "en análisis".
-- modificación de nombre del cliente.
+- modificación de nombre y apellido del cliente.
 - consulta de solicitudes, filtrando por estado y/o nombre del cliente, ordenando por nombre del cliente o por fecha.
 
 **Aprobación de solicitud de cuenta**  
