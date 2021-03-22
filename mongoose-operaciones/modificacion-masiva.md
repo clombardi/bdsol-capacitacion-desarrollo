@@ -64,7 +64,7 @@ Los nombres de los operadores de update también empiezan con `$`.
 
 En particular, para modificar un valor numérico, podemos usar el operador `$inc`. Nos queda.
 ``` typescript
-EmployeeModel.updateMany({ category: 3 }, { salary: { $inc: 5000 } });
+EmployeeModel.updateMany({ category: 3 }, { $inc: { salary: 5000 } });
 ```
 
 
