@@ -193,6 +193,10 @@ describe('Account request service - using mongo connection', () => {
 El código que hay que copiar si se quieren armar varias suites sobre solicitudes de cuenta se achicó bastante. 
 
 
+## Para ver los objetos en vivo
+Recordemos que tenemos [Object Playground](http://www.objectplayground.com/) que permite meter definiciones de clase y ver cómo se conectan jugando con la herencia y con los prototypes.
+
+
 ## Un paso más: creación de la aplicación de test
 Para seguir comprimiendo el código a copiar, concentrémonos en la creación de la `testApp`.
 ``` typescript
