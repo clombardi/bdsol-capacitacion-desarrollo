@@ -178,6 +178,15 @@ Notamos que Mongoose trata los objetos embebidos, en este caso cada una de las f
 Veamos ahora un ejemplo distinto: queremos que el resultado de la consulta sean las sucursales en las en que _todas_ las fiestas, hayan ido menos de 40 personas.
 
 Lamentablemente, este humilde redactor no encontró (ni siquiera googleando) cómo expresar esta condición de manera directa en un `find`. La única opción que llevó a una solución es "dar vuelta" la condición: queremos las sucursales en las en que _ninguna_ fiesta haya habido 40 personas o más. Esta condición "dada vuelta" sí se puede expresar, usando el operador `$not`.
+
+En principio, quiero decir que no haya ningún elemento que cumpla una condición, entonces niego el `$elemMatch`.
+
+```typescript
+await agencyModel.find(
+    { parties: { $not: { $elemMatch: { peopleAttending: { $gte: 40 } } } } }
+)
+```
+Peeeero también funciona la siguiente versión reducida.
 ```typescript
 await agencyModel.find(
     { "parties.peopleAttending": { $not: { $gte: 40 } } }
@@ -201,10 +210,21 @@ El resultado (resumido) que se obtiene es este.
     }
 ]
 ```
+¿Por qué es que funciona la versión reducida?  
+Porque Mongo toma el `$not` dentro de una condición relacionada con elementos de arrays como "no hay ningún elemento que cumple la condición", en lugar de "hay algún elemento que no cumple".
+
 La idea de cómo armar este query la saqué de [este post en Stack Overflow](https://stackoverflow.com/questions/23595023/check-if-every-element-in-array-matches-condition).
 
+> Pregunta: ¿qué diferencia hay entre las consultas anteriores y esta?
+> ```typescript
+> await agencyModel.find(
+>     { parties: { $elemMatch: { peopleAttending: { $not: { $gte: 40 } } } } }
+> )
+> ```
+
+
 Volviendo al resultado, vemos que la sucursal `009` "se coló" en el resultado: si no tiene ninguna fiesta, es verdad que ninguna tiene 40 o más participantes.  
-Si queremos eliminar las sucursales sin fiestas, tenemos que agregar una condición adicional. Para entender cuál, hay que considerar que el atributo `parties: []` en la primera sucursal es cortesía de Mongoose, en la BD el documento _no tiene_ el atributo `parties`. Veamos el resultado de la misma consulta en la CLI de MongoDB.
+Si queremos eliminar las sucursales sin fiestas, tenemos que agregar una condición adicional. Para entender cuál, hay que considerar que el atributo `parties: []` en la primera sucursal podría ser cortesía de Mongoose (si el documento entró "por Mongo derecho"), en la BD el documento _podría no tener_ el atributo `parties`. Veamos el resultado de la misma consulta en la CLI de MongoDB.
 ```
 > db.agencies.find(
     {"parties.peopleAttending": { $not: { $gte: 40 } }}, 
@@ -222,7 +242,7 @@ Si queremos eliminar las sucursales sin fiestas, tenemos que agregar una condici
 Obsservamos que la sucursal `009` _no tiene_ un atributo `parties`.
 De paso, usamos la [proyección de atributos](../mongoose-performance/proyeccion) para quedarnos sólo con los datos que nos interesan de cada sucursal.
 
-Por eso la condición que vamos a agregar es: el documento tiene el atributo `parties`, y además (por las dudas), su longitud no es 0. La condición completa queda así.
+Por eso la condición que vamos a agregar es: el documento (por las dudas) tiene el atributo `parties`, y además su longitud no es 0. La condición completa queda así.
 
 ```typescript
 await agencyModel.find({ 
@@ -380,11 +400,19 @@ await agencyModel.aggregate([
 ## Para practicar
 Armar una consulta para obtener las sucursales en las que se haya hecho una fiesta para más de 70 personas, con un presupuesto de menos de 50000 pesos.
 
+Armar una consulta para obtener las sucursales en las que se haya hecho una fiesta con un presupuesto de entre 100000 y 200000  pesos.
+
+Armar una consulta para obtener las sucursales en las que se hicieron 2 o más fiestas, todas con un presupuesto de entre 100000 y 200000 pesos.
+**Hints**: 
+pensar cómo queda la condición "dada vuelta" para usar `$not`.
+
 Armar una consulta para obtener las sucursales en las que se haya hecho una fiesta para 120 personas, y además una fiesta para 70. Para eso va a venir bien el operador `$all`, ver [la doc de MongoDB](https://docs.mongodb.com/manual/reference/operator/query/all/).
 
 Armar una consulta para obtener las sucursales en las que en cada fiesta, o bien hubo más de 100 personas, o bien se gastaron más de 100000 pesos.  
 **Hints**: 
 pensar cómo queda la condición "dada vuelta" para usar `$not`, y combinar `$not` con `$elemMatch`.
+
+Armar una consulta para obtener, para cada sucursal donde se haya registrado al menos una fiesta, el valor más alto de cantidad de asistentes a una fiesta. El resultado tiene que tener la forma `[{ code, maxPartyPeople }]`. Usar el operador `$max`, que tiene la misma lógica que el `$sum`.
 
 En la consulta de fiestas donde haya habido menos de 30 personas, incluir solamente las sucursales donde haya habido al menos una fiesta con estas características. Para esto, se puede agregar una etapa `$match` _antes_  de la etapa `$project`.
 
