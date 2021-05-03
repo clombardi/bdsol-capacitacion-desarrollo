@@ -402,7 +402,7 @@ Armar una consulta para obtener las sucursales en las que se haya hecho una fies
 
 Armar una consulta para obtener las sucursales en las que se haya hecho una fiesta con un presupuesto de entre 100000 y 200000  pesos.
 
-Armar una consulta para obtener las sucursales en las que se hicieron 2 o más fiestas, todas con un presupuesto de entre 100000 y 200000 pesos.
+Armar una consulta para obtener las sucursales en las que se hicieron 2 o más fiestas, todas con un presupuesto de entre 100000 y 200000 pesos.  
 **Hints**: 
 pensar cómo queda la condición "dada vuelta" para usar `$not`.
 
