@@ -200,6 +200,8 @@ async getAgencies(@Query() queryParams: GetAgenciesQueryParams): Promise<Agency[
 - si meto sólo el `{ transform: true }`, no acepta los valores aunque sean numéricos.
 - si meto sólo las transformaciones, acepta los valores pero llegan al servicio como strings.
 
+Fuente: https://dev.to/avantar/validating-numeric-query-parameters-in-nestjs-gk9 . 
+
 **Disclaimer**  
 Con `@Body` no probé, esto que cuento lo probé sólo con `@Query`.
 
