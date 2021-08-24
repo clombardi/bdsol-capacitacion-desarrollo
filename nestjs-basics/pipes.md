@@ -141,6 +141,71 @@ Desde el principio, no pretende implementar un Web server, para eso confía en E
 La integración con `class-validator` es otro ejemplo: no repite funcionalidad que está desarrollada en otro package, sino que lo integra a los conceptos que define para brindar una solución de validación sencilla y potente.
 
 
+### Atenti - a veces no convierte solito
+Probé usar ValidationPipe para query params que incluyen algunos valores numéricos y otros string
+``` typescript
+class GetAgenciesQueryParams {
+    @IsNumber() @IsOptional()
+    cityId?: number;
+    provinceName?: string;
+    @IsNumber() @IsOptional()
+    minArea?: number;
+    @IsNumber() @IsOptional()
+    maxArea?: number;
+    includeParties?: boolean;
+}
+
+@Get()
+@UsePipes(new ValidationPipe())
+async getAgencies(@Query() queryParams: GetAgenciesQueryParams): Promise<Agency[]> {
+    return this.agencyService.getAgencies(queryParams);
+}
+
+// en el service
+getAgencies(queryParams?: GetAgenciesQueryParams): Promise<Agency[]> {
+    if (queryParams?.cityId) {
+        console.log(queryParams.cityId + 1)
+    }
+    // ... etc ...
+}
+```
+
+Listo, me va a llegar un lindo number en `queryParams.cityId`. Pero no, me aparece un feo status code 400 al hacer un request GET sobre `agencies?cityId=4&minArea=300&maxArea=500` .
+
+Para que acepte los valores numéricos, y lleguen al service como números, hay que hacer **dos cosas**:  
+1. En el tipo, agregar `@Type(() => Number)` para que haga la conversión. `Type` se importa desde `class-transformer`. Las conversiones que maneja Nest solito parecen ser las de custom pipes que se aplican a un valor específico, para que haga la transformación en usos de `ValidationPipe` parece que hay que pedírsela a `class-transformer`, acá Nest no hace nada especial.
+1. En el endpoint, incluir la opción `{ transform: true }` en el constructor del `ValidationPipe`.
+
+O sea:
+``` typescript
+class GetAgenciesQueryParams {
+    @IsNumber() @IsOptional() @Type(() => Number)
+    cityId?: number;
+    provinceName?: string;
+    @IsNumber() @IsOptional() @Type(() => Number)
+    minArea?: number;
+    @IsNumber() @IsOptional() @Type(() => Number)
+    maxArea?: number;
+    includeParties?: boolean;
+}
+
+@Get()
+@UsePipes(new ValidationPipe({ transform: true }))
+async getAgencies(@Query() queryParams: GetAgenciesQueryParams): Promise<Agency[]> {
+    return this.agencyService.getAgencies(queryParams);
+}
+```
+
+¿Qué pasa si hago _una sola_ de estas dos cosas?
+- si meto sólo el `{ transform: true }`, no acepta los valores aunque sean numéricos.
+- si meto sólo las transformaciones, acepta los valores pero llegan al servicio como strings.
+
+**Disclaimer**  
+Con `@Body` no probé, esto que cuento lo probé sólo con `@Query`.
+
+
+
+
 ## Pipes de tipos particulares
 Para usar el `ValidatorPipe`, hay que definir una clase que modele a los datos de request (body / parámetros de path o query / headers) que se quieran validar.  
 A veces es cómodo trabajar con datos de tipos básicos. P.ej. tenemos este endpoint de un servicio sobre fechas, que devuelve el resultado de sumarle una cantidad de días a una fecha.
